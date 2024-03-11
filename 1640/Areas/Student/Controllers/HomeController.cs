@@ -2,10 +2,12 @@ using _1640.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace _1640.Controllers
+namespace _1640.Areas.Student.Controllers
 {
+    [Area("Student")]
     public class HomeController : Controller
     {
+
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
