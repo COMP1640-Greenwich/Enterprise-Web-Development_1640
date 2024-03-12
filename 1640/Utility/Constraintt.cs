@@ -6,4 +6,5 @@ public static class Constraintt
     public const string User = "Customer";
     public const string AdminRole = "Admin";
     public const string UserRole = "User";
+    public const string ManagerRole = "Manager";
 }

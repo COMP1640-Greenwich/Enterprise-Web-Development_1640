@@ -112,13 +112,21 @@ namespace _1640.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
+                    if (Input.Role == "User")
+                    {
+                        await _userManager.AddToRolesAsync(user, new[] { "User" });
+                    }
+                    if (Input.Role == "Manager")
+                    {
+                        await _userManager.AddToRolesAsync(user, new[] { "Manager" });
+                    }
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
                         return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
                     }
                     else
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        await _signInManager.SignInAsync(user, isPersistent: true);
                         return LocalRedirect(returnUrl);
                     }
 

@@ -25,11 +25,13 @@ public class AutoCreateRole : IAutoCreateRole
     {
         if (_db.Roles.Any(r => r.Name == Constraintt.AdminRole)) return;
         if (_db.Roles.Any(r => r.Name == Constraintt.UserRole)) return;
+        if (_db.Roles.Any(r => r.Name == Constraintt.ManagerRole)) return;
 
         // this will deploy if there no have any role yet ( add cai role vao role manger)
         _roleManager.CreateAsync(new IdentityRole(Constraintt.AdminRole)).GetAwaiter().GetResult();
+        _roleManager.CreateAsync(new IdentityRole(Constraintt.ManagerRole)).GetAwaiter().GetResult();
         _roleManager.CreateAsync(new IdentityRole(Constraintt.UserRole)).GetAwaiter().GetResult();
-
+       
         // create user admin ( cai nay no se tao san mot thang user admin moi khi ma ung dung khoi chay)
         _userManager.CreateAsync(new User()
         {
