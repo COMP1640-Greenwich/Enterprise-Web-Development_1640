@@ -7,4 +7,7 @@ public static class Constraintt
     public const string AdminRole = "Admin";
     public const string UserRole = "User";
     public const string ManagerRole = "Manager";
+    public const string StudentRole = "Student";
+    public const string CoordinatorRole = "Coordinator";
+
 }

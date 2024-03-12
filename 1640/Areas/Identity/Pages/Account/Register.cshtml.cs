@@ -120,14 +120,22 @@ namespace _1640.Areas.Identity.Pages.Account
                     {
                         await _userManager.AddToRolesAsync(user, new[] { "Manager" });
                     }
+                    if (Input.Role == "Student")
+                    {
+                        await _userManager.AddToRolesAsync(user, new[] { "Student" });
+                    }
+                    if (Input.Role == "Coordinator")
+                    {
+                        await _userManager.AddToRolesAsync(user, new[] { "Coordinator" });
+                    }
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
                         return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
                     }
                     else
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: true);
-                        return LocalRedirect(returnUrl);
+                        //await _signInManager.SignInAsync(user, isPersistent: true);
+                        //return LocalRedirect(returnUrl);
                     }
 
                 }

@@ -12,8 +12,8 @@ using _1640.Data;
 namespace _1640.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240312050911_boasp.net")]
-    partial class boaspnet
+    [Migration("20240312053554_addnewrole")]
+    partial class addnewrole
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

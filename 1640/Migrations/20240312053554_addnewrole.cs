@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace _1640.Migrations
 {
     /// <inheritdoc />
-    public partial class boaspnet : Migration
+    public partial class addnewrole : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
