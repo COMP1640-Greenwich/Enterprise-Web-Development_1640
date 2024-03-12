@@ -1,11 +1,13 @@
 using System.Security.Claims;
 using _1640.Data;
 using _1640.Models;
+using _1640.Models.VM;
 using _1640.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace _1640.Areas.Admin.Controllers;
 
@@ -95,5 +97,49 @@ public class UsersController : Controller
 
         return RedirectToAction("EditUser", new { id });
     }
+    [HttpGet]
+    public async Task<IActionResult> ResetPasswordAsync(string id)
+    {
+        var user = await _userManager.FindByIdAsync(id);
+        ResetPasswordVM model = new ResetPasswordVM()
+        {
+            Email = user.Email,
+            Password = user.PasswordHash,
+            ConfirmPassword = user.PasswordHash
+        };
+        return View(model);
+    }
+    [HttpPost]
+    public async Task<IActionResult> ResetPassword(ResetPasswordVM model)
+    {
+        var email = Request.Form["email"];
+        var password = Request.Form["password"];
+        var user = await _userManager.FindByEmailAsync(email);
+        var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+        if (user == null)
+            return NotFound();
+        var result = await _userManager.ResetPasswordAsync(user, code, password);
+        if (result.Succeeded)
+        {
+            TempData["success"] = $"Password reset successfully! for (Email:  {user.Email})";
+            return RedirectToAction("Index");
+        }
+        //error
+        foreach (var error in result.Errors)
+        {
+            ModelState.AddModelError("", error.Description);
+        }
+        model = new ResetPasswordVM()
+        {
+            Email = user.Email,
+            Password = user.PasswordHash,
+            ConfirmPassword = user.PasswordHash,
+            Token = user.Id
+        };
+        TempData["error"] = "Something wrong!";
+        return View(model);
+    }
+
 
 }
