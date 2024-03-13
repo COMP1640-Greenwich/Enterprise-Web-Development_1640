@@ -16,6 +16,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddScoped<IAutoCreateRole, AutoCreateRole>();
 builder.Services.AddControllersWithViews();
+builder.Services.AddDistributedMemoryCache();
 builder.Services.AddOptions();
 builder.Services.AddRazorPages();
 builder.Services.ConfigureApplicationCookie(options =>
@@ -46,7 +47,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapRazorPages();
 app.MapControllerRoute(

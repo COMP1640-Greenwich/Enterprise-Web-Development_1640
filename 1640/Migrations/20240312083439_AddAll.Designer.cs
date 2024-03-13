@@ -12,8 +12,8 @@ using _1640.Data;
 namespace _1640.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240312053554_addnewrole")]
-    partial class addnewrole
+    [Migration("20240312083439_AddAll")]
+    partial class AddAll
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -234,6 +234,37 @@ namespace _1640.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("UserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("_1640.Models.Article", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DocxUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsBlogActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Articles");
                 });
 
             modelBuilder.Entity("_1640.Models.User", b =>

@@ -7,39 +7,45 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - _1640</title>
+    <link rel="icon" href="image/logo.ico" type="image/x-icon" />
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/_1640.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="js/modernizr.js"></script>
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CMS</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                <div class="col-md-2">
+                    
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                        <img src="https://cdn.haitrieu.com/wp-content/uploads/2022/12/Logo-Truong-Dai-hoc-Greenwich-Viet-Nam.png" class="img-fluid" style="width:350px;height:75px;">
+                    </a>
+                </div>
+                <div class="col-md-8">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="nav justify-content-center">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">PRIVACY</a>
+                            </li>
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="Admin" asp-controller="Users" asp-action="Index">List of Account</a>
+                                <a class="nav-link" asp-area="Admin" asp-controller="Users" asp-action="Index">ACCOUNT LIST</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register for new Account</a>
                             </li>
                         }
-                    </ul>
-                    <ul class="navbar-nav">
                         @if (SignInManager.IsSignedIn(User))
                         {
                             <li class="nav-item">
@@ -58,25 +64,42 @@
                                 <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
                             </li>
                         }
-                    </ul>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </nav>
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+            <partial name="_Notification" />
             @RenderBody()
         </main>
     </div>
-
-    <footer class="border-top footer text-muted">
+    <hr />
+    <footer class="myfooter py-4">
         <div class="container">
-            &copy; 2024 - CMS - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="row">
+                        <img src="https://cdn.haitrieu.com/wp-content/uploads/2022/12/Logo-Truong-Dai-hoc-Greenwich-Viet-Nam.png" class="img-fluid" style="width:400px;height:120px;">
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="row"></div>
+            <p style="text-align: center"> &copy; Copyright belongs to Mixi Huyen - Thanh - Khanh - Minh - Khai </p>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="js/plugins.js"></script>
+    <script type="text/javascript" src="js/script.js"></script>
 </body>
 </html>
+
