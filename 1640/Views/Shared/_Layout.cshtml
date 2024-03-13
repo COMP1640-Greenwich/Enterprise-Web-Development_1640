@@ -46,6 +46,20 @@
                                 <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register for new Account</a>
                             </li>
                         }
+                        @if (User.IsInRole("Coordinator"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="Coordinator" asp-controller="Coordinator" asp-action="Index">Coordinator function</a>
+                            </li>
+                        }
+                        @if (User.IsInRole("Manager"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="Manager" asp-controller="Manager" asp-action="Index">Manager function</a>
+                            </li>
+                        }
+                    </ul>
+                    <ul class="navbar-nav">
                         @if (SignInManager.IsSignedIn(User))
                         {
                             <li class="nav-item">
