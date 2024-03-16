@@ -1,43 +1,52 @@
-﻿@model Article
-<form method="post" enctype="multipart/form-data">
-    <div class="row p-3 border bg-white">
-        <div class="col-12 border-bottom">
-            <h2 class="display-2">List the Article</h2>
-        </div>
-        <div class="col-8 pt-4">
-            <input asp-for="Id" hidden />
-            <div class="form-group row">
-                <div class="col-4"><label asp-for="Title">Title </label></div>
-                <div class="col-8">
-                    <input asp-for="Title" class="form-control" />
-                    <span asp-validation-for="Title" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-4"><label for="Description">Description</label></div>
-                <div class="col-8">
-                    <input asp-for="Description" class="form-control">
-                    <span asp-validation-for="Description" class="text-danger"></span>
-                </div>
-            </div>
+﻿@model IEnumerable<Article>
 
+  <!--Main layout-->
+  <main class="my-5">
+    <div class="container">
 
-            <div class="form-group row">
-                <div class="col-8 offset-4">
-                    <div class="row">
-                        <div class="col mt-3">
-                            <button type="submit" class="btn btn-danger">Edit</button>
-                            <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Back to List</a>
+      <!--Section: Content-->
+            <section>
+                <div class="row gx-5">
+                    <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
+                        <!-- News block -->
+                        <div>
+                         <!-- Featured image -->
+                            <div class="bg-image hover-overlay shadow-1-strong mb-4" data-mdb-ripple-init data-mdb-ripple-color="light">
+                                <img src="https://mdbootstrap.com/img/new/fluid/city/113.jpg" class="img-fluid" />
+                                <a href="#!">
+                                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                                </a>
+                            </div>
+
+                            <!-- Article data -->
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <div href="" class="text-info">
+                                        <i class="fas fa-plane"></i>
+                                        
+                                    </div>
+                                </div>
+
+                                <div class="col-6 text-end">
+                                    <p id="hvn"></p>
+                                </div>
+                            </div>
+
+                            <!-- Article title and description -->
+                            <div href="" class="text-dark">
+                                <h5>Title</h5>
+
+                                <p>
+                                    Description
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</form>
+            </section>
+<script>
+    var today = new Date();
+    var date = today.getDate() + '-' + (today.getMonth() + 1) + '-' + today.getFullYear();
 
-@section Scripts {
-    @{
-        <partial name="_ValidationScriptsPartial" />
-    }
-}
+    document.getElementById("hvn").innerHTML = date;
+</script>
