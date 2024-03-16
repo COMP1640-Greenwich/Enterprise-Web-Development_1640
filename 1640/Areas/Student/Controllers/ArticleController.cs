@@ -3,6 +3,7 @@ using _1640.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace _1640.Areas.Student.Controllers
 {
@@ -19,6 +20,7 @@ namespace _1640.Areas.Student.Controllers
         }
         public IActionResult Index()
         {
+
             return View();
         }
         public IActionResult Create()        

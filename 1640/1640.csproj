@@ -19,7 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
     <Folder Include="wwwroot\docx\" />
     <Folder Include="wwwroot\images\articles\" />
   </ItemGroup>

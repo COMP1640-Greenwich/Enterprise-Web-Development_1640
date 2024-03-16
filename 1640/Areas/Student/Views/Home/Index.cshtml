@@ -2,17 +2,83 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@if(TempData["AddCartMessage"] != null && (bool)TempData["ShowMessage"]){
+    <div id="addCartMessage" class="alert alert-success">@TempData["AddCartMessage"]</div>
+    <script>
+        setTimeout(function() {
+            $("#addCartMessage").fadeOut("slow");
+        }, 3000);
+    </script>
+}
+<br />
+<div id="myCarousel" class="carousel slide" data-bs-ride="carousel" >
+    <!-- Carousel indicators -->
+    <ol class="carousel-indicators">
+        <li data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"></li>
+        <li data-bs-target="#myCarousel" data-bs-slide-to="1"></li>
+        <li data-bs-target="#myCarousel" data-bs-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="~/images/Home/hp.jpg" class="d-block w-100" alt="Slide 1 " style="border-radius:15px" />
+        </div>
+        <div class="carousel-item">
+            <img src="~/images/Home/kiminonawa.png" class="d-block w-100" alt="Slide 2" style="border-radius:15px" />
+        </div>
+        <div class="carousel-item">
+            <img src="~/images/Home/bs_2048x600.jpg" class="d-block w-100" alt="Slide 3" style="border-radius:15px" />
+        </div>
+    </div>
+    <!-- Carousel controls -->
+    <a class="carousel-control-prev" href="#myCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </a>
+    <a class="carousel-control-next" href="#myCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </a>
 </div>
 
-<div class="container">
-    <div class="d-flex flex-row justify-content-between border shadow mb-3 mt-3">
-        <div>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-md-9 col-sm-8 col-12 pt-3">
+                <div class="mb-3">
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        Main Content Title
+                    </div>
+                    <div class="card-body">
+                        <p>List các bài báo ở đây nhá</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-4 d-none d-md-block g-2">
+                <div class="card gy-2">
+                    <div class="card-body">
+                        <script src="https://lichngaytot.com/Content/Js/Libs/jquery-3.4.1.min.js"></script><script src="https://lichngaytot.com/Content/Js/Libs/jquery-ui.min.js"></script><script src="https://lichngaytot.com/Content/Js/Widget/widgetlichthang.js"></script><script type="text/javascript">document.write('<div id="widgetlichthang-lvsicsoft" style="width:auto;" data-urlimage="" data-startin="1" data-amduongshow="2" data-colorbackground="#ffffff" data-colortoday="#ffff00" data-colorborder="#dddddd" data-coloram="#7f7f7f" data-colorduong="#000000"><div class="css-style-widget"></div><div class="anh-lich-img" style="100%"><img style="width: 100%; height:100%;" src="" /></div> <div id="calendar-widget-lvs" class="lvs-calendar-container" style="width: 100%; float: left;"></div>');getWidgetLichThang("css-style-widget", "widgetlichthang-lvsicsoft")</script>
+                    </div>
+                </div>
+            </div>
+            </br>
+            <div class="card">
+                <div class="card-header">
+                    Submit here
+                </div>
+                <div class="card-body">
+                    <a class="align-content-center" asp-controller="Article" asp-action="Create" class="btn btn-primary mt-3 mr-2">Click here</a>
+                </div>
+            </div>
+
         </div>
-        <p>
-            <a asp-controller="Article" asp-action="Create" class="btn btn-primary mt-3 mr-2">Create New Idea</a>
-        </p>
     </div>
-</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-OgQ8P8GBtLJE//7QXqCExu5w5IJbkz7jlQlTwVIsHQ4zLJkjN9q09QY8zYvbyty" crossorigin="anonymous"></script>
+    
+</body>

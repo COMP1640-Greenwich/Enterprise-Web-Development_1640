@@ -12,8 +12,8 @@ using _1640.Data;
 namespace _1640.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240312083439_AddAll")]
-    partial class AddAll
+    [Migration("20240313155247_abcd")]
+    partial class abcd
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -244,12 +244,15 @@ namespace _1640.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("CreateBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DocxUrl")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageUrl")

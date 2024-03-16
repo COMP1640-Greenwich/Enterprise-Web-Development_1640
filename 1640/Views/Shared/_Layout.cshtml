@@ -21,13 +21,10 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <div class="col-md-2">
-                    
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                        <img src="https://cdn.haitrieu.com/wp-content/uploads/2022/12/Logo-Truong-Dai-hoc-Greenwich-Viet-Nam.png" class="img-fluid" style="width:350px;height:75px;">
+                <a class="navbar navbar-light bg-white navbar-brand mb-0 h1" asp-area="" asp-controller="Home" asp-action="Index">
+                        <img src="~/images/Home/2022-Greenwich-Eng.png" style="width:120px;height:50px;">
                     </a>
-                </div>
-                <div class="col-md-8">
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between0">
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -35,12 +32,12 @@
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                         <ul class="nav justify-content-center">
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">PRIVACY</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                             </li>
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="Admin" asp-controller="Users" asp-action="Index">ACCOUNT LIST</a>
+                                    <a class="nav-link text-dark" asp-area="Admin" asp-controller="Users" asp-action="Index">List of Accounts</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register for new Account</a>
@@ -58,8 +55,19 @@
                                 <a class="nav-link" asp-area="Manager" asp-controller="Manager" asp-action="Index">Manager function</a>
                             </li>
                         }
+                         @if (User.IsInRole("Student"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="Student" asp-controller="Article" asp-action="Index">Article</a>
+                            </li>
+                        }
                     </ul>
+
                     <ul class="navbar-nav">
+                            <form class="d-flex">
+                                <input class="form-control me-2" name="searchString" type="search" placeholder="Search" aria-label="Search">
+                                <button class="btn btn-outline-success" type="submit">Search</button>
+                            </form>
                         @if (SignInManager.IsSignedIn(User))
                         {
                             <li class="nav-item">
@@ -70,7 +78,6 @@
                                     <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">| <b style="color:darkred">Logout</b></button>
                                 </form>
                             </li>
-
                         }
                         else
                         {
@@ -92,20 +99,18 @@
         </main>
     </div>
     <hr />
-    <footer class="myfooter py-4">
-        <div class="container">
+    <footer class="myfooter">
+        <div class="container ">
             <div class="row">
-                <div class="col-md-4">
-                    <div class="row">
-                        <img src="https://cdn.haitrieu.com/wp-content/uploads/2022/12/Logo-Truong-Dai-hoc-Greenwich-Viet-Nam.png" class="img-fluid" style="width:400px;height:120px;">
-                    </div>
+                <div class="left-col col-3">
+
+                </div>
+                <div class="left-right col-9">
+                    <h3 style="font-size:20px">&copy; Copyright belongs to Mixi Huyen - Thanh - Khanh - Minh - Khai</h3>
                 </div>
             </div>
-            <hr />
-            <div class="row"></div>
-            <p style="text-align: center"> &copy; Copyright belongs to Mixi Huyen - Thanh - Khanh - Minh - Khai </p>
-        </div>
     </footer>
+  
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

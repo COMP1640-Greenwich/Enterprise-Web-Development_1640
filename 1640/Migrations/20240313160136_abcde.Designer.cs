@@ -12,8 +12,8 @@ using _1640.Data;
 namespace _1640.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240312085254_Addne")]
-    partial class Addne
+    [Migration("20240313160136_abcde")]
+    partial class abcde
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

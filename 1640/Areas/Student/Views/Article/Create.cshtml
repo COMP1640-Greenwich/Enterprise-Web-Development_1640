@@ -1,8 +1,8 @@
 ﻿@model Article
 <form method="post" enctype="multipart/form-data">
-    <div class="row p-3 border bg-white">
+    <div class="row p-3">
         <div class="col-12 border-bottom">
-            <h2 class="display-2">Create a Article</h2>
+            <h2 class="">Create a Article</h2>
         </div>
         <div class="col-8 pt-4">
             <input asp-for="Id" hidden />
@@ -41,7 +41,7 @@
                 </div>
                     <div class="col-8">
                         <input type="checkbox" class="form-check-input" asp-for="IsBlogActive"/>
-                    <label class="form-check-lable" asp-for="IsBlogActive"> You agree to our Terms and Conditions.</label>
+                    <label class="form-check-lable" asp-for="IsBlogActive"> You agree to our <a asp-area="" asp-controller="Home" asp-action="Privacy">Terms and Conditions.</a></label>
                     </div>
                 
             </div>

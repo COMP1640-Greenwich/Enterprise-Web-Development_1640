@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace _1640.Migrations
 {
     /// <inheritdoc />
-    public partial class AddAll : Migration
+    public partial class abcd : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,8 +20,9 @@ namespace _1640.Migrations
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DocxUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsBlogActive = table.Column<bool>(type: "bit", nullable: false)
+                    DocxUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsBlogActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreateBy = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
