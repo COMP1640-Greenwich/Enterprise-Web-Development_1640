@@ -43,7 +43,7 @@ public class AutoCreateRole : IAutoCreateRole
             Email = "admin@gmail.com",
             FullName = "Admin",
             PhoneNumber = "1234566",
-            HomeAddress = "Admin123",
+            Campus = "Admin123",
             EmailConfirmed = true,
         }, "Admin@123").GetAwaiter().GetResult();
 

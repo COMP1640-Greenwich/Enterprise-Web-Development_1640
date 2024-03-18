@@ -1,6 +1,5 @@
 ﻿@page
 @model LoginModel
-
 @{
     ViewData["Title"] = "Log in";
 }
@@ -20,15 +19,15 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
                     <!-- Email input -->
                     <div class="form-outline mb-4">
-                        <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
                         <label asp-for="Input.Email" class="form-label">Email</label>
+                        <input asp-for="Input.Email" class="form-control border" autocomplete="username" aria-required="true" placeholder="name@example.com" />
                         <span asp-validation-for="Input.Email" class="text-danger"></span>
                     </div>
 
                     <!-- Password input -->
                     <div class="form-outline mb-3">
-                        <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
                         <label asp-for="Input.Password" class="form-label">Password</label>
+                        <input asp-for="Input.Password" class="form-control border" autocomplete="current-password" aria-required="true" placeholder="password" />
                         <span asp-validation-for="Input.Password" class="text-danger"></span>
                     </div>
 

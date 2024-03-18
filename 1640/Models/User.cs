@@ -14,7 +14,7 @@ namespace _1640.Models
         [Required]
         public string FullName { get; set; }
         [Required]
-        public string HomeAddress { get; set; }
+        public string Campus { get; set; }
 
         [NotMapped] public string Role { get; set; }
 

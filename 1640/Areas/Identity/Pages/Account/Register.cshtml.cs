@@ -76,8 +76,8 @@ namespace _1640.Areas.Identity.Pages.Account
 
             // address and rolelist
             [Required]
-            [Display(Name = "Your Address")]
-            public string HomeAddress { get; set; }
+            [Display(Name = "Your Campus")]
+            public string Campus { get; set; }
             public IEnumerable<SelectListItem> SelectYourRole { get; set; }
             [Required]
             public string Role { get; set; }
@@ -104,7 +104,7 @@ namespace _1640.Areas.Identity.Pages.Account
                     Email = Input.Email,
                     FullName = Input.FullName,
                     EmailConfirmed = true,
-                    HomeAddress = Input.HomeAddress,
+                    Campus = Input.Campus,
                     PhoneNumber = Input.PhoneNumber,
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);

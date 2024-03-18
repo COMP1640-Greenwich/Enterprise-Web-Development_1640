@@ -79,7 +79,7 @@ public class UsersController : Controller
 
         adminStoreOwnerCustomer.FullName = user.FullName;
         adminStoreOwnerCustomer.PhoneNumber = user.PhoneNumber;
-        adminStoreOwnerCustomer.HomeAddress = user.HomeAddress;
+        adminStoreOwnerCustomer.Campus = user.Campus;
 
         _db.Users.Update(adminStoreOwnerCustomer);
         _db.SaveChanges();

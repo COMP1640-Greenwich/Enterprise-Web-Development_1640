@@ -4,8 +4,6 @@
     ViewData["Title"] = "Register";
 }
 
-<h1>@ViewData["Title"]</h1>
-
 <div class="container h-100">
     <div class="row d-flex justify-content-center align-items-center h-50">
         <div class="">
@@ -21,18 +19,19 @@
                             <div class="d-flex flex-row align-items-center mb-4">
                                 <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                                 <div class="form-outline flex-fill mb-0">
-                                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="Name@example.com" />
                                     <label asp-for="Input.Email">Email</label>
+                                    <input asp-for="Input.Email" class="form-control border" autocomplete="username" aria-required="true" placeholder="Name@example.com" />
+                                    
                                     <span asp-validation-for="Input.Email" class="text-danger"></span>
                                 </div>
                             </div>
 
 
                             <div class="d-flex flex-row align-items-center mb-4">
-                                <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                                <i class="fa-solid fa-user fa-lg me-3 fa-fw"></i>
                                 <div class="form-outline flex-fill mb-0">
-                                    <input asp-for="Input.FullName" class="form-control" autocomplete="fullname" aria-required="true" placeholder="Name" />
                                     <label asp-for="Input.FullName">Full Name</label>
+                                    <input asp-for="Input.FullName" class="form-control border" autocomplete="fullname" aria-required="true" placeholder="Name" />
                                     <span asp-validation-for="Input.FullName" class="text-danger"></span>
                                 </div>
                             </div>
@@ -40,8 +39,8 @@
                             <div class="d-flex flex-row align-items-center mb-4">
                                 <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                                 <div class="form-outline flex-fill mb-0">
-                                    <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Password" />
                                     <label asp-for="Input.Password">Password</label>
+                                    <input asp-for="Input.Password" class="form-control border" autocomplete="new-password" aria-required="true" placeholder="Password" />
                                     <span asp-validation-for="Input.Password" class="text-danger"></span>
                                 </div>
                             </div>
@@ -49,33 +48,33 @@
                             <div class="d-flex flex-row align-items-center mb-4">
                                 <i class="fas fa-key fa-lg me-3 fa-fw"></i>
                                 <div class="form-outline flex-fill mb-0">
-                                    <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Repeat Password" />
                                     <label asp-for="Input.ConfirmPassword">Confirm Password</label>
+                                    <input asp-for="Input.ConfirmPassword" class="form-control border" autocomplete="new-password" aria-required="true" placeholder="Repeat Password" />
                                     <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="d-flex flex-row align-items-center mb-4">
-                                <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                                <i class="fa-solid fa-building-columns fa-lg me-3 fa-fw"></i>
                                 <div class="form-outline flex-fill mb-0">
-                                    <input asp-for="Input.HomeAddress" class="form-control" autocomplete="homeadress" aria-required="true" placeholder="Home" />
-                                    <label asp-for="Input.HomeAddress">Address</label>
-                                    <span asp-validation-for="Input.HomeAddress" class="text-danger"></span>
+                                    <label asp-for="Input.Campus">Campus</label>
+                                    <input asp-for="Input.Campus" class="form-control border" autocomplete="homeadress" aria-required="true" placeholder="Campus" />
+                                    <span asp-validation-for="Input.Campus" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="d-flex flex-row align-items-center mb-4">
-                                <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                                <i class="fa-solid fa-phone fa-lg me-3 fa-fw"></i>
                                 <div class="form-outline flex-fill mb-0">
-                                    <input asp-for="Input.PhoneNumber" class="form-control" autocomplete="phone" aria-required="true" placeholder="Phone" />
                                     <label asp-for="Input.PhoneNumber">Phone</label>
+                                    <input asp-for="Input.PhoneNumber" class="form-control border" autocomplete="phone" aria-required="true" placeholder="Phone" />
                                     <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
                                 </div>
                             </div>
 
                             <div class="d-flex flex-row align-items-center mb-4">
-                                <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                                <i class="fa-solid fa-person fa-lg me-3 fa-fw"></i>
                                 <div class="form-outline flex-fill mb-0">
                                     @Html.DropDownListFor(n => n.Input.Role, Model.Input.SelectYourRole,
-                                             "Please select the role", new { @class = "form-control" })
+                                             "Please select the role", new { @class = "form-control border" })
                                     <span id="role-validation" class="text-danger">@Html.ValidationMessageFor(m => m.Input.Role)</span>
                                 </div>
                             </div>
@@ -96,7 +95,7 @@
                     </div>
                     <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
 
-                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
+                        <img src="https://www.dissertationhelp.com.sg/img/assignment-writing.png"
                              class="img-fluid" alt="Sample image">
                     </div>
                 </div>

@@ -36,13 +36,13 @@
         </div>
     <table class="table table-striped" >
         <thead id="tbHead">
-        <tr>
+                <tr style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; text-align: center">
             <th scope="col">Nu</th>
             <th scope="col">Full Name</th>
             <th scope="col">Email</th>
             <th scope="col">Role</th>
-            <th scope="col">Address</th>
-            <th scope="col">Phone Number</th>
+            <th scope="col">Campus</th>
+            <th scope="col">Phone</th>
             <th scope="col">Create at</th>
             <th scope="col">Action</th>
         </tr>
@@ -58,24 +58,26 @@
                 <td>@obj.FullName</td>
                 <td>@obj.Email</td>
                 <td>@obj.Role</td>
-                <td>@obj.HomeAddress</td>
+                        <td>@obj.Campus</td>
                 <td>@obj.PhoneNumber</td>
                 <td>@obj.CreatedAt</td>
                 <td>
                     <a class="btn btn-primary" asp-controller="Users" asp-action="Edit" asp-route-id="@obj.Id"
                        class="btn btn-sm btn-outline-info">
-                        <b class="fa-solid fa-pen">Edit</b>
+                                <i class="fa-solid fa-pen"></i><b style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">
+                            Edit
+                        </b>
                     </a>
                     @if (User.IsInRole("Admin"))
                     {
                                 <a class="btn btn-secondary" asp-area="Admin" asp-controller="Users" asp-action="ResetPassword" asp-route-id="@obj.Id"
                                    class="btn btn-sm btn-outline-danger">
-                                    <b class="fa-solid fa-trash">Reset Password</b>
+                                    <i class="fa-solid fa-key"></i> <b style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Reset Password</b>
                                 </a>
                         <a class="btn btn-danger" asp-area="Admin" asp-controller="Users" asp-action="Delete"
                            onclick="return confirm('Do you want to delete')" asp-route-id="@obj.Id"
                            class="btn btn-sm btn-outline-danger">
-                            <b class="fa-solid fa-trash">Delete</b>
+                                    <i class="fa-solid fa-xmark"></i> <b style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Delete</b>
                         </a>
 
                     }
