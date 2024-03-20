@@ -1,1 +1,48 @@
-﻿<h1>This is Coordinator page</h1>
+﻿@model List<Semester>
+<div class="row-pt4 pb-4">
+    <div class="col-6">
+        <h2 style="color:red">List of Semester</h2>
+    </div>
+    <div class="col-6">
+        <a asp-controller="Coordinator" asp-action="Create" class="btn btn-primary">Create new Semester</a>
+    </div>
+</div>
+
+<div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>StartDate</td>
+                <td>EndDate</td>
+                <td>Status</td>
+                <td>Faculity</td>
+                <td>Action</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var semester in Model)
+            {
+                <tr>
+                    <td>@semester.Name</td>
+                    <td>@semester.StartDate.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td>@semester.EndDate.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td>@semester.Status</td>
+                    <td>@semester.Faculity.Name</td> 
+                    <td>
+                        <a asp-controller="Coordinator" asp-action="Edit" asp-route-id="@semester.Id" class="btn btn-primary">Edit</a>
+                        <a asp-controller="Coordinator" asp-action="Delete" asp-route-id="@semester.Id" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@* java scrip *@
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
+

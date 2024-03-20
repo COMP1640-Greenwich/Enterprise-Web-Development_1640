@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace _1640.Migrations
 {
     /// <inheritdoc />
-    public partial class AddAll : Migration
+    public partial class redodatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,12 +20,69 @@ namespace _1640.Migrations
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DocxUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DocxUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsBlogActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Articles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Faculities",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Faculities", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Interacts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StudentName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StudentEmail = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Interacts", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ManagementSubmissions",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    StudentName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Commemt = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ManagementSubmissions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PublicCoordinator",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ContributionName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StudentName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PublicCoordinator", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -69,6 +126,29 @@ namespace _1640.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Semesters",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FaculityId = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Semesters", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Semesters_Faculities_FaculityId",
+                        column: x => x.FaculityId,
+                        principalTable: "Faculities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -190,6 +270,11 @@ namespace _1640.Migrations
                 filter: "[NormalizedName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Semesters_FaculityId",
+                table: "Semesters",
+                column: "FaculityId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserClaims_UserId",
                 table: "UserClaims",
                 column: "UserId");
@@ -224,7 +309,19 @@ namespace _1640.Migrations
                 name: "Articles");
 
             migrationBuilder.DropTable(
+                name: "Interacts");
+
+            migrationBuilder.DropTable(
+                name: "ManagementSubmissions");
+
+            migrationBuilder.DropTable(
+                name: "PublicCoordinator");
+
+            migrationBuilder.DropTable(
                 name: "RoleClaims");
+
+            migrationBuilder.DropTable(
+                name: "Semesters");
 
             migrationBuilder.DropTable(
                 name: "UserClaims");
@@ -237,6 +334,9 @@ namespace _1640.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Faculities");
 
             migrationBuilder.DropTable(
                 name: "Roles");

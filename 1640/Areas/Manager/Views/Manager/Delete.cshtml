@@ -1,0 +1,22 @@
+﻿@model Faculity
+<form method="post">
+    <div class="border p-3 mt-4">
+        <div class="mb-3 row">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" disabled />
+        </div>
+        <div class="mb-3 row">
+            <label asp-for="Description"></label>
+            <input asp-for="Description" disabled />
+        </div>
+
+        <button type="submit" class="btn btn-danger"> Delete</button>
+        <a asp-controller="Manager" asp-action="Index" class="btn btn-primary">Back to list</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
