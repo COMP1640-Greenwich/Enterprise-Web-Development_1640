@@ -1,5 +1,3 @@
-using _1640.Areas.Repository;
-using _1640.Areas.Repository.IRepository;
 using _1640.AutoCreateRole;
 using _1640.Data;
 using Microsoft.AspNetCore.Identity;
@@ -27,9 +25,6 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LogoutPath = "/Identity/Account/Logout";
     options.AccessDeniedPath = "/Identity/Account/AccessDenied";
 });
-//builder.Services.AddScoped<ISemesterRepository, SemesterRepository>();
-//builder.Services.AddScoped<IFaculityRepository, FaculityRepository>();
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {

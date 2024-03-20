@@ -8,11 +8,6 @@ namespace _1640.Data
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Article> Articles { get; set; }
-        public DbSet<Interact> Interacts { get; set; }
-        public DbSet<ManagementSubmission> ManagementSubmissions { get; set; }
-        public DbSet<PublicCoordinator> PublicCoordinator { get; set; }
-        public DbSet<Faculity> Faculities { get; set; }
-        public DbSet<Semester> Semesters { get; set; }     
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
