@@ -12,6 +12,7 @@ using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pag
 namespace _1640.Areas.Admin.Controllers;
 
 [Area("Admin")]
+[Authorize(Roles = "Admin")]
 public class UsersController : Controller
 {
     private readonly ApplicationDbContext _db;
@@ -139,6 +140,12 @@ public class UsersController : Controller
         };
         TempData["error"] = "Something wrong!";
         return View(model);
+    }
+    [HttpGet]
+    public IActionResult Login(string? ReturnUrl = null)
+    {
+        ViewData["ReturnUrl"] = ReturnUrl;
+        return View();
     }
 
 
