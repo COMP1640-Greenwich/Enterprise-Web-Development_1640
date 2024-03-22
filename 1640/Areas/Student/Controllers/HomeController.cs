@@ -1,4 +1,6 @@
 using _1640.Models;
+using _1640.Repository.IRepository;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -7,17 +9,20 @@ namespace _1640.Areas.Student.Controllers
     [Area("Student")]
     public class HomeController : Controller
     {
+        private readonly IUnitOfWork _unitOfWork;
 
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IUnitOfWork unitOfWork,ILogger<HomeController> logger)
         {
+            _unitOfWork = unitOfWork;
             _logger = logger;
         }
 
         public IActionResult Index()
         {
-            return View();
+            List<Article> articles = _unitOfWork.ArticleRepository.GetAll().ToList();
+            return View(articles);
         }
 
         public IActionResult Privacy()

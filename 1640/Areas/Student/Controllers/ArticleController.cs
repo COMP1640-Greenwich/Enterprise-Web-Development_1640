@@ -1,27 +1,25 @@
 ﻿using _1640.Data;
 using _1640.Models;
+using _1640.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 
 namespace _1640.Areas.Student.Controllers
 {
     [Area("Student")]
     public class ArticleController : Controller
     {
-        private readonly ApplicationDbContext _dbContext;
-        //private readonly IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
+        
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public ArticleController(ApplicationDbContext dBContext, IWebHostEnvironment webHostEnvironment)
+        public ArticleController( IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
         {
-            _dbContext = dBContext;
+            _unitOfWork = unitOfWork;
             _webHostEnvironment = webHostEnvironment;
         }
         public IActionResult Index()
         {
-
-            return View();
+            List<Article> articles = _unitOfWork.ArticleRepository.GetAll().ToList();
+            return View(articles);
         }
         public IActionResult Create()        
         {
@@ -63,6 +61,11 @@ namespace _1640.Areas.Student.Controllers
                     }
                     article.ImageUrl = @"\images\articles\" + fileName;
                 }
+                else
+                {
+                    TempData["error"] = "You must insert file image.";
+                    return View(article);
+                }
                 if (file1 != null)
                 {
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file1.FileName);
@@ -87,9 +90,9 @@ namespace _1640.Areas.Student.Controllers
                     return View(article);
                 }
 
-                
-                    _dbContext.Add(article);
-                    _dbContext.SaveChanges();
+
+                    _unitOfWork.ArticleRepository.Update(article);
+                    _unitOfWork.Save();
                     TempData["success"] = "Article Created successfully";
                     return RedirectToAction("Index");
                 }
@@ -104,6 +107,24 @@ namespace _1640.Areas.Student.Controllers
                 return View(article); 
             
         }
+
+        public IActionResult Detail(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+
+            }
+
+            Article? article = _unitOfWork.ArticleRepository.Get(a => a.Id == id);
+            if (article == null)
+            {
+                return NotFound();
+            }
+            return View(article);
+        }
+
+
 
     }
 }

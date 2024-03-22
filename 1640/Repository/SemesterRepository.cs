@@ -1,8 +1,8 @@
-﻿using _1640.Areas.Repository.IRepository;
+﻿using _1640.Repository.IRepository;
 using _1640.Data;
 using _1640.Models;
 
-namespace _1640.Areas.Repository
+namespace _1640.Repository
 {
     public class SemesterRepository : Repository<Semester>, ISemesterRepository
     {

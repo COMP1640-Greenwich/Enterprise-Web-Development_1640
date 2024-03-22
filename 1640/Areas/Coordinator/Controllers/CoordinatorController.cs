@@ -1,4 +1,4 @@
-﻿using _1640.Areas.Repository.IRepository;
+﻿using _1640.Repository.IRepository;
 using _1640.Data;
 using _1640.Models.VM;
 using _1640.Models;

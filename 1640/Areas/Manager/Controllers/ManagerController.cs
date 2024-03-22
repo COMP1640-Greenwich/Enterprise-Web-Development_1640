@@ -1,4 +1,4 @@
-﻿using _1640.Areas.Repository.IRepository;
+﻿using _1640.Repository.IRepository;
 using _1640.Models;
 using Microsoft.AspNetCore.Mvc;
 

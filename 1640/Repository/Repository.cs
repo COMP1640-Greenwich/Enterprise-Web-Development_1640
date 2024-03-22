@@ -1,9 +1,9 @@
-﻿using _1640.Areas.Repository.IRepository;
+﻿using _1640.Repository.IRepository;
 using _1640.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace _1640.Areas.Repository
+namespace _1640.Repository
 {
     public class Repository<T> : IRepository<T> where T : class
     {

@@ -1,52 +1,53 @@
-﻿@model IEnumerable<Article>
-
-  <!--Main layout-->
-  <main class="my-5">
-    <div class="container">
-
-      <!--Section: Content-->
-            <section>
-                <div class="row gx-5">
-                    <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
-                        <!-- News block -->
+﻿@model List<Article>
+  <div class="container h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col col-md-9 col-lg-7 col-xl-6">
+           @foreach (var Article in Model)
+           {
+             <div class="container py-2">
+                <div class="card" style="border-radius: 15px; background-color: #93e2bb;">
+                    <div class="card-body p-4 text-black">      
+                        <div class="d-flex align-items-center mb-4">
+                          <div class="flex-shrink-1">
+                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-2.webp"
+                                 alt="Generic placeholder image" class="img-fluid rounded-circle border border-dark border-3"
+                                style="width: 70px;">
+                          </div>
+                          <div class="flex-grow-1 ms-3">
+                              <h6 class="mb-4">Tên Đây Nè</h6>
+                              @* <a asp-controller="Article" asp-action="Detail" asp-route-id="@Article.Id" class="my-4 pb-1"></a> *@
+                          </div>
+                        </div>
+                        <hr>
                         <div>
-                         <!-- Featured image -->
-                            <div class="bg-image hover-overlay shadow-1-strong mb-4" data-mdb-ripple-init data-mdb-ripple-color="light">
-                                <img src="https://mdbootstrap.com/img/new/fluid/city/113.jpg" class="img-fluid" />
-                                <a href="#!">
-                                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-                                </a>
+                            <h3 class="mb-4">@Article.Title</h3>
+                            <h6 class="mb-4">@Article.Description</h6>
+                            <div style="text-align: center;">
+                                <img src="@Article.ImageUrl" class="img-fluid py-2" style="width:500px;height:300px;" />
                             </div>
-
-                            <!-- Article data -->
-                            <div class="row mb-3">
-                                <div class="col-6">
-                                    <div href="" class="text-info">
-                                        <i class="fas fa-plane"></i>
-                                        
-                                    </div>
+                            <div class="row">
+                                <div class="col-8"></div>
+                                <div class="col-4">
+                                   <button type="button" class="btn btn-success btn-rounded" href="@Article.DocxUrl" formtarget="_blank">
+                                    <i class="fa-solid fa-cloud-arrow-down"></i>  Download
+                                   </button>
                                 </div>
-
-                                <div class="col-6 text-end">
-                                    <p id="hvn"></p>
-                                </div>
-                            </div>
-
-                            <!-- Article title and description -->
-                            <div href="" class="text-dark">
-                                <h5>Title</h5>
-
-                                <p>
-                                    Description
-                                </p>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </section>
-<script>
-    var today = new Date();
-    var date = today.getDate() + '-' + (today.getMonth() + 1) + '-' + today.getFullYear();
+                   </div>
 
-    document.getElementById("hvn").innerHTML = date;
-</script>
+                </div>
+            </div>
+           }
+        
+         </div>
+      
+    </div>
+  </div>
+
+
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

@@ -14,7 +14,9 @@ namespace _1640.Models
         //[ValidateNever]
         //public Faculty Faculty { get; set; }
         //[ValidateNever]
+        [ValidateNever]
         public string? ImageUrl { get; set; }
+        [ValidateNever]
         public string? DocxUrl { get; set; }
         public bool IsBlogActive { get; set; }
     }
