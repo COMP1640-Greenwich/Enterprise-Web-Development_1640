@@ -16,7 +16,7 @@
                 <td>StartDate</td>
                 <td>EndDate</td>
                 <td>Status</td>
-                <td>Faculity</td>
+                <td>Faculty</td>
                 <td>Action</td>
             </tr>
         </thead>
@@ -28,7 +28,7 @@
                     <td>@semester.StartDate.ToString("yyyy-MM-dd HH:mm")</td>
                     <td>@semester.EndDate.ToString("yyyy-MM-dd HH:mm")</td>
                     <td>@semester.Status</td>
-                    <td>@semester.Faculity.Name</td> 
+                    <td>@semester.Faculty.Name</td> 
                     <td>
                         <a asp-controller="Coordinator" asp-action="Edit" asp-route-id="@semester.Id" class="btn btn-primary">Edit</a>
                         <a asp-controller="Coordinator" asp-action="Delete" asp-route-id="@semester.Id" class="btn btn-danger">Delete</a>

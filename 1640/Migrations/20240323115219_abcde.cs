@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace _1640.Migrations
 {
     /// <inheritdoc />
-    public partial class abcd : Migration
+    public partial class abcde : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,12 +21,25 @@ namespace _1640.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DocxUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsBlogActive = table.Column<bool>(type: "bit", nullable: false),
-                    CreateBy = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    IsBlogActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Articles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Faculties",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Faculties", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -50,7 +63,7 @@ namespace _1640.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Discriminator = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
                     FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    HomeAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Campus = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -70,6 +83,29 @@ namespace _1640.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Semesters",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FacultyId = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Semesters", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Semesters_Faculties_FacultyId",
+                        column: x => x.FacultyId,
+                        principalTable: "Faculties",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -191,6 +227,11 @@ namespace _1640.Migrations
                 filter: "[NormalizedName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Semesters_FacultyId",
+                table: "Semesters",
+                column: "FacultyId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserClaims_UserId",
                 table: "UserClaims",
                 column: "UserId");
@@ -228,6 +269,9 @@ namespace _1640.Migrations
                 name: "RoleClaims");
 
             migrationBuilder.DropTable(
+                name: "Semesters");
+
+            migrationBuilder.DropTable(
                 name: "UserClaims");
 
             migrationBuilder.DropTable(
@@ -238,6 +282,9 @@ namespace _1640.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Faculties");
 
             migrationBuilder.DropTable(
                 name: "Roles");

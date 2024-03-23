@@ -4,6 +4,7 @@ using _1640.Models.VM;
 using _1640.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using _1640.Areas.Repository.IRepository;
 
 namespace _1640.Areas.Coordinator.Controllers
 {
@@ -20,7 +21,7 @@ namespace _1640.Areas.Coordinator.Controllers
         }
         public IActionResult Index()
         {
-            List<Semester> semesters = _unitOfWork.SemesterRepository.GetAll("Faculity").ToList();
+            List<Semester> semesters = _unitOfWork.SemesterRepository.GetAll("Faculty").ToList();
             return View(semesters);
         }
         public IActionResult Details()
@@ -31,7 +32,7 @@ namespace _1640.Areas.Coordinator.Controllers
         {
             SemesterVM semesterVM = new SemesterVM()
             {
-                Faculities = _unitOfWork.FaculityRepository.GetAll().Select(f => new SelectListItem
+                Faculties = _unitOfWork.FacultyRepository.GetAll().Select(f => new SelectListItem
                 {
                     Text = f.Name,
                     Value = f.Id.ToString(),
@@ -65,7 +66,7 @@ namespace _1640.Areas.Coordinator.Controllers
         {
             SemesterVM semesterVM = new SemesterVM()
             {
-                Faculities = _unitOfWork.FaculityRepository.GetAll().Select(f => new SelectListItem
+                Faculties = _unitOfWork.FacultyRepository.GetAll().Select(f => new SelectListItem
                 {
                     Text = f.Name,
                     Value = f.Id.ToString(),

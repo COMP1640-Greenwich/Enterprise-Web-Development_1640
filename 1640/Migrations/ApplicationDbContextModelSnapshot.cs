@@ -263,7 +263,7 @@ namespace _1640.Migrations
                     b.ToTable("Articles");
                 });
 
-            modelBuilder.Entity("_1640.Models.Faculity", b =>
+            modelBuilder.Entity("_1640.Models.Faculty", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -281,7 +281,7 @@ namespace _1640.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Faculities");
+                    b.ToTable("Faculties");
                 });
 
             modelBuilder.Entity("_1640.Models.Semester", b =>
@@ -295,7 +295,7 @@ namespace _1640.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("FaculityId")
+                    b.Property<int>("FacultyId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -311,7 +311,7 @@ namespace _1640.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FaculityId");
+                    b.HasIndex("FacultyId");
 
                     b.ToTable("Semesters");
                 });
@@ -387,13 +387,13 @@ namespace _1640.Migrations
 
             modelBuilder.Entity("_1640.Models.Semester", b =>
                 {
-                    b.HasOne("_1640.Models.Faculity", "Faculity")
+                    b.HasOne("_1640.Models.Faculty", "Faculty")
                         .WithMany()
-                        .HasForeignKey("FaculityId")
+                        .HasForeignKey("FacultyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Faculity");
+                    b.Navigation("Faculty");
                 });
 #pragma warning restore 612, 618
         }

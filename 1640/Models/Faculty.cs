@@ -2,7 +2,7 @@
 
 namespace _1640.Models
 {
-    public class Faculity
+    public class Faculty
     {
         [Key]
         public int Id { get; set; }

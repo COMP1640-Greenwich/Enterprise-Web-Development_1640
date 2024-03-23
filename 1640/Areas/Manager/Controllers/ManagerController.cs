@@ -1,4 +1,4 @@
-﻿using _1640.Repository.IRepository;
+﻿using _1640.Areas.Repository.IRepository;
 using _1640.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +19,7 @@ namespace _1640.Areas.Manager.Controllers
         }
         public IActionResult Index()
         {
-            List<Faculity> faculities = _unitOfWork.FaculityRepository.GetAll().ToList();
+            List<Faculty> faculities = _unitOfWork.FacultyRepository.GetAll().ToList();
             return View(faculities);
         }
 
@@ -28,13 +28,13 @@ namespace _1640.Areas.Manager.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(Faculity faculity)
+        public IActionResult Create(Faculty faculity)
         {
             if (ModelState.IsValid)
             {
                 //_db.Faculities.Add(faculity);
                 //_db.SaveChanges();
-                _unitOfWork.FaculityRepository.Add(faculity);
+                _unitOfWork.FacultyRepository.Add(faculity);
                 _unitOfWork.Save();
                 TempData["success"] = "Faculity create successfully";
             }
@@ -42,12 +42,12 @@ namespace _1640.Areas.Manager.Controllers
         }
         public IActionResult Edit(int? id)
         {
-            Faculity faculity = new Faculity();
+            Faculty faculity = new Faculty();
             if (id == null || id == 0)
             {
                 return NotFound();
             }
-            faculity = _unitOfWork.FaculityRepository.Get(f => f.Id == id);
+            faculity = _unitOfWork.FacultyRepository.Get(f => f.Id == id);
             if (faculity == null)
             {
                 return NotFound();
@@ -55,13 +55,13 @@ namespace _1640.Areas.Manager.Controllers
             return View(faculity);
         }
         [HttpPost]
-        public IActionResult Edit(Faculity faculity)
+        public IActionResult Edit(Faculty faculity)
         {
             if (ModelState.IsValid)
             {
                 //_db.Faculities.Update(faculity);
                 //_db.SaveChanges();
-                _unitOfWork.FaculityRepository.Update(faculity);
+                _unitOfWork.FacultyRepository.Update(faculity);
                 _unitOfWork.Save();
                 TempData["success"] = "Faculity update successfully";
                 return RedirectToAction("Index");
@@ -70,12 +70,12 @@ namespace _1640.Areas.Manager.Controllers
         }
         public IActionResult Delete(int id)
         {
-            Faculity faculity = new Faculity();
+            Faculty faculity = new Faculty();
             if (id == 0 || id == null)
             {
                 return NotFound();
             }
-            faculity = _unitOfWork.FaculityRepository.Get(f => f.Id == id);
+            faculity = _unitOfWork.FacultyRepository.Get(f => f.Id == id);
             if (faculity == null)
             {
                 return NotFound();
@@ -83,9 +83,9 @@ namespace _1640.Areas.Manager.Controllers
             return View(faculity);
         }
         [HttpPost]
-        public IActionResult Delete(Faculity faculity)
+        public IActionResult Delete(Faculty faculity)
         {
-            _unitOfWork.FaculityRepository.Delete(faculity);
+            _unitOfWork.FacultyRepository.Delete(faculity);
             _unitOfWork.Save();
             TempData["success"] = "Faculity deleted successfully";
             return RedirectToAction("Index");

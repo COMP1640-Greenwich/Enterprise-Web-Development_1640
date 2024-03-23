@@ -7,6 +7,6 @@ namespace _1640.Models.VM
     {
         public Semester Semester { get; set; }
         [ValidateNever]
-        public IEnumerable<SelectListItem> Faculities { get; set;}
+        public IEnumerable<SelectListItem> Faculties { get; set;}
     }
 }
