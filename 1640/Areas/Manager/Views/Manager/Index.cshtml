@@ -1,7 +1,7 @@
 ﻿@model List<Faculty>
 <div class=row-pt-2 pb-4>
     <div class="col-6">
-        <h2 style="color:red">List of Faculity</h2>
+        <h2 style="color:red">List of Faculty</h2>
     </div>
     <div class="col-6">
         <a asp-controller="Manager" asp-action="Create" class="btn btn-primary">Create a new Faculity</a>
@@ -17,15 +17,15 @@
                 </tr>
             </thread>
             <tbody>
-                @foreach (var faculity in Model)
+                @foreach (var faculty in Model)
                 {
                     <tr>
-                        <td>@faculity.Name</td>
-                        <td>@faculity.Description</td>
+                        <td>@faculty.Name</td>
+                        <td>@faculty.Description</td>
                         <td>
 
-                            <a asp-controller="Manager" asp-action="Edit" asp-route-id="@faculity.Id" class="btn btn-primary">Edit</a>
-                            <a asp-controller="Manager" asp-action="Delete" asp-route-id="@faculity.Id" class="btn btn-danger">Delete</a>
+                            <a asp-controller="Manager" asp-action="Edit" asp-route-id="@faculty.Id" class="btn btn-primary">Edit</a>
+                            <a asp-controller="Manager" asp-action="Delete" asp-route-id="@faculty.Id" class="btn btn-danger">Delete</a>
 
                         </td>
                     </tr>

@@ -1,0 +1,35 @@
+﻿@model List<Article>
+
+<div class="container mt-5">
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Image</th>
+                <th>Doc File</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var article in Model)
+            {
+                <tr>
+                    <td>@article.Title</td>
+                    <td>@article.Description</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(article.ImageUrl))
+                        {
+                            <img src="@Url.Content(article.ImageUrl)" alt="Article Image" class="img-thumbnail" width="100" height="100" />
+                        }
+                    </td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(article.DocxUrl))
+                        {
+                            <a href="@Url.Action("DownloadDocInZip", "Manager", new { id = article.Id })" class="btn btn-primary">Download File</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
