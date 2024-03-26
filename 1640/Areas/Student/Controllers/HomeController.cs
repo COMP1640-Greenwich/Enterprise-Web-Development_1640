@@ -1,7 +1,9 @@
+using _1640.Data;
 using _1640.Models;
 using _1640.Repository.IRepository;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace _1640.Areas.Student.Controllers
@@ -10,19 +12,18 @@ namespace _1640.Areas.Student.Controllers
     public class HomeController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _db;
 
-        public HomeController(IUnitOfWork unitOfWork,ILogger<HomeController> logger)
+        public HomeController(IUnitOfWork unitOfWork,ILogger<HomeController> logger, ApplicationDbContext db)
         {
             _unitOfWork = unitOfWork;
             _logger = logger;
+            _db = db;
         }
-
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            List<Article> articles = _unitOfWork.ArticleRepository.GetAll().ToList();
-            return View(articles);
+            return View(await _db.Articles.Where(x => x.Status == Article.StatusArticle.Approve).ToListAsync());
         }
 
         public IActionResult Privacy()

@@ -1,4 +1,4 @@
-﻿@model Article
+﻿@model _1640.Models.Article
 <form method="post" enctype="multipart/form-data">
     <div class="row p-3 border bg-white">
         <div class="col-12">
@@ -55,8 +55,9 @@
             <div class="col-8 offset-5">
                  <div class="row">
                     <div class="col mt-3">
-                        <button type="submit" class="btn btn-outline-success">Submit</button>
+                        @* <button type="submit" class="btn btn-outline-success">Submit</button> *@
                         <a asp-controller="Article" asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+                        <input onclick="return confirm('Ask Coordinator for approve new an Article?')" type="submit" value="Create" class="btn btn-primary" style="background: #007a33" />
                     </div>
                  </div>
              </div>

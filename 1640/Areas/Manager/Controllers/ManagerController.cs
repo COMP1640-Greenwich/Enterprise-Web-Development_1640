@@ -7,11 +7,6 @@ namespace _1640.Areas.Manager.Controllers
     [Area("Manager")]
     public class ManagerController : Controller
     {
-        //private readonly ApplicationDbContext _db;
-        //public ManagerController(ApplicationDbContext db)
-        //{
-        //    _db = db;
-        //}
         private readonly IUnitOfWork _unitOfWork;
         public ManagerController(IUnitOfWork unitOfWork)
         {
@@ -32,8 +27,6 @@ namespace _1640.Areas.Manager.Controllers
         {
             if (ModelState.IsValid)
             {
-                //_db.Faculities.Add(faculity);
-                //_db.SaveChanges();
                 _unitOfWork.FaculityRepository.Add(faculity);
                 _unitOfWork.Save();
                 TempData["success"] = "Faculity create successfully";
@@ -59,8 +52,6 @@ namespace _1640.Areas.Manager.Controllers
         {
             if (ModelState.IsValid)
             {
-                //_db.Faculities.Update(faculity);
-                //_db.SaveChanges();
                 _unitOfWork.FaculityRepository.Update(faculity);
                 _unitOfWork.Save();
                 TempData["success"] = "Faculity update successfully";
