@@ -3,6 +3,7 @@ using _1640.Data;
 using _1640.Models;
 using _1640.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace _1640.Areas.Student.Controllers
 {
@@ -12,16 +13,19 @@ namespace _1640.Areas.Student.Controllers
         private readonly IUnitOfWork _unitOfWork;
         
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public ArticleController( IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
+     
+        public ArticleController( IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment )
         {
             _unitOfWork = unitOfWork;
             _webHostEnvironment = webHostEnvironment;
+  
         }
         public IActionResult Index()
         {
             List<Article> articles = _unitOfWork.ArticleRepository.GetAll().ToList();
             return View(articles);
         }
+            
         public IActionResult Create()        
         {
             var model = new Article()
@@ -32,13 +36,18 @@ namespace _1640.Areas.Student.Controllers
             return View(model);
 
         }
+        //create a request
         [HttpPost]
-        public IActionResult Create(Article article, IFormFile? file, IFormFile? file1)
+        public async Task<IActionResult> Create(Article article, IFormFile? file, IFormFile? file1)
         {
-            
-
             if (ModelState.IsValid)
             {
+                //set a new article to pending status
+                article.Status = Article.StatusArticle.Pending;
+                _unitOfWork.ArticleRepository.Add(article);
+                _unitOfWork.Save();
+                TempData["ShowMessage"] = true;
+                
                 var isBlogActive = article.IsBlogActive;
                 if (isBlogActive == true)
                 {
@@ -91,10 +100,11 @@ namespace _1640.Areas.Student.Controllers
                     return View(article);
                 }
 
-
+                    
                     _unitOfWork.ArticleRepository.Update(article);
                     _unitOfWork.Save();
-                    TempData["success"] = "Article Created successfully";
+                    TempData["success"] = "Send add article request successfully";
+                    TempData["ShowMessage"] = true;
                     return RedirectToAction("Index");
                 }
                 else

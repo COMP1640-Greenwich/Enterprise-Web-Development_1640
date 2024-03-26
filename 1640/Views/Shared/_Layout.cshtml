@@ -48,8 +48,12 @@
                         @if (User.IsInRole("Coordinator"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="Coordinator" asp-controller="Coordinator" asp-action="Index">Coordinator function</a>
+                                <a class="nav-link" asp-area="Coordinator" asp-controller="Coordinator" asp-action="Index">Create Semester</a>
                             </li>
+                            <li class="nav-item">
+                                    <a class="nav-link" asp-area="Coordinator" asp-controller="Coordinator" asp-action="Requests">Request</a>
+                            </li>
+                          
                         }
                         @if (User.IsInRole("Manager"))
                         {

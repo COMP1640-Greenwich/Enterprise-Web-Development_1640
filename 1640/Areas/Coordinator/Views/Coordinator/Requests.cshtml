@@ -1,0 +1,44 @@
+﻿@model IEnumerable<_1640.Models.Article>
+<div class="row-pt-4 mt-2">
+    <div>
+        <h2 style="color:red"> List of Request</h2>
+    </div>
+    <div>
+    <table class="table table-bordered">
+        <thread>
+            <tr>
+                <td>Title</td>
+                <td>Description</td>
+                <td>ImageUrl</td>
+                <td>DocxUrly</td>
+                <td>Action</td>
+            </tr>
+        </thread>
+        <tbody>
+            @foreach(var item in Model)
+            {
+                <tr>
+                    <td>@item.Title</td>
+                    <td>@item.Description</td>
+                    <td>@item.ImageUrl</td>
+                    <td>@item.DocxUrl</td>
+                    <td class="request-accept">
+                        <a asp-area="Coordinator" asp-controller="Coordinator" asp-action="Approve" asp-route-id="@item.Id" style="color: greenyellow"> Approve |</a> 
+                        <a asp-area="Coordinator" asp-controller="Coordinator" asp-action="Reject" asp-route-id="@item.Id" style="color: red"> Reject </a>
+                    </td>
+
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+
+</div>
+</div>
+@* java scripts *@
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

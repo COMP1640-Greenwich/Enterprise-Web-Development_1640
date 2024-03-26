@@ -19,5 +19,14 @@ namespace _1640.Models
         [ValidateNever]
         public string? DocxUrl { get; set; }
         public bool IsBlogActive { get; set; }
+        public enum StatusArticle
+        {
+            Approve,
+            Reject,
+            Pending
+        }
+
+        [Required]
+        public StatusArticle Status { get; set; }
     }
 }

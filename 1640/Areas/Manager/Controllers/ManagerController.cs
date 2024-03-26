@@ -8,11 +8,6 @@ namespace _1640.Areas.Manager.Controllers
     [Area("Manager")]
     public class ManagerController : Controller
     {
-        //private readonly ApplicationDbContext _db;
-        //public ManagerController(ApplicationDbContext db)
-        //{
-        //    _db = db;
-        //}
         private readonly IUnitOfWork _unitOfWork;
         private readonly IWebHostEnvironment _hostingEnvironment;
 
@@ -86,17 +81,17 @@ namespace _1640.Areas.Manager.Controllers
         }
         public IActionResult Edit(int? id)
         {
-            Faculty faculity = new Faculty();
+            Faculty faculty = new Faculty();
             if (id == null || id == 0)
             {
                 return NotFound();
             }
-            faculity = _unitOfWork.FacultyRepository.Get(f => f.Id == id);
-            if (faculity == null)
+            faculty = _unitOfWork.FacultyRepository.Get(f => f.Id == id);
+            if (faculty == null)
             {
                 return NotFound();
             }
-            return View(faculity);
+            return View(faculty);
         }
         [HttpPost]
         public IActionResult Edit(Faculty faculity)

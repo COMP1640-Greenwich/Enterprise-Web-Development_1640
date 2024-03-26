@@ -254,6 +254,9 @@ namespace _1640.Migrations
                     b.Property<bool>("IsBlogActive")
                         .HasColumnType("bit");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
