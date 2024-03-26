@@ -1,6 +1,7 @@
 ﻿using _1640.Repository.IRepository;
 using _1640.Models;
 using Microsoft.AspNetCore.Mvc;
+using _1640.Areas.Repository.IRepository;
 
 namespace _1640.Areas.Manager.Controllers
 {
@@ -14,7 +15,7 @@ namespace _1640.Areas.Manager.Controllers
         }
         public IActionResult Index()
         {
-            List<Faculity> faculities = _unitOfWork.FaculityRepository.GetAll().ToList();
+            List<Faculty> faculities = _unitOfWork.FacultyRepository.GetAll().ToList();
             return View(faculities);
         }
 
@@ -23,62 +24,62 @@ namespace _1640.Areas.Manager.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(Faculity faculity)
+        public IActionResult Create(Faculty faculty)
         {
             if (ModelState.IsValid)
             {
-                _unitOfWork.FaculityRepository.Add(faculity);
+                _unitOfWork.FacultyRepository.Add(faculty);
                 _unitOfWork.Save();
-                TempData["success"] = "Faculity create successfully";
+                TempData["success"] = "Faculty create successfully";
             }
             return RedirectToAction("Index");
         }
         public IActionResult Edit(int? id)
         {
-            Faculity faculity = new Faculity();
+            Faculty faculty = new Faculty();
             if (id == null || id == 0)
             {
                 return NotFound();
             }
-            faculity = _unitOfWork.FaculityRepository.Get(f => f.Id == id);
-            if (faculity == null)
+            faculty = _unitOfWork.FacultyRepository.Get(f => f.Id == id);
+            if (faculty == null)
             {
                 return NotFound();
             }
-            return View(faculity);
+            return View(faculty);
         }
         [HttpPost]
-        public IActionResult Edit(Faculity faculity)
+        public IActionResult Edit(Faculty faculty)
         {
             if (ModelState.IsValid)
             {
-                _unitOfWork.FaculityRepository.Update(faculity);
+                _unitOfWork.FacultyRepository.Update(faculty);
                 _unitOfWork.Save();
-                TempData["success"] = "Faculity update successfully";
+                TempData["success"] = "Faculty update successfully";
                 return RedirectToAction("Index");
             }
-            return View(faculity);
+            return View(faculty);
         }
         public IActionResult Delete(int id)
         {
-            Faculity faculity = new Faculity();
+            Faculty faculty = new Faculty();
             if (id == 0 || id == null)
             {
                 return NotFound();
             }
-            faculity = _unitOfWork.FaculityRepository.Get(f => f.Id == id);
-            if (faculity == null)
+            faculty = _unitOfWork.FacultyRepository.Get(f => f.Id == id);
+            if (faculty == null)
             {
                 return NotFound();
             }
-            return View(faculity);
+            return View(faculty);
         }
         [HttpPost]
-        public IActionResult Delete(Faculity faculity)
+        public IActionResult Delete(Faculty faculty)
         {
-            _unitOfWork.FaculityRepository.Delete(faculity);
+            _unitOfWork.FacultyRepository.Delete(faculty);
             _unitOfWork.Save();
-            TempData["success"] = "Faculity deleted successfully";
+            TempData["success"] = "Faculty deleted successfully";
             return RedirectToAction("Index");
         }
 
