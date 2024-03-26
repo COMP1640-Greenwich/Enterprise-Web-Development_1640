@@ -131,18 +131,16 @@ namespace _1640.Areas.Student.Controllers
         }
         
 
-        public ActionResult ViewFeedBack(int? id)
+        public ActionResult ViewFeedBack(int id)
         {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-            else
-            {
 
-                List<Comment> comments = _dbContext.Comments.ToList();
+
+                Comment comment = new Comment();
+                comment.ArticleId = id;
+                List<Comment> comments = _dbContext.Comments.Where(c => c.ArticleId == id).ToList();
+                ViewBag.ArticleId = id;
                 return View(comments);
-            }
+            
         }
     }
 }

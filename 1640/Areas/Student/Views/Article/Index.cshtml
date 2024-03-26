@@ -27,14 +27,6 @@
                             </div>
                             <div class="row">
                                 <div class="col-4"></div>
-                                @if (User.IsInRole("Coordinator"))
-                                {
-                                <div class="col-4">
-                                   <a asp-area="Coordinator" asp-controller="Coordinator" asp-action="AddFeedBack" asp-route-id="@Article.Id"class="btn btn-success btn-rounded">
-                                   <i class="fa-solid fa-comment-medical"></i> Add Feedback  
-                                   </a>
-                                </div>
-                                }
                                 @if (User.IsInRole("Student"))
                                 {
                                 <div class="col-4">

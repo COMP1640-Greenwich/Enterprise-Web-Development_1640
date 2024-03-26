@@ -15,7 +15,7 @@
         
             <div class="col-md-6">
                 <label for="ImageUrl" class="form-label">ImageUrl</label>
-                <input type="file" name="file" class="form-control" />
+                <input type="file" name="file" class="form-control" accept=".png, .jpg"/>
                 <span asp-validation-for="Article.ImageUrl" class="text-danger"></span>
             </div>
         </div>
@@ -27,7 +27,7 @@
             </div>
              <div class="col-md-6">
                 <label for="DocxUrl" class="form-label">DocxUrl</label>
-                <input type="file" name="file1" class="form-control" />
+                <input type="file" name="file1" class="form-control" accept=".docx" />
                 <span asp-validation-for="Article.DocxUrl" class="text-danger"></span>
             </div>
         </div>
@@ -58,9 +58,9 @@
             <div class="col-8 offset-5">
                  <div class="row">
                     <div class="col mt-3">
-                        @* <button type="submit" class="btn btn-outline-success">Submit</button> *@
+                        <input onclick="return confirm('Ask Coordinator for approve new an Article?')" type="submit" value="Submit" class="btn btn-outline-success"/>
                         <a asp-controller="Article" asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
-                        <input onclick="return confirm('Ask Coordinator for approve new an Article?')" type="submit" value="Create" class="btn btn-primary" style="background: #007a33" />
+                        
                     </div>
                  </div>
              </div>

@@ -123,14 +123,18 @@ namespace _1640.Areas.Coordinator.Controllers
             TempData["success"] = "Delete semester successfully";
             return RedirectToAction("Index");
         }
-        public ActionResult AddFeedBack(int? id)
+        public ActionResult AddFeedBack(int id)
         {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-            List<Comment> comments = _dbContext.Comments.ToList();
+            //if (id == null || id == 0)
+            //{
+            //    return NotFound();
+            //}
+            Comment comment = new Comment();
+            comment.ArticleId = id;
+            List<Comment> comments = _dbContext.Comments.Where(c => c.ArticleId == id).ToList();
+            ViewBag.ArticleId = id;
             return View(comments);
+            
         }
         [HttpPost]
         public ActionResult AddFeedBack(int id, string articleFB)
@@ -141,7 +145,7 @@ namespace _1640.Areas.Coordinator.Controllers
             comment.CommentOn = DateTime.Now;
             _dbContext.Comments.Add(comment);
             _dbContext.SaveChanges();
-            return RedirectToAction("AddFeedBack");
+            return RedirectToAction("Requests");
         }
         // list of request article for Coordinator
         [Authorize(Roles = Constraintt.CoordinatorRole)]
