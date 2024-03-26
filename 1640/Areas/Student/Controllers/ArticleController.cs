@@ -27,7 +27,7 @@ namespace _1640.Areas.Student.Controllers
             List<Article> articles = _unitOfWork.ArticleRepository.GetAll("Semester").ToList();
             return View(articles);
         }
-        public IActionResult Create(int? id)        
+        public IActionResult Create()        
         {
             ArticleVM articleVM = new ArticleVM()
             {
@@ -37,14 +37,10 @@ namespace _1640.Areas.Student.Controllers
                     Value = c.Id.ToString(),
                 }),
                 Article = new Article()
-                //{
-                //    IsBlogActive = false
-                //}
+                {
+                    IsBlogActive = false
+                }
             };
-            if (id == null || id == 0)
-            {
-                return View(articleVM);
-            }
             return View(articleVM);
 
 
