@@ -1,7 +1,7 @@
-﻿using _1640.Repository.IRepository;
+﻿using _1640.Areas.Repository.IRepository;
 using _1640.Models;
 using Microsoft.AspNetCore.Mvc;
-using _1640.Areas.Repository.IRepository;
+using System.IO.Compression;
 
 namespace _1640.Areas.Manager.Controllers
 {
@@ -9,9 +9,12 @@ namespace _1640.Areas.Manager.Controllers
     public class ManagerController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-        public ManagerController(IUnitOfWork unitOfWork)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+
+        public ManagerController(IUnitOfWork unitOfWork, IWebHostEnvironment hostingEnvironment)
         {
             _unitOfWork = unitOfWork;
+            _hostingEnvironment = hostingEnvironment;
         }
         public IActionResult Index()
         {
@@ -19,67 +22,111 @@ namespace _1640.Areas.Manager.Controllers
             return View(faculities);
         }
 
+        public IActionResult List()
+        {
+            List<Article> articles = _unitOfWork.ArticleRepository.GetAll().ToList();
+            return View(articles);
+        }
+
+        public IActionResult DownloadDocInZip(int id)
+        {
+            var article = _unitOfWork.ArticleRepository.Get(a => a.Id == id);
+            if (article == null || (string.IsNullOrEmpty(article.DocxUrl) && string.IsNullOrEmpty(article.ImageUrl)))
+            {
+                return NotFound();
+            }
+
+            var zipPath = Path.GetTempFileName() + ".zip";
+            using (var zip = ZipFile.Open(zipPath, ZipArchiveMode.Create))
+            {
+                if (!string.IsNullOrEmpty(article.DocxUrl))
+                {
+                    var docPath = Path.Combine(_hostingEnvironment.WebRootPath, article.DocxUrl.TrimStart('\\'));
+                    if (System.IO.File.Exists(docPath))
+                    {
+                        zip.CreateEntryFromFile(docPath, Path.GetFileName(docPath));
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(article.ImageUrl))
+                {
+                    var imagePath = Path.Combine(_hostingEnvironment.WebRootPath, article.ImageUrl.TrimStart('\\'));
+                    if (System.IO.File.Exists(imagePath))
+                    {
+                        zip.CreateEntryFromFile(imagePath, Path.GetFileName(imagePath));
+                    }
+                }
+            }
+
+            var zipBytes = System.IO.File.ReadAllBytes(zipPath);
+            return File(zipBytes, "application/zip", "doc.zip");
+        }
+
         public IActionResult Create()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult Create(Faculty faculty)
+        public IActionResult Create(Faculty faculity)
         {
             if (ModelState.IsValid)
             {
-                _unitOfWork.FacultyRepository.Add(faculty);
+                //_db.Faculities.Add(faculity);
+                //_db.SaveChanges();
+                _unitOfWork.FaculityRepository.Add(faculity);
                 _unitOfWork.Save();
-                TempData["success"] = "Faculty create successfully";
+                TempData["success"] = "Faculity create successfully";
             }
             return RedirectToAction("Index");
         }
         public IActionResult Edit(int? id)
         {
-            Faculty faculty = new Faculty();
+            Faculity faculity = new Faculity();
             if (id == null || id == 0)
             {
                 return NotFound();
             }
-            faculty = _unitOfWork.FacultyRepository.Get(f => f.Id == id);
-            if (faculty == null)
+            faculity = _unitOfWork.FacultyRepository.Get(f => f.Id == id);
+            if (faculity == null)
             {
                 return NotFound();
             }
             return View(faculty);
         }
         [HttpPost]
-        public IActionResult Edit(Faculty faculty)
+        public IActionResult Edit(Faculty faculity)
         {
             if (ModelState.IsValid)
             {
-                _unitOfWork.FacultyRepository.Update(faculty);
+                //_db.Faculities.Update(faculity);
+                //_db.SaveChanges();
+                _unitOfWork.FacultyRepository.Update(faculity);
                 _unitOfWork.Save();
-                TempData["success"] = "Faculty update successfully";
+                TempData["success"] = "Faculity update successfully";
                 return RedirectToAction("Index");
             }
-            return View(faculty);
+            return View(faculity);
         }
         public IActionResult Delete(int id)
         {
-            Faculty faculty = new Faculty();
+            Faculty faculity = new Faculty();
             if (id == 0 || id == null)
             {
                 return NotFound();
             }
-            faculty = _unitOfWork.FacultyRepository.Get(f => f.Id == id);
-            if (faculty == null)
+            faculity = _unitOfWork.FacultyRepository.Get(f => f.Id == id);
+            if (faculity == null)
             {
                 return NotFound();
             }
-            return View(faculty);
+            return View(faculity);
         }
         [HttpPost]
-        public IActionResult Delete(Faculty faculty)
+        public IActionResult Delete(Faculty faculity)
         {
-            _unitOfWork.FacultyRepository.Delete(faculty);
+            _unitOfWork.FacultyRepository.Delete(faculity);
             _unitOfWork.Save();
-            TempData["success"] = "Faculty deleted successfully";
+            TempData["success"] = "Faculity deleted successfully";
             return RedirectToAction("Index");
         }
 
