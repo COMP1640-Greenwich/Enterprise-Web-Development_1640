@@ -73,7 +73,7 @@ namespace _1640.Areas.Manager.Controllers
             {
                 //_db.Faculities.Add(faculity);
                 //_db.SaveChanges();
-                _unitOfWork.FaculityRepository.Add(faculity);
+                _unitOfWork.FacultyRepository.Add(faculity);
                 _unitOfWork.Save();
                 TempData["success"] = "Faculity create successfully";
             }
@@ -81,13 +81,13 @@ namespace _1640.Areas.Manager.Controllers
         }
         public IActionResult Edit(int? id)
         {
-            Faculity faculity = new Faculity();
+            Faculty faculty = new Faculty();
             if (id == null || id == 0)
             {
                 return NotFound();
             }
-            faculity = _unitOfWork.FacultyRepository.Get(f => f.Id == id);
-            if (faculity == null)
+            faculty = _unitOfWork.FacultyRepository.Get(f => f.Id == id);
+            if (faculty == null)
             {
                 return NotFound();
             }
