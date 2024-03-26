@@ -5,19 +5,20 @@ using _1640.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using _1640.Areas.Repository.IRepository;
+using Microsoft.EntityFrameworkCore;
 
 namespace _1640.Areas.Coordinator.Controllers
 {
     [Area("Coordinator")]
     public class CoordinatorController : Controller
     {
-        private readonly ApplicationDbContext _db;
         //private readonly ISemesterRepository SemesterRepository;
+        private readonly ApplicationDbContext _dbContext;
         private readonly IUnitOfWork _unitOfWork;
-        public CoordinatorController(IUnitOfWork unitOfWork, ApplicationDbContext db)
+        public CoordinatorController(ApplicationDbContext dbContext, IUnitOfWork unitOfWork)
         {
+            _dbContext = dbContext;
             _unitOfWork = unitOfWork;
-            _db = db;
         }
         public IActionResult Index()
         {
@@ -120,5 +121,22 @@ namespace _1640.Areas.Coordinator.Controllers
             TempData["success"] = "Delete semester successfully";
             return RedirectToAction("Index");
         }
+        public ActionResult AddFeedBack(int id)
+        {
+            List<Comment> comments = _dbContext.Comments.ToList();
+            return View(comments);
+        }
+        [HttpPost]
+        public ActionResult AddFeedBack(int id, string articleFB)
+        {
+            Comment comment = new Comment();
+            comment.ArticleId = id;
+            comment.Text = articleFB;
+            comment.CommentOn = DateTime.Now;
+            _dbContext.Comments.Add(comment);
+            _dbContext.SaveChanges();
+            return RedirectToAction("AddFeedBack");
+        }
+
     }
 }

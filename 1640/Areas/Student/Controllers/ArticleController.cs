@@ -1,45 +1,62 @@
 ﻿using _1640.Areas.Repository.IRepository;
 using _1640.Data;
 using _1640.Models;
+using _1640.Models.VM;
 using _1640.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace _1640.Areas.Student.Controllers
 {
     [Area("Student")]
     public class ArticleController : Controller
     {
+        private readonly ApplicationDbContext _dbContext;
         private readonly IUnitOfWork _unitOfWork;
         
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public ArticleController( IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
+        public ArticleController(ApplicationDbContext dbContext, IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
         {
+            _dbContext = dbContext;
             _unitOfWork = unitOfWork;
             _webHostEnvironment = webHostEnvironment;
         }
         public IActionResult Index()
         {
-            List<Article> articles = _unitOfWork.ArticleRepository.GetAll().ToList();
+            List<Article> articles = _unitOfWork.ArticleRepository.GetAll("Semester").ToList();
             return View(articles);
         }
-        public IActionResult Create()        
+        public IActionResult Create(int? id)        
         {
-            var model = new Article()
+            ArticleVM articleVM = new ArticleVM()
             {
-                IsBlogActive = false
+                Semesters = _unitOfWork.SemesterRepository.GetAllOpening().Select(c => new SelectListItem
+                {
+                    Text = c.Name,
+                    Value = c.Id.ToString(),
+                }),
+                Article = new Article()
+                //{
+                //    IsBlogActive = false
+                //}
             };
+            if (id == null || id == 0)
+            {
+                return View(articleVM);
+            }
+            return View(articleVM);
 
-            return View(model);
 
         }
         [HttpPost]
-        public IActionResult Create(Article article, IFormFile? file, IFormFile? file1)
+        public IActionResult Create(ArticleVM articleVM, IFormFile? file, IFormFile? file1)
         {
             
 
             if (ModelState.IsValid)
             {
-                var isBlogActive = article.IsBlogActive;
+                var isBlogActive = articleVM.Article.IsBlogActive;
                 if (isBlogActive == true)
                 {
                     string wwwRootPath = _webHostEnvironment.WebRootPath;
@@ -48,9 +65,9 @@ namespace _1640.Areas.Student.Controllers
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
                     string imagePath = Path.Combine(wwwRootPath, @"images\articles");
 
-                    if (!string.IsNullOrEmpty(article.ImageUrl))
+                    if (!string.IsNullOrEmpty(articleVM.Article.ImageUrl))
                     {
-                        var oldImagePath = Path.Combine(wwwRootPath, article.ImageUrl.TrimStart('\\'));
+                        var oldImagePath = Path.Combine(wwwRootPath, articleVM.Article.ImageUrl.TrimStart('\\'));
                         if (System.IO.File.Exists(oldImagePath))
                         {
                             System.IO.File.Delete(oldImagePath);
@@ -60,20 +77,20 @@ namespace _1640.Areas.Student.Controllers
                     {
                         file.CopyTo(fileStream);
                     }
-                    article.ImageUrl = @"\images\articles\" + fileName;
+                    articleVM.Article.ImageUrl = @"\images\articles\" + fileName;
                 }
                 else
                 {
                     TempData["error"] = "You must insert file image.";
-                    return View(article);
+                    return View(articleVM);
                 }
                 if (file1 != null)
                 {
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file1.FileName);
                     string docxPath = Path.Combine(wwwRootPath, @"docx");
-                    if (!string.IsNullOrEmpty(article.DocxUrl))
+                    if (!string.IsNullOrEmpty(articleVM.Article.DocxUrl))
                     {
-                        var old1ImagePath = Path.Combine(wwwRootPath, article.DocxUrl.TrimStart('\\'));
+                        var old1ImagePath = Path.Combine(wwwRootPath, articleVM.Article.DocxUrl.TrimStart('\\'));
                         if (System.IO.File.Exists(old1ImagePath))
                         {
                             System.IO.File.Delete(old1ImagePath);
@@ -83,16 +100,16 @@ namespace _1640.Areas.Student.Controllers
                     {
                         file1.CopyTo(fileStream);
                     }
-                    article.DocxUrl = @"\docx\" + fileName;
+                    articleVM.Article.DocxUrl = @"\docx\" + fileName;
                 }
                 else
                 {
                     TempData["error"] = "You must insert file doxc.";
-                    return View(article);
+                    return View(articleVM);
                 }
 
 
-                    _unitOfWork.ArticleRepository.Update(article);
+                    _unitOfWork.ArticleRepository.Add(articleVM.Article);
                     _unitOfWork.Save();
                     TempData["success"] = "Article Created successfully";
                     return RedirectToAction("Index");
@@ -101,31 +118,27 @@ namespace _1640.Areas.Student.Controllers
                 {
 
                     TempData["error"] = "You must agree to our Terms and Conditions.";
-                    return View(article);
+                    return View(articleVM);
                 }
             }
-
-                return View(article); 
+            ArticleVM articleVMNew = new ArticleVM()
+            {
+                Semesters = _unitOfWork.SemesterRepository.GetAllOpening().Select(c => new SelectListItem
+                {
+                    Text = c.Name,
+                    Value = c.Id.ToString(),
+                }),
+                Article = new Article()
+            };
+            return View(articleVMNew); 
             
         }
+        
 
-        public IActionResult Detail(int? id)
+        public ActionResult ViewFeedBack(int id)
         {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-
-            }
-
-            Article? article = _unitOfWork.ArticleRepository.Get(a => a.Id == id);
-            if (article == null)
-            {
-                return NotFound();
-            }
-            return View(article);
+                List<Comment> comments = _dbContext.Comments.ToList();
+            return View(comments);
         }
-
-
-
     }
 }

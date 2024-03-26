@@ -254,13 +254,41 @@ namespace _1640.Migrations
                     b.Property<bool>("IsBlogActive")
                         .HasColumnType("bit");
 
+                    b.Property<int>("SemesterId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("SemesterId");
+
                     b.ToTable("Articles");
+                });
+
+            modelBuilder.Entity("_1640.Models.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ArticleId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CommentOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("_1640.Models.Faculty", b =>
@@ -383,6 +411,17 @@ namespace _1640.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("_1640.Models.Article", b =>
+                {
+                    b.HasOne("_1640.Models.Semester", "Semester")
+                        .WithMany()
+                        .HasForeignKey("SemesterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Semester");
                 });
 
             modelBuilder.Entity("_1640.Models.Semester", b =>

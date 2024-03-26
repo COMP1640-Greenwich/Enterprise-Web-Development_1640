@@ -67,7 +67,6 @@
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="mb-4">Tên Đây Nè</h6>
-                                                @* <a asp-controller="Article" asp-action="Detail" asp-route-id="@Article.Id" class="my-4 pb-1"></a> *@
                                             </div>
                                         </div>
                                         <hr>
@@ -78,11 +77,27 @@
                                                 <img src="@Article.ImageUrl" class="img-fluid py-3" style="width:700px;height:400px;" />
                                             </div>
                                             <div class="row">
-                                                <div class="col-9"></div>
+                                                <div class="col-5"></div>
+                                                @if (User.IsInRole("Coordinator"))
+                                                {
+                                                    <div class="col-4">
+                                                        <a asp-area="Coordinator" asp-controller="Coordinator" asp-action="AddFeedBack" asp-route-id="@Article.Id"class="btn btn-success btn-rounded">
+                                                            <i class="fa-solid fa-comment-medical"></i> Add Feedback  
+                                                        </a>
+                                                    </div>
+                                                }
+                                                @if (User.IsInRole("Student"))
+                                                {
+                                                    <div class="col-4">
+                                                        <a asp-controller="Article" asp-action="ViewFeedBack" asp-route-id="@Article.Id"class="btn btn-success btn-rounded">
+                                                            <i class="fa-regular fa-eye"></i> View Feedback  
+                                                        </a>
+                                                    </div>
+                                                }
                                                 <div class="col-3">
-                                                    <button type="button" class="btn btn-success btn-rounded" href="@Article.DocxUrl" formtarget="_blank">
+                                                    <a type="button" class="btn btn-success btn-rounded" href="@Article.DocxUrl" formtarget="_blank">
                                                         <i class="fa-solid fa-cloud-arrow-down"></i>  Download
-                                                    </button>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>

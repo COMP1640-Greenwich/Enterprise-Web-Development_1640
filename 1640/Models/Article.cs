@@ -19,5 +19,10 @@ namespace _1640.Models
         [ValidateNever]
         public string? DocxUrl { get; set; }
         public bool IsBlogActive { get; set; }
+        [ValidateNever]
+        public int SemesterId { get; set; }
+        [ForeignKey("SemesterId")]
+        [ValidateNever]
+        public Semester Semester { get; set; }
     }
 }

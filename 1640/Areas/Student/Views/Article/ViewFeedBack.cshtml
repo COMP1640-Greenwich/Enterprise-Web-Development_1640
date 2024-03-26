@@ -1,0 +1,22 @@
+﻿@model List<Comment>
+@{
+	ViewBag.Title = "Show FeedBack";
+}
+
+<h2>Show FeedBack</h2>
+@foreach (var item in Model)
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <div class="comment">
+                    <h8>-----------------------------------------------------------</h8>
+                    <h4>@item.Text</h4>
+                    <h8>@item.CommentOn.ToString("HH: mm tt dd - MM - yyyy")</h8>
+                    <br />
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
