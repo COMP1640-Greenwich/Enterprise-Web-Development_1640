@@ -24,5 +24,14 @@ namespace _1640.Models
         [ForeignKey("SemesterId")]
         [ValidateNever]
         public Semester Semester { get; set; }
+
+        public enum StatusArticle
+        {
+            Approve,
+            Reject,
+            Pending
+        }
+        [Required]
+        public StatusArticle Status { get; set; }
     }
 }

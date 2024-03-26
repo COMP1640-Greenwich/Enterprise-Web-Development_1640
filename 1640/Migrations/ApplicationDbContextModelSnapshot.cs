@@ -257,6 +257,9 @@ namespace _1640.Migrations
                     b.Property<int>("SemesterId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

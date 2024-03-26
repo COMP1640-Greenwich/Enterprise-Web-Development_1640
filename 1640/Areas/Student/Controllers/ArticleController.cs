@@ -24,7 +24,7 @@ namespace _1640.Areas.Student.Controllers
         }
         public IActionResult Index()
         {
-            List<Article> articles = _unitOfWork.ArticleRepository.GetAll("Semester").ToList();
+            List<Article> articles = _unitOfWork.ArticleRepository.GetAllApprove("Semester").ToList();
             return View(articles);
         }
         public IActionResult Create()        
@@ -48,7 +48,6 @@ namespace _1640.Areas.Student.Controllers
         [HttpPost]
         public IActionResult Create(ArticleVM articleVM, IFormFile? file, IFormFile? file1)
         {
-            
 
             if (ModelState.IsValid)
             {
@@ -103,7 +102,8 @@ namespace _1640.Areas.Student.Controllers
                     TempData["error"] = "You must insert file doxc.";
                     return View(articleVM);
                 }
-
+                    //set a new article to pending status
+                    articleVM.Article.Status = Article.StatusArticle.Pending;
 
                     _unitOfWork.ArticleRepository.Add(articleVM.Article);
                     _unitOfWork.Save();
@@ -131,10 +131,18 @@ namespace _1640.Areas.Student.Controllers
         }
         
 
-        public ActionResult ViewFeedBack(int id)
+        public ActionResult ViewFeedBack(int? id)
         {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            else
+            {
+
                 List<Comment> comments = _dbContext.Comments.ToList();
-            return View(comments);
+                return View(comments);
+            }
         }
     }
 }
