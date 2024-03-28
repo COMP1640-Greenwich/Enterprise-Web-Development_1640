@@ -24,7 +24,7 @@ namespace _1640.Areas.Student.Controllers
         }
         public IActionResult Index()
         {
-            List<Article> articles = _unitOfWork.ArticleRepository.GetAllApprove("Semester").ToList();
+            List<Article> articles = _unitOfWork.ArticleRepository.GetAll().ToList();
             return View(articles);
         }
         public IActionResult Create()        
