@@ -112,6 +112,10 @@ namespace _1640.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
+                    if (Input.Role == "User")
+                    {
+                        await _userManager.AddToRolesAsync(user, new[] { "User" });
+                    }
                     if (Input.Role == "Student")
                     {
                         await _userManager.AddToRolesAsync(user, new[] { "Student" });
@@ -166,7 +170,7 @@ namespace _1640.Areas.Identity.Pages.Account
         {
             Input = new InputModel()
             {
-                SelectYourRole = _roleManager.Roles.Where(x => x.Name != "Admin")
+                SelectYourRole = _roleManager.Roles.Where(x => x.Name != "Admin").Where(y=>y.Name !="Manager")
                     .Select(x => x.Name).Select(x => new SelectListItem()
                     {
                         Text = x,
