@@ -19,5 +19,8 @@ namespace _1640.Models
         [NotMapped] public string Role { get; set; }
 
         public DateTime CreatedAt { get; set; }
+
+        public int? FacultyId { get; set; } = null;
+        public Faculty Faculty { get; set; }
     }
 }

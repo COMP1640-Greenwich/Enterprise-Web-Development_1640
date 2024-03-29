@@ -79,6 +79,17 @@
                                 </div>
                             </div>
 
+                            <div class="d-flex flex-row align-items-center mb-4">
+                                <i class="fa-solid fa-university fa-lg me-3 fa-fw"></i>
+                                <div class="form-outline flex-fill mb-0">
+                                    <label asp-for="Input.SelectedFacultyId">Faculty</label>
+                                    <select asp-for="Input.SelectedFacultyId" asp-items="Model.Input.Faculties" class="form-control border">
+                                        <option value="">Please select faculty</option>
+                                    </select>
+                                    <span asp-validation-for="Input.SelectedFacultyId" class="text-danger"></span>
+                                </div>
+                            </div>
+
                             <div class="form-check d-flex justify-content-center mb-5">
                                 <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3c" />
                                 <label class="form-check-label" for="form2Example3">

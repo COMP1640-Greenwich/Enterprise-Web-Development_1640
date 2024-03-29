@@ -358,9 +358,14 @@ namespace _1640.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("FacultyId")
+                        .HasColumnType("int");
+
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.HasIndex("FacultyId");
 
                     b.HasDiscriminator().HasValue("User");
                 });
@@ -434,6 +439,15 @@ namespace _1640.Migrations
                         .HasForeignKey("FacultyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Faculty");
+                });
+
+            modelBuilder.Entity("_1640.Models.User", b =>
+                {
+                    b.HasOne("_1640.Models.Faculty", "Faculty")
+                        .WithMany()
+                        .HasForeignKey("FacultyId");
 
                     b.Navigation("Faculty");
                 });

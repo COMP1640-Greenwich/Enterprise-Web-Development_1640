@@ -14,7 +14,7 @@ namespace _1640.Areas.Student.Controllers
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IUnitOfWork _unitOfWork;
-        
+
         private readonly IWebHostEnvironment _webHostEnvironment;
         public ArticleController(ApplicationDbContext dbContext, IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
         {
@@ -27,7 +27,7 @@ namespace _1640.Areas.Student.Controllers
             List<Article> articles = _unitOfWork.ArticleRepository.GetAllApprove("Semester").ToList();
             return View(articles);
         }
-        public IActionResult Create()        
+        public IActionResult Create()
         {
             ArticleVM articleVM = new ArticleVM()
             {
@@ -55,53 +55,53 @@ namespace _1640.Areas.Student.Controllers
                 if (isBlogActive == true)
                 {
                     string wwwRootPath = _webHostEnvironment.WebRootPath;
-                if (file != null)
-                {
-                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                    string imagePath = Path.Combine(wwwRootPath, @"images\articles");
+                    if (file != null)
+                    {
+                        string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                        string imagePath = Path.Combine(wwwRootPath, @"images\articles");
 
-                    if (!string.IsNullOrEmpty(articleVM.Article.ImageUrl))
-                    {
-                        var oldImagePath = Path.Combine(wwwRootPath, articleVM.Article.ImageUrl.TrimStart('\\'));
-                        if (System.IO.File.Exists(oldImagePath))
+                        if (!string.IsNullOrEmpty(articleVM.Article.ImageUrl))
                         {
-                            System.IO.File.Delete(oldImagePath);
+                            var oldImagePath = Path.Combine(wwwRootPath, articleVM.Article.ImageUrl.TrimStart('\\'));
+                            if (System.IO.File.Exists(oldImagePath))
+                            {
+                                System.IO.File.Delete(oldImagePath);
+                            }
                         }
-                    }
-                    using (var fileStream = new FileStream(Path.Combine(imagePath, fileName), FileMode.Create))
-                    {
-                        file.CopyTo(fileStream);
-                    }
-                    articleVM.Article.ImageUrl = @"\images\articles\" + fileName;
-                }
-                else
-                {
-                    TempData["error"] = "You must insert file image.";
-                    return View(articleVM);
-                }
-                if (file1 != null)
-                {
-                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file1.FileName);
-                    string docxPath = Path.Combine(wwwRootPath, @"docx");
-                    if (!string.IsNullOrEmpty(articleVM.Article.DocxUrl))
-                    {
-                        var old1ImagePath = Path.Combine(wwwRootPath, articleVM.Article.DocxUrl.TrimStart('\\'));
-                        if (System.IO.File.Exists(old1ImagePath))
+                        using (var fileStream = new FileStream(Path.Combine(imagePath, fileName), FileMode.Create))
                         {
-                            System.IO.File.Delete(old1ImagePath);
+                            file.CopyTo(fileStream);
                         }
+                        articleVM.Article.ImageUrl = @"\images\articles\" + fileName;
                     }
-                    using (var fileStream = new FileStream(Path.Combine(docxPath, fileName), FileMode.Create))
+                    else
                     {
-                        file1.CopyTo(fileStream);
+                        TempData["error"] = "You must insert file image.";
+                        return View(articleVM);
                     }
-                    articleVM.Article.DocxUrl = @"\docx\" + fileName;
-                }
-                else
-                {
-                    TempData["error"] = "You must insert file doxc.";
-                    return View(articleVM);
-                }
+                    if (file1 != null)
+                    {
+                        string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file1.FileName);
+                        string docxPath = Path.Combine(wwwRootPath, @"docx");
+                        if (!string.IsNullOrEmpty(articleVM.Article.DocxUrl))
+                        {
+                            var old1ImagePath = Path.Combine(wwwRootPath, articleVM.Article.DocxUrl.TrimStart('\\'));
+                            if (System.IO.File.Exists(old1ImagePath))
+                            {
+                                System.IO.File.Delete(old1ImagePath);
+                            }
+                        }
+                        using (var fileStream = new FileStream(Path.Combine(docxPath, fileName), FileMode.Create))
+                        {
+                            file1.CopyTo(fileStream);
+                        }
+                        articleVM.Article.DocxUrl = @"\docx\" + fileName;
+                    }
+                    else
+                    {
+                        TempData["error"] = "You must insert file doxc.";
+                        return View(articleVM);
+                    }
                     //set a new article to pending status
                     articleVM.Article.Status = Article.StatusArticle.Pending;
 
@@ -126,21 +126,21 @@ namespace _1640.Areas.Student.Controllers
                 }),
                 Article = new Article()
             };
-            return View(articleVMNew); 
-            
+            return View(articleVMNew);
+
         }
-        
+
 
         public ActionResult ViewFeedBack(int id)
         {
 
 
-                Comment comment = new Comment();
-                comment.ArticleId = id;
-                List<Comment> comments = _dbContext.Comments.Where(c => c.ArticleId == id).ToList();
-                ViewBag.ArticleId = id;
-                return View(comments);
-            
+            Comment comment = new Comment();
+            comment.ArticleId = id;
+            List<Comment> comments = _dbContext.Comments.Where(c => c.ArticleId == id).ToList();
+            ViewBag.ArticleId = id;
+            return View(comments);
+
         }
     }
 }

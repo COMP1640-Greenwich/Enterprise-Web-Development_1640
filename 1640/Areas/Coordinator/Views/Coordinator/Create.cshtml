@@ -24,11 +24,15 @@
             <select asp-for="Semester.FacultyId" asp-items="@Model.Faculties"></select>
              <span asp-validation-for="Semester.FacultyId" class="text-danger"></span>
         </div> 
-        <input hidden asp-for="Semester.Status" value="Opening" />
+        <div class="mb-3 row">
+            <label asp-for="Semester.Status"></label>
+            <input asp-for="Semester.Status" />
+             <span asp-validation-for="Semester.Status" class="text-danger"></span>
+        </div>
         <button type="submit" class="btn btn-primary">Create</button>
         <a asp-controller="Coordinator" asp-action="Index" class="btn btn-primary" >Back to list</a>
     </div>
- </form>
+    </form>
 
 @section Scripts {
     @{

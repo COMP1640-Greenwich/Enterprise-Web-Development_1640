@@ -1,4 +1,4 @@
-@model ArticleVM
+﻿@model ArticleVM
 <form method="post" enctype="multipart/form-data">
     <div class="row p-3 border bg-white">
         <div class="col-12">
@@ -12,10 +12,10 @@
                 <input asp-for="Article.Title" class="form-control" />
                 <span asp-validation-for="Article.Title" class="text-danger"></span>
             </div>
-        
+
             <div class="col-md-6">
                 <label for="ImageUrl" class="form-label">ImageUrl</label>
-                <input type="file" name="file" class="form-control" accept=".png, .jpg"/>
+                <input type="file" name="file" class="form-control" accept=".png, .jpg" />
                 <span asp-validation-for="Article.ImageUrl" class="text-danger"></span>
             </div>
         </div>
@@ -25,7 +25,7 @@
                 <textarea asp-for="Article.Description" class="form-control" rows="3"></textarea>
                 <span asp-validation-for="Article.Description" class="text-danger"></span>
             </div>
-             <div class="col-md-6">
+            <div class="col-md-6">
                 <label for="DocxUrl" class="form-label">DocxUrl</label>
                 <input type="file" name="file1" class="form-control" accept=".docx" />
                 <span asp-validation-for="Article.DocxUrl" class="text-danger"></span>
@@ -56,14 +56,14 @@
         </div>
         <div class="form-group row">
             <div class="col-8 offset-5">
-                 <div class="row">
+                <div class="row">
                     <div class="col mt-3">
-                        <input onclick="return confirm('Ask Coordinator for approve new an Article?')" type="submit" value="Submit" class="btn btn-outline-success"/>
+                        <input onclick="return confirm('Ask Coordinator for approve new an Article?')" type="submit" value="Submit" class="btn btn-outline-success" />
                         <a asp-controller="Article" asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
-                        
+
                     </div>
-                 </div>
-             </div>
+                </div>
+            </div>
         </div>
     </div>
 </form>

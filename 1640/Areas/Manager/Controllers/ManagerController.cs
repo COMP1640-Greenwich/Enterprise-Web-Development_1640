@@ -32,7 +32,7 @@ namespace _1640.Areas.Manager.Controllers
         [Route("List")]
         public IActionResult List()
         {
-            List<Article> articles = _unitOfWork.ArticleRepository.GetAll().ToList();
+            List<Article> articles = _unitOfWork.ArticleRepository.GetAllApprove("Semester").ToList();
             return View(articles);
         }
         [Route("List/id")]

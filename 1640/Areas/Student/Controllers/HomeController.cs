@@ -15,7 +15,7 @@ namespace _1640.Areas.Student.Controllers
 
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(IUnitOfWork unitOfWork,ILogger<HomeController> logger)
+        public HomeController(IUnitOfWork unitOfWork, ILogger<HomeController> logger)
         {
             _unitOfWork = unitOfWork;
             _logger = logger;

@@ -12,8 +12,8 @@ using _1640.Data;
 namespace _1640.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240326165242_Add")]
-    partial class Add
+    [Migration("20240329071657_abc")]
+    partial class abc
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -361,9 +361,14 @@ namespace _1640.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("FacultyId")
+                        .HasColumnType("int");
+
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.HasIndex("FacultyId");
 
                     b.HasDiscriminator().HasValue("User");
                 });
@@ -437,6 +442,15 @@ namespace _1640.Migrations
                         .HasForeignKey("FacultyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Faculty");
+                });
+
+            modelBuilder.Entity("_1640.Models.User", b =>
+                {
+                    b.HasOne("_1640.Models.Faculty", "Faculty")
+                        .WithMany()
+                        .HasForeignKey("FacultyId");
 
                     b.Navigation("Faculty");
                 });

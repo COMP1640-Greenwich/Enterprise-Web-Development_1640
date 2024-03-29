@@ -18,14 +18,15 @@ public class UsersController : Controller
     private readonly ApplicationDbContext _db;
     private readonly UserManager<IdentityUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManger;
+    private readonly ApplicationDbContext _context;
 
     // GET
-    public UsersController(ApplicationDbContext db, UserManager<IdentityUser> userManager,
-        RoleManager<IdentityRole> roleManager)
+    public UsersController(ApplicationDbContext db, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext context)
     {
         _db = db;
         _userManager = userManager;
         _roleManger = roleManager;
+        _context = context;
     }
 
     public async Task<IActionResult> Index()
@@ -35,7 +36,10 @@ public class UsersController : Controller
         var claims = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
         // exception itself admin
-        var userList = _db.Users.Where(u => u.Id != claims.Value);
+        var userList = await _db.Users
+            .Include(u => u.Faculty) // Include the Faculty data
+            .Where(u => u.Id != claims.Value)
+            .ToListAsync();
 
         foreach (var user in userList)
         {
@@ -44,9 +48,9 @@ public class UsersController : Controller
             user.Role = roleTemp.FirstOrDefault();
         }
 
-
-        return View(userList.ToList());
+        return View(userList);
     }
+
 
 
     [HttpGet]
