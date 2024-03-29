@@ -1,6 +1,7 @@
 using _1640.Areas.Repository.IRepository;
 using _1640.Models;
 using _1640.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -8,7 +9,7 @@ using System.Diagnostics;
 namespace _1640.Areas.Student.Controllers
 {
     [Area("Student")]
-    public class HomeController : Controller
+	public class HomeController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
 

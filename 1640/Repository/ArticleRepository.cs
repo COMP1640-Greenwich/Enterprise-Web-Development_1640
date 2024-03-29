@@ -2,6 +2,7 @@
 using _1640.Data;
 using _1640.Models;
 using _1640.Repository.IRepository;
+using Microsoft.EntityFrameworkCore;
 
 namespace _1640.Repository
 {
@@ -22,5 +23,6 @@ namespace _1640.Repository
             var articles = _dbContext.Articles.Where(c => c.Status == Article.StatusArticle.Approve).ToList();
             return articles;
         }
+
     }
 }
