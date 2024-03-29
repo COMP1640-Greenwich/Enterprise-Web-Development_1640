@@ -1,42 +1,72 @@
 ﻿@model IEnumerable<_1640.Models.Article>
-<div class="row-pt-4 mt-2">
-    <div>
-        <h2 style="color:red"> List of Request</h2>
-    </div>
-    <div>
-    <table class="table table-bordered">
-        <thread>
-            <tr>
-                <td>Title</td>
-                <td>Description</td>
-                <td>ImageUrl</td>
-                <td>DocxUrly</td>
-                <td>Action</td>
-            </tr>
-        </thread>
-        <tbody>
-            @foreach(var item in Model)
+<div class="container h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col col-md-9 col-lg-7 col-xl-8">
+            @foreach (var Article in Model)
             {
-                <tr>
-                    <td>@item.Title</td>
-                    <td>@item.Description</td>
-                    <td>@item.ImageUrl</td>
-                    <td>@item.DocxUrl</td>
-                    <td class="request-accept">
-                        <a asp-area="Coordinator" asp-controller="Coordinator" asp-action="Approve" asp-route-id="@item.Id" style="color: greenyellow"> Approve |</a> 
-                        <a asp-area="Coordinator" asp-controller="Coordinator" asp-action="Reject" asp-route-id="@item.Id" style="color: red"> Reject </a>
-                    </td>
+                <div class="container py-2">
+                    <div class="card" style="border-radius: 15px; background-color: #93e2bb;">
+                        <div class="card-body p-4 text-black">
+                            <div class="d-flex align-items-center mb-4">
+                                <div class="flex-shrink-1">
+                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-2.webp"
+                                         alt="Generic placeholder image" class="img-fluid rounded-circle border border-dark border-3"
+                                         style="width: 70px;">
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h6 class="mb-4">Tên Đây Nè</h6>
+                                </div>
+                            </div>
+                            <hr>
+                            <div>
+                                <h3 class="mb-4">@Article.Title</h3>
+                                <h6 class="mb-4">@Article.Description</h6>
+                                <div style="text-align: center;">
+                                    <img src="@Article.ImageUrl" class="img-fluid py-2" style="width:500px;height:300px;" />
+                                </div>
+                                <div class="row">
+                                    <div class="col-4"></div>
+                                    <div class="col-4">
+                                    </div>
+                                    <div class="col-4">
+                                        <a type="button" class="btn btn-success btn-rounded" href="@Article.DocxUrl" formtarget="_blank">
+                                            <i class="fa-solid fa-cloud-arrow-down"></i>  Download
+                                        </a>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="row">
+                                    <div class="col-4" style="display: flex; justify-content: center;">
+                                        <a asp-area="Coordinator" asp-controller="Coordinator" asp-action="AddFeedBack" asp-route-id="@Article.Id" class="btn btn-warning">
+                                            <i class="fa-solid fa-comment-medical"></i> Add Feedback
+                                        </a>
+                                    </div>
+                                    <div class="col-4" style="display: flex; justify-content: center;">
+                                        <a asp-area="Coordinator" asp-controller="Coordinator" asp-action="Approve" asp-route-id="@Article.Id" class="btn btn-primary">
+                                            <i class="fa-solid fa-check"></i>  Approve
+                                        </a>
+                                    </div>
+                                    <div class="col-4" style="display: flex; justify-content: center;">
+                                        <a asp-area="Coordinator" asp-controller="Coordinator" asp-action="Reject" asp-route-id="@Article.Id" class="btn btn-danger">
+                                            <i class="fa-solid fa-xmark"></i>  Reject
+                                        </a>
+                                    </div>
 
-                </tr>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             }
 
-        </tbody>
-    </table>
+        </div>
+
+    </div>
+</div>
 
 
-</div>
-</div>
-@* java scripts *@
 @section Scripts {
     @{
         <partial name="_ValidationScriptsPartial" />

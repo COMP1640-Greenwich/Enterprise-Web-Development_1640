@@ -2,6 +2,7 @@
 using _1640.Data;
 using _1640.Models;
 using _1640.Areas.Repository;
+using Microsoft.EntityFrameworkCore;
 
 namespace _1640.Repository
 {
@@ -15,6 +16,11 @@ namespace _1640.Repository
         public void Update(Semester entity)
         {
             _db.Semesters.Update(entity);
+        }
+        public IEnumerable<Semester> GetAllOpening()
+        {
+            var semesters = _db.Semesters.Where(c => c.Status == "Opening").ToList();
+            return semesters;
         }
     }
 }

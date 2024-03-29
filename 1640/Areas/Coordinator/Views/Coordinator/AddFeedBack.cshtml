@@ -14,26 +14,26 @@
                     <h4>@item.Text</h4>
                     <h8>@item.CommentOn.ToString("HH: mm tt dd - MM - yyyy")</h8>
                     <br />
-                    
+
                 </div>
             </div>
         </div>
     </div>
 }
-<hr/>
+<hr />
 <h2>Please input your feedback</h2>
 <form method="post">
-<div class="row">
-    <div class="col-12">
-        <input type="hidden" name="id" value="@ViewBag.ArticleId" />
+    <div class="row">
+        <div class="col-12">
+            <input type="hidden" name="id" value="@ViewBag.ArticleId" />
+        </div>
+        <div class="col-12">
+            <textarea class="form-control" name="articleFB" rows="4"></textarea>
+
+        </div>
+        <div class="col-10 py-4"><a asp-controller="Coordinator" asp-action="Requests" class="btn btn-outline-dark">Back to list</a></div>
+        <div class="col-2 py-4">
+            <input type="submit" class="btn btn-success btn-rounded" name="Add FeedBack" value="Add FeedBack" />
+        </div>
     </div>
-    <div class="col-12">
-        <textarea class="form-control" name="articleFB" rows="4"></textarea>
-        
-    </div>
-    <div class="col-10 py-4"><a asp-controller="Coordinator" asp-action="Requests" class="btn btn-outline-dark" >Back to list</a></div>
-    <div class="col-2 py-4">
-        <input type="submit" class="btn btn-success btn-rounded" name="Add FeedBack" value="Add FeedBack" />
-    </div>
-</div>
 </form>

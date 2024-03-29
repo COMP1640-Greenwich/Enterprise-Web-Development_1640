@@ -1,49 +1,57 @@
 ﻿@model List<Article>
-  <div class="container h-100">
+<div class="container h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col col-md-9 col-lg-7 col-xl-6">
-           @foreach (var Article in Model)
-           {
-             <div class="container py-2">
-                <div class="card" style="border-radius: 15px; background-color: #93e2bb;">
-                    <div class="card-body p-4 text-black">      
-                        <div class="d-flex align-items-center mb-4">
-                          <div class="flex-shrink-1">
-                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-2.webp"
-                                 alt="Generic placeholder image" class="img-fluid rounded-circle border border-dark border-3"
-                                style="width: 70px;">
-                          </div>
-                          <div class="flex-grow-1 ms-3">
-                              <h6 class="mb-4">Tên Đây Nè</h6>
-                              @* <a asp-controller="Article" asp-action="Detail" asp-route-id="@Article.Id" class="my-4 pb-1"></a> *@
-                          </div>
-                        </div>
-                        <hr>
-                        <div>
-                            <h3 class="mb-4">@Article.Title</h3>
-                            <h6 class="mb-4">@Article.Description</h6>
-                            <div style="text-align: center;">
-                                <img src="@Article.ImageUrl" class="img-fluid py-2" style="width:500px;height:300px;" />
+            @foreach (var Article in Model)
+            {
+                <div class="container py-2">
+                    <div class="card" style="border-radius: 15px; background-color: #93e2bb;">
+                        <div class="card-body p-4 text-black">
+                            <div class="d-flex align-items-center mb-4">
+                                <div class="flex-shrink-1">
+                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-2.webp"
+                                         alt="Generic placeholder image" class="img-fluid rounded-circle border border-dark border-3"
+                                         style="width: 70px;">
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h6 class="mb-4">Tên Đây Nè</h6>
+                                    @* <a asp-controller="Article" asp-action="Detail" asp-route-id="@Article.Id" class="my-4 pb-1"></a> *@
+                                </div>
                             </div>
-                            <div class="row">
-                                <div class="col-8"></div>
-                                <div class="col-4">
-                                   <button type="button" class="btn btn-success btn-rounded" href="@Article.DocxUrl" formtarget="_blank">
-                                    <i class="fa-solid fa-cloud-arrow-down"></i>  Download
-                                   </button>
+                            <hr>
+                            <div>
+                                <h3 class="mb-4">@Article.Title</h3>
+                                <h6 class="mb-4">@Article.Description</h6>
+                                <div style="text-align: center;">
+                                    <img src="@Article.ImageUrl" class="img-fluid py-2" style="width:500px;height:300px;" />
+                                </div>
+                                <div class="row">
+                                    <div class="col-4"></div>
+                                    @if (User.IsInRole("Student"))
+                                    {
+                                        <div class="col-4">
+                                            <a asp-controller="Article" asp-action="ViewFeedBack" asp-route-id="@Article.Id" class="btn btn-success btn-rounded">
+                                                <i class="fa-regular fa-eye"></i> View Feedback
+                                            </a>
+                                        </div>
+                                    }
+                                    <div class="col-4">
+                                        <a type="button" class="btn btn-success btn-rounded" href="@Article.DocxUrl" formtarget="_blank">
+                                            <i class="fa-solid fa-cloud-arrow-down"></i>  Download
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                   </div>
 
+                    </div>
                 </div>
-            </div>
-           }
-        
-         </div>
-      
+            }
+
+        </div>
+
     </div>
-  </div>
+</div>
 
 
 @section Scripts {

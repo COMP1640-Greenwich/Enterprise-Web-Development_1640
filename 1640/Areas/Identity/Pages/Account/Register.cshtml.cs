@@ -182,7 +182,7 @@ namespace _1640.Areas.Identity.Pages.Account
         {
             Input = new InputModel()
             {
-                SelectYourRole = _roleManager.Roles.Where(x => x.Name != "Admin")
+                SelectYourRole = _roleManager.Roles.Where(x => x.Name != "Admin").Where(x=>x.Name !="Manager")
                     .Select(x => x.Name).Select(x => new SelectListItem()
                     {
                         Text = x,

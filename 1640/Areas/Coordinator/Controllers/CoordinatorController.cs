@@ -123,6 +123,30 @@ namespace _1640.Areas.Coordinator.Controllers
             TempData["success"] = "Delete semester successfully";
             return RedirectToAction("Index");
         }
+        public ActionResult AddFeedBack(int id)
+        {
+            //if (id == null || id == 0)
+            //{
+            //    return NotFound();
+            //}
+            Comment comment = new Comment();
+            comment.ArticleId = id;
+            List<Comment> comments = _db.Comments.Where(c => c.ArticleId == id).ToList();
+            ViewBag.ArticleId = id;
+            return View(comments);
+
+        }
+        [HttpPost]
+        public ActionResult AddFeedBack(int id, string articleFB)
+        {
+            Comment comment = new Comment();
+            comment.ArticleId = id;
+            comment.Text = articleFB;
+            comment.CommentOn = DateTime.Now;
+            _db.Comments.Add(comment);
+            _db.SaveChanges();
+            return RedirectToAction("Requests");
+        }
         // list of request article for Coordinator
         [Authorize(Roles = Constraintt.CoordinatorRole)]
         [HttpGet]
@@ -168,5 +192,6 @@ namespace _1640.Areas.Coordinator.Controllers
             TempData["Success"] = "Reject for Create Article successfully";
             return RedirectToAction("Index");
         }
+
     }
 }
