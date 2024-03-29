@@ -10,7 +10,6 @@ namespace _1640.Data
         public DbSet<Article> Articles { get; set; }
         public DbSet<Faculty> Faculties { get; set; }
         public DbSet<Semester> Semesters { get; set; }
-        public DbSet<Comment> Comments { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

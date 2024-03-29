@@ -4,23 +4,23 @@ using _1640.Models.VM;
 using _1640.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using _1640.Areas.Repository.IRepository;
-using Microsoft.EntityFrameworkCore;
-using _1640.Utility;
 using Microsoft.AspNetCore.Authorization;
+using _1640.Utility;
+using Microsoft.EntityFrameworkCore;
+using _1640.Areas.Repository.IRepository;
 
 namespace _1640.Areas.Coordinator.Controllers
 {
     [Area("Coordinator")]
     public class CoordinatorController : Controller
     {
+        private readonly ApplicationDbContext _db;
         //private readonly ISemesterRepository SemesterRepository;
-        private readonly ApplicationDbContext _dbContext;
         private readonly IUnitOfWork _unitOfWork;
-        public CoordinatorController(ApplicationDbContext dbContext, IUnitOfWork unitOfWork)
+        public CoordinatorController(IUnitOfWork unitOfWork, ApplicationDbContext db)
         {
-            _dbContext = dbContext;
             _unitOfWork = unitOfWork;
+            _db = db;
         }
         public IActionResult Index()
         {
@@ -123,36 +123,12 @@ namespace _1640.Areas.Coordinator.Controllers
             TempData["success"] = "Delete semester successfully";
             return RedirectToAction("Index");
         }
-        public ActionResult AddFeedBack(int id)
-        {
-            //if (id == null || id == 0)
-            //{
-            //    return NotFound();
-            //}
-            Comment comment = new Comment();
-            comment.ArticleId = id;
-            List<Comment> comments = _dbContext.Comments.Where(c => c.ArticleId == id).ToList();
-            ViewBag.ArticleId = id;
-            return View(comments);
-            
-        }
-        [HttpPost]
-        public ActionResult AddFeedBack(int id, string articleFB)
-        {
-            Comment comment = new Comment();
-            comment.ArticleId = id;
-            comment.Text = articleFB;
-            comment.CommentOn = DateTime.Now;
-            _dbContext.Comments.Add(comment);
-            _dbContext.SaveChanges();
-            return RedirectToAction("Requests");
-        }
         // list of request article for Coordinator
         [Authorize(Roles = Constraintt.CoordinatorRole)]
         [HttpGet]
         public async Task<IActionResult> Requests()
         {
-            var request = await _dbContext.Articles.Where(a => a.Status == Article.StatusArticle.Pending).ToListAsync();
+            var request = await _db.Articles.Where(a => a.Status == Article.StatusArticle.Pending).ToListAsync();
             if (request.Count == 0 || request.Count == null)
             {
                 return NotFound("You don't have any request");
@@ -162,33 +138,33 @@ namespace _1640.Areas.Coordinator.Controllers
 
         // đồng ý và từ chối bài viết
         //Approve the article
-        [Authorize(Roles = Constraintt.CoordinatorRole)]
+        [Authorize(Roles =Constraintt.CoordinatorRole)]
         [HttpGet]
         public async Task<IActionResult> Approve(int id)
         {
-            var approveArticle = await _dbContext.Articles.FindAsync(id);
-            if (approveArticle == null)
+            var approveArticle = await _db.Articles.FindAsync(id);
+            if(approveArticle == null)
             {
                 return NotFound("The request not found");
             }
             approveArticle.Status = Article.StatusArticle.Approve;
-            await _dbContext.SaveChangesAsync();
+            await _db.SaveChangesAsync();
             TempData["Success"] = "Aprrove for Create Article successfully";
             return RedirectToAction("Index");
         }
         //Reject the article
         [Authorize(Roles = Constraintt.CoordinatorRole)]
         [HttpGet]
-        public async Task<IActionResult> Reject(int id)
+        public async Task<IActionResult> Reject(int id) 
         {
-            var rejectArticle = await _dbContext.Articles.FindAsync(id);
+            var rejectArticle = await _db.Articles.FindAsync(id);
             if (rejectArticle == null)
             {
                 return NotFound("The request not found");
             }
             rejectArticle.Status = Article.StatusArticle.Reject;
-            _dbContext.Remove(rejectArticle); // delelte the article from list
-            await _dbContext.SaveChangesAsync();
+            _db.Remove(rejectArticle); // delelte the article from list
+            await _db.SaveChangesAsync();
             TempData["Success"] = "Reject for Create Article successfully";
             return RedirectToAction("Index");
         }

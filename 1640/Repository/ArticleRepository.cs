@@ -17,10 +17,5 @@ namespace _1640.Repository
         {
             _dbContext.Articles.Update(entity);
         }
-        public IEnumerable<Article> GetAllApprove(string? includeProperty = null)
-        {
-            var articles = _dbContext.Articles.Where(c => c.Status == Article.StatusArticle.Approve).ToList();
-            return articles;
-        }
     }
 }

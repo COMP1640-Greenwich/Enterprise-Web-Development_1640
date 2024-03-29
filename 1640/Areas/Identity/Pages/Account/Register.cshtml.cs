@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using _1640.Areas.Repository.IRepository;
 using _1640.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -31,6 +32,7 @@ namespace _1640.Areas.Identity.Pages.Account
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
+        private readonly IUnitOfWork _unitOfWork;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
@@ -38,7 +40,8 @@ namespace _1640.Areas.Identity.Pages.Account
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
              RoleManager<IdentityRole> roleManager,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IUnitOfWork unitOfWork)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -47,6 +50,7 @@ namespace _1640.Areas.Identity.Pages.Account
             _logger = logger;
             //_emailSender = emailSender;
             _roleManager = roleManager;
+            _unitOfWork = unitOfWork;
         }
         [BindProperty]
         public InputModel Input { get; set; }
@@ -74,8 +78,13 @@ namespace _1640.Areas.Identity.Pages.Account
             [Display(Name = "Your phone number")]
             public string PhoneNumber { get; set; }
 
-            // address and rolelist
-            [Required]
+            [Display(Name = "Faculty")]
+            public int SelectedFacultyId { get; set; }
+
+            public IEnumerable<SelectListItem> Faculties { get; set; }
+
+        // address and rolelist
+        [Required]
             [Display(Name = "Your Campus")]
             public string Campus { get; set; }
             public IEnumerable<SelectListItem> SelectYourRole { get; set; }
@@ -88,6 +97,12 @@ namespace _1640.Areas.Identity.Pages.Account
         public async Task OnGetAsync(string returnUrl = null)
         {
             GetRoles();
+            Input.Faculties = _unitOfWork.FacultyRepository.GetAll()
+                .Select(f => new SelectListItem
+                {
+                    Value = f.Id.ToString(),
+                    Text = f.Name
+                });
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -106,16 +121,13 @@ namespace _1640.Areas.Identity.Pages.Account
                     EmailConfirmed = true,
                     Campus = Input.Campus,
                     PhoneNumber = Input.PhoneNumber,
+                    FacultyId = Input.SelectedFacultyId,
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    if (Input.Role == "User")
-                    {
-                        await _userManager.AddToRolesAsync(user, new[] { "User" });
-                    }
                     if (Input.Role == "Student")
                     {
                         await _userManager.AddToRolesAsync(user, new[] { "Student" });
@@ -170,7 +182,7 @@ namespace _1640.Areas.Identity.Pages.Account
         {
             Input = new InputModel()
             {
-                SelectYourRole = _roleManager.Roles.Where(x => x.Name != "Admin").Where(y=>y.Name !="Manager")
+                SelectYourRole = _roleManager.Roles.Where(x => x.Name != "Admin")
                     .Select(x => x.Name).Select(x => new SelectListItem()
                     {
                         Text = x,
