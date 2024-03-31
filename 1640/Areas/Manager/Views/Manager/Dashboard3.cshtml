@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewData["Title"] = "Dashboard3";
+    Layout = "~/Areas/Manager/Views/Shared/_LayoutManager.cshtml";
+}
+
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header">
+            <h3 class="page-title">
+                Number of article per faculty
+            </h3>
+        </div>
+        <div class="row">
+            @model List<Faculty>
+            @foreach (var faculty in Model)
+            {
+                <div class="col-md-4 stretch-card grid-margin">
+                    <div class="card bg-gradient-warning card-img-holder text-white">
+                        <div class="card-body">
+                            <img src="/LayoutManager/assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
+                            <h2 class="font-weight-normal mb-3">@faculty.Name <i class="mdi mdi-chart-line mdi-24px float-right"></i></h2>
+                            <h2 class="mb-5">@ViewBag.ArticleFacultyList[@faculty.Id]</h2>
+                            <h6 class="card-text">Article</h6>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

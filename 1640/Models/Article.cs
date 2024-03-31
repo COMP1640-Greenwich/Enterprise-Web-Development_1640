@@ -25,6 +25,19 @@ namespace _1640.Models
         [ValidateNever]
         public Semester Semester { get; set; }
 
+        [ValidateNever]
+        public string? UserId { get; set; }
+        [ValidateNever]
+        public string? UserName { get; set; }
+        [ValidateNever]
+        public int? FacultyId { get; set; }
+        [ValidateNever]
+        public string? FacultyName { get; set; }
+        //[ForeignKey("FacultyId")]
+        //[ValidateNever]
+        //public Faculty Faculty { get; set; }
+
+
         public enum StatusArticle
         {
             Approve,
@@ -32,6 +45,9 @@ namespace _1640.Models
             Pending
         }
         [Required]
+        [ValidateNever]
         public StatusArticle Status { get; set; }
+        
+
     }
 }

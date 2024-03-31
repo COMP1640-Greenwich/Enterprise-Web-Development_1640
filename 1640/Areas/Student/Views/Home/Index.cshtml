@@ -67,7 +67,7 @@
                                                      style="width: 70px;">
                                             </div>
                                             <div class="flex-grow-1 ms-3">
-                                                <h6 class="mb-4">Tên Đây Nè</h6>
+                                                <h6 class="mb-4">@Article.UserName</h6>
                                             </div>
                                         </div>
                                         <hr>
@@ -107,7 +107,8 @@
                 </div>
             </div>
             </br>
-            @if (User.IsInRole("Student"))
+            
+           @*  @if (User.IsInRole("Student"))
             {
                 <div class="card">
                     <div class="card-header">
@@ -117,7 +118,7 @@
                         <a style="text-align:center" class="align-content-center btn btn-primary" asp-controller="Article" asp-action="Create" class="btn btn-primary mt-3 mr-2">Click here</a>
                     </div>
                 </div>
-            }
+            } *@
 
 
         </div>

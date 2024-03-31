@@ -121,6 +121,7 @@ namespace _1640.Areas.Identity.Pages.Account
                     EmailConfirmed = true,
                     Campus = Input.Campus,
                     PhoneNumber = Input.PhoneNumber,
+                    Role = Input.Role,
                     FacultyId = Input.SelectedFacultyId,
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);

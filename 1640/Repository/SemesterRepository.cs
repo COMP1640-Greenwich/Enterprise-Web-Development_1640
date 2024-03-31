@@ -19,7 +19,7 @@ namespace _1640.Repository
         }
         public IEnumerable<Semester> GetAllOpening()
         {
-            var semesters = _db.Semesters.Where(c => c.Status == "Opening").ToList();
+            var semesters = _db.Semesters.AsEnumerable().Where(c => c.Status == "Opening").ToList();
             return semesters;
         }
     }

@@ -68,6 +68,9 @@
                          @if (User.IsInRole("Student"))
                         {
                             <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Article" asp-action="Create" asp-route-id="@UserManager.GetUserId(User)" class="btn btn-primary mt-3 mr-2">Create article</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" asp-area="Student" asp-controller="Article" asp-action="Index">Article</a>
                             </li>
                         }

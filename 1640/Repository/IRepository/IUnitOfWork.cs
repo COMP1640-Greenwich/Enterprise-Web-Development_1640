@@ -7,6 +7,7 @@ namespace _1640.Areas.Repository.IRepository
         ISemesterRepository SemesterRepository { get; set; }
         IFacultyRepository FacultyRepository { get; set; }
         IArticleRepository ArticleRepository  { get; set; }
+        IUserRepository UserRepository { get; set; }
         void Save();
     }
 }

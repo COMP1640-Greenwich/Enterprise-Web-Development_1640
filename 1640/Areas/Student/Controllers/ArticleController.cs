@@ -6,6 +6,7 @@ using _1640.Repository.IRepository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace _1640.Areas.Student.Controllers
 {
@@ -27,10 +28,15 @@ namespace _1640.Areas.Student.Controllers
             List<Article> articles = _unitOfWork.ArticleRepository.GetAllApprove("Semester").ToList();
             return View(articles);
         }
-        public IActionResult Create()
+        public IActionResult Create(string id)
         {
+
+
+
             ArticleVM articleVM = new ArticleVM()
             {
+
+
                 Semesters = _unitOfWork.SemesterRepository.GetAllOpening().Select(c => new SelectListItem
                 {
                     Text = c.Name,
@@ -39,14 +45,21 @@ namespace _1640.Areas.Student.Controllers
                 Article = new Article()
                 {
                     IsBlogActive = false
-                }
+
+
+                },
+                //FacultyName = _unitOfWork.UserRepository.Get(f => f.Id == id).Faculty.Name,
+                UserName = _unitOfWork.UserRepository.Get(f => f.Id == id).FullName.ToUpper(),
+                FacultyId = _unitOfWork.UserRepository.Get(f => f.Id == id).FacultyId.Value
+                
             };
+            ViewBag.UserId = id;
             return View(articleVM);
 
 
         }
         [HttpPost]
-        public IActionResult Create(ArticleVM articleVM, IFormFile? file, IFormFile? file1)
+        public IActionResult Create(string id, ArticleVM articleVM, IFormFile? file, IFormFile? file1)
         {
 
             if (ModelState.IsValid)
@@ -103,7 +116,11 @@ namespace _1640.Areas.Student.Controllers
                         return View(articleVM);
                     }
                     //set a new article to pending status
+                    articleVM.Article.UserName = articleVM.UserName;
+                    articleVM.Article.UserId = id;
+                    articleVM.Article.FacultyId = (int)articleVM.FacultyId;
                     articleVM.Article.Status = Article.StatusArticle.Pending;
+                    
 
                     _unitOfWork.ArticleRepository.Add(articleVM.Article);
                     _unitOfWork.Save();
@@ -119,13 +136,23 @@ namespace _1640.Areas.Student.Controllers
             }
             ArticleVM articleVMNew = new ArticleVM()
             {
+
                 Semesters = _unitOfWork.SemesterRepository.GetAllOpening().Select(c => new SelectListItem
                 {
                     Text = c.Name,
                     Value = c.Id.ToString(),
                 }),
                 Article = new Article()
+                {
+                    IsBlogActive = false,
+                    UserId = id,
+
+
+                },
+                UserName = _unitOfWork.UserRepository.Get(f => f.Id == id).FullName.ToUpper(),
+                FacultyId = _unitOfWork.UserRepository.Get(f => f.Id == id).FacultyId.Value
             };
+            ViewBag.UserId = id;
             return View(articleVMNew);
 
         }

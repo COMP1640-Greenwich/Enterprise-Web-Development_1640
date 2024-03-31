@@ -24,7 +24,17 @@ namespace _1640.Models
         [ValidateNever]
         public virtual Faculty Faculty { get; set; }
         [ValidateNever]
-        public string Status { get; set; }
+        public string Status { get {
+                if (DateTime.Now > EndDate)
+                {
+                    return "Closing";
+                }
+                else
+                {
+                    return "Opening";
+                }
+            }
+        }
 
     }
 }

@@ -2,8 +2,10 @@
 using _1640.Data;
 using _1640.Models;
 using _1640.Models.VM;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol.Plugins;
 using System.IO.Compression;
 
 namespace _1640.Areas.Manager.Controllers
@@ -143,23 +145,51 @@ namespace _1640.Areas.Manager.Controllers
             return RedirectToAction("Index");
         }
         [Route("")]
-        [Route("Dashboard")]
-        public IActionResult Dashboard()
+        [Route("Dashboard1")]
+        public IActionResult Dashboard1()
         {
             Dictionary<int, int> articleCounts = new Dictionary<int, int>();
-            //Count User
+            //Count Article
             List<Semester> semesters = _dbContext.Semesters.ToList();
             foreach (var semester in semesters)
             {
                 var articleCount = _dbContext.Articles.Where(u => u.SemesterId == semester.Id).Count();
                 articleCounts.Add(semester.Id, articleCount);
-                ViewBag.SemesterId = semester.Id;
-                ViewBag.ArticleList1 = articleCount;
             }
-            //ViewBag.SemesterId = semester.Id;
             ViewBag.ArticleList = articleCounts;
             return View(semesters);
 
         }
+        [Route("Dashboard2")]
+        public IActionResult Dashboard2()
+        {
+            Dictionary<int, int> studentCounts = new Dictionary<int, int>();
+            //Count User
+            List<Faculty> faculties = _dbContext.Faculties.ToList();
+            foreach (var faculty in faculties)
+            {
+                var studentCount = _dbContext.Users.Where(u => u.Role == "Student").Where(u => u.FacultyId == faculty.Id).Count();
+                studentCounts.Add(faculty.Id, studentCount);
+            }
+            ViewBag.StudentList = studentCounts;
+            return View(faculties);
+        }
+        [Route("Dashboard3")]
+        public IActionResult Dashboard3()
+        {
+            Dictionary<int, int> articleCounts1 = new Dictionary<int, int>();
+            //Count User
+            List<Faculty> faculties1 = _dbContext.Faculties.ToList();
+            foreach (var faculty1 in faculties1)
+            {
+                var articleCount1 = _dbContext.Articles.Where(u => u.FacultyId == faculty1.Id).Count();
+                articleCounts1.Add(faculty1.Id, articleCount1);
+            }
+            ViewBag.ArticleFacultyList = articleCounts1;
+            return View(faculties1);
+        }
+
+
+
     }
 }

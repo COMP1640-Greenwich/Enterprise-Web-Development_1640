@@ -174,7 +174,7 @@ namespace _1640.Areas.Coordinator.Controllers
             approveArticle.Status = Article.StatusArticle.Approve;
             await _db.SaveChangesAsync();
             TempData["Success"] = "Aprrove for Create Article successfully";
-            return RedirectToAction("Index");
+            return RedirectToAction("Requests");
         }
         //Reject the article
         [Authorize(Roles = Constraintt.CoordinatorRole)]
@@ -190,7 +190,7 @@ namespace _1640.Areas.Coordinator.Controllers
             _db.Remove(rejectArticle); // delelte the article from list
             await _db.SaveChangesAsync();
             TempData["Success"] = "Reject for Create Article successfully";
-            return RedirectToAction("Index");
+            return RedirectToAction("Requests");
         }
 
     }

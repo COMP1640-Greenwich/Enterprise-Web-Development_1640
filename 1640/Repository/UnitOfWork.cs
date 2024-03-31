@@ -11,12 +11,14 @@ namespace _1640.Areas.Repository
         public IFacultyRepository FacultyRepository { get; set;}
         public ISemesterRepository SemesterRepository { get; set;}
         public IArticleRepository ArticleRepository { get; set; }
+        public IUserRepository UserRepository { get; set; }
         public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
             FacultyRepository = new FacultyRepository(db);
             SemesterRepository = new SemesterRepository(db);
             ArticleRepository = new ArticleRepository(db);
+            UserRepository = new UserRepository(db);
         }
         public void Save()
         {

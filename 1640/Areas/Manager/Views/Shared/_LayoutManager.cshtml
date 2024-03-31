@@ -82,10 +82,18 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-area="Manager" asp-controller="Manager" asp-action="Dashboard">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                             <span class="menu-title">Dashboard</span>
-                            <i class="mdi mdi-home menu-icon"></i>
+                            <i class="menu-arrow"></i>
+                            <i class="mdi mdi-crosshairs-gps menu-icon"></i>
                         </a>
+                        <div class="collapse" id="ui-basic">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link" asp-area="Manager" asp-controller="Manager" asp-action="Dashboard1">Dashboard for article</a></li>
+                                <li class="nav-item"> <a class="nav-link" asp-area="Manager" asp-controller="Manager" asp-action="Dashboard2">Dashboard for user</a></li>
+                                <li class="nav-item"> <a class="nav-link" asp-area="Manager" asp-controller="Manager" asp-action="Dashboard3">Dashboard for faculty</a></li>
+                            </ul>
+                        </div>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
