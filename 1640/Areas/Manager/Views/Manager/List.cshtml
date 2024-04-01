@@ -3,53 +3,72 @@
     Layout = "~/Areas/Manager/Views/Shared/_LayoutManager.cshtml";
 }
 @model List<Article>
-<div class="container h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col col-md-9 col-lg-7 col-xl-6">
-            @foreach (var Article in Model)
-            {
-                <div class="container py-2">
-                    <div class="card" style="border-radius: 15px; background-color: #93e2bb;">
-                        <div class="card-body p-4 text-black">
-                            <div class="d-flex align-items-center mb-4">
-                                <div class="flex-shrink-1">
-                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-2.webp"
-                                         alt="Generic placeholder image" class="img-fluid rounded-circle border border-dark border-3"
-                                         style="width: 70px;">
-                                </div>
-                                <div class="flex-grow-2 ms-3">
-                                    <h4 class="mb-2">@Article.UserName</h4>
-                                    <h9 class="mb-2">Faculty:   @Article.FacultyName</h9>
-                                    @* <a asp-controller="Article" asp-action="Detail" asp-route-id="@Article.Id" class="my-4 pb-1"></a> *@
-                                </div>
-                            </div>
-                            <hr>
-                            <div>
-                                <h3 class="mb-4">@Article.Title</h3>
-                                <h6 class="mb-4">@Article.Description</h6>
-                                <div style="text-align: center;">
-                                    <img src="@Article.ImageUrl" class="img-fluid py-2" style="width:500px;height:300px;" />
-                                </div>
-                                <div class="row">
-                                    <div class="col-6"></div>
-                                    <div class="col-6">
-                                        <a type="button" class="btn btn-success btn-rounded" href="@Url.Action("DownloadDocInZip", "Manager", new { id = Article.Id })">
-                                            <i class="fa-solid fa-cloud-arrow-down"></i>  Download File
-                                        </a>
+
+        <tbody>
+            <div class="col-md-9 col-sm-auto pt-3 row gx-3 row gy-3">
+                <div class="mb-3">
+                    <form class="d-flex">
+                        <input class="form-control me-2" name="searchString" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                </div>
+                <div class="mb-3">
+                    @foreach (var Article in Model)
+                    {
+                        <div class="card" style="border-radius: 15px; background-color: #93e2bb;">
+                            <div class="container content py-2 px-2">
+
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-1">
+                                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-2.webp"
+                                             alt="Generic placeholder image" class="img-fluid rounded-circle border border-dark border-3"
+                                             style="width: 70px;">
+                                    </div>
+                                    <div class=" ms-4">
+                                        <h4 class="mb-1" style="text-transform: lowercase capitalize">@Article.UserName</h4>
+                                        <h7 class="mb-2">@User.Identity.Name</h7>
+                                <p class="card-text">Faculty:   @Article.FacultyName</p>
                                     </div>
                                 </div>
+                                <hr />
+
+                                <div class="row no-gutters">
+                                    <div class="col-sm-5">
+                                        <img class="card-img" src="@Article.ImageUrl" alt="Megazine">
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Title:&nbsp @Article.Title</h5>
+                                            <p class="card-text">@Article.Description</p>
+                                    
+                                            <div class="float-right">
+                                                <a type="button" class="btn btn-success btn-rounded" href="@Article.DocxUrl" formtarget="_blank"><i class="fa-solid fa-cloud-arrow-down"></i> Download</a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
-
-                    </div>
+                        <br />
+                    }
                 </div>
-            }
-
-        </div>
-
-    </div>
+            </div>
+        </tbody>
+<br />
+<div style="display:flex;text-align:center;justify-content:center">
+    <ul class="pagination">
+        @for (var i = 0; i < @ViewBag.numberOfPages; i++)
+        {
+            var style = (ViewBag.currentPage == @i) ? "active" : "";
+            <li class="page-item @style">
+                <a class="page-link" asp-route-id="@i" asp-route-searchString="@ViewData["CurrentFilter"]">@(i + 1)</a>
+            </li>
+        }
+    </ul>
+    </nav>
 </div>
-
 
 @section Scripts {
     @{

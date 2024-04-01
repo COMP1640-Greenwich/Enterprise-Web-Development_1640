@@ -27,40 +27,36 @@
         <!-- partial:../../partials/_navbar.html -->
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="~/images/Home/2022-Greenwich-Eng.png" style="width:120px;height:50px;">
-                </a>
-            </div>
-            @* <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between0"> *@
-            <div class="navbar-collapse d-flex align-items-stretch">
-                <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-                    <span class="mdi mdi-menu"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="nav justify-content-center">
-                    @if (SignInManager.IsSignedIn(User))
-                    {
-                        <li class="nav-item">
-                            <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><b style="color:coral">Hello</b>, @UserManager.GetUserName(User).</a>
-                        </li>
-                        <li class="nav-item">
-                            <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                                <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">| <b style="color:darkred">Logout</b></button>
-                            </form>
-                        </li>
-                    }
-                    else
-                    {
+                @if (User.IsInRole("Admin") || User.IsInRole("Manager") || User.IsInRole("Coordinator") || User.IsInRole("Student") || User.IsInRole("User"))
+                {
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                        <img src="~/images/Home/2022-Greenwich-Eng.png" style="width:120px;height:50px;">
+                    </a>
+                }
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between0">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="nav justify-content-center">
+                        </ul>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-                        </li>
-                    }
-                </ul>
-                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-                    <span class="mdi mdi-menu"></span>
-                </button>
-
+                        <ul class="navbar-nav">
+                            @if (User.IsInRole("Manager"))
+                            {
+                                <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><b style="color:coral">Hello</b>, @UserManager.GetUserName(User).</a>
+                            }
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <li class="nav-item">
+                                    <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                        <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">| <b style="color:darkred">Logout</b></button>
+                                    </form>
+                                </li>
+                            }
+                        </ul>
+                    </div>
                 </div>
             </div>
         </nav>
