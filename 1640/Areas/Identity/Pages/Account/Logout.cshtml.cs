@@ -29,7 +29,7 @@ namespace _1640.Areas.Identity.Pages.Account
             _logger.LogInformation("User logged out.");
             if (returnUrl != null)
             {
-                return LocalRedirect(returnUrl);
+                return LocalRedirect("/Identity/Account/Login");
             }
             else
             {

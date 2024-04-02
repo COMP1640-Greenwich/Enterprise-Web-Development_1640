@@ -18,6 +18,7 @@ namespace _1640.Areas.Manager.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly ApplicationDbContext _dbContext;
+        private readonly int _recordsPerPage = 4;
         public ManagerController(IUnitOfWork unitOfWork, IWebHostEnvironment hostingEnvironment, ApplicationDbContext dBContext)
         {
             _unitOfWork = unitOfWork;
@@ -33,10 +34,21 @@ namespace _1640.Areas.Manager.Controllers
         }
 
         [Route("List")]
-        public IActionResult List()
+        public IActionResult List(int id, string searchString = "")
         {
-            List<Article> articles = _unitOfWork.ArticleRepository.GetAllApprove("Semester").ToList();
-            return View(articles);
+            List<Article> articles = _unitOfWork.ArticleRepository.GetAllApprove("Semester")
+        .Where(b => b.Title.Contains(searchString))
+        .ToList();
+
+            int numberOfRecords = articles.Count();
+            int numberOfPages = (int)Math.Ceiling((double)numberOfRecords / _recordsPerPage);
+
+            ViewBag.numberOfPages = numberOfPages;
+            ViewBag.currentPage = id;
+            ViewData["Current Filter"] = searchString;
+
+            var articlesList = articles.Skip(id * numberOfPages).Take(_recordsPerPage).ToList();
+            return View(articlesList);
         }
 
         [Route("List/id")]

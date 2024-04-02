@@ -114,8 +114,22 @@ namespace _1640.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+                    if (User.IsInRole("Admin"))
+                    {
+                        return Redirect("/Admin/Users/Index");
+                    }
+                    if (User.IsInRole("Student"))
+                    {
+                        return Redirect("/Student/Home/Index");
+                    }
+                    if (User.IsInRole("Manager"))
+                    {
+                        return Redirect("https://localhost:7175/Manager/Dashboard1");
+                    }
+                    if (User.IsInRole("Coordinator"))
+                    {
+                        return Redirect("/Coordinator/Coordinator/Index");
+                    }
                 }
                 if (result.RequiresTwoFactor)
                 {

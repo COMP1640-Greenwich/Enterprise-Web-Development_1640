@@ -11,11 +11,12 @@ using System.Diagnostics;
 namespace _1640.Areas.Student.Controllers
 {
     [Area("Student")]
-	public class HomeController : Controller
+    public class HomeController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
 
         private readonly ILogger<HomeController> _logger;
+		private readonly int _recordsPerPage = 4;
 
         private readonly UserManager<IdentityUser> _userManager;
 
@@ -64,6 +65,10 @@ namespace _1640.Areas.Student.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        public IActionResult Login()
+        {
+            return Redirect("Identity/Account/Login");
         }
     }
 }

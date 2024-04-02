@@ -64,11 +64,12 @@ namespace _1640.Areas.Student.Controllers
                     IsBlogActive = false
 
                 },
-                //FacultyName = _unitOfWork.UserRepository.Get(f => f.Id == id).Faculty.Name,
-                UserName = _unitOfWork.UserRepository.Get(f => f.Id == id).FullName.ToUpper(),
-                FacultyId = _unitOfWork.UserRepository.Get(f => f.Id == id).FacultyId.Value
                 
+                UserName = _unitOfWork.UserRepository.Get(f => f.Id == id).FullName.ToUpper(),
+                FacultyId = _unitOfWork.UserRepository.Get(f => f.Id == id).FacultyId.Value,
+
             };
+            articleVM.FacultyName = _unitOfWork.FacultyRepository.Get(f => f.Id == articleVM.FacultyId).Name.ToString();
             ViewBag.UserId = id;
             return View(articleVM);
 
@@ -135,6 +136,7 @@ namespace _1640.Areas.Student.Controllers
                     articleVM.Article.UserName = articleVM.UserName;
                     articleVM.Article.UserId = id;
                     articleVM.Article.FacultyId = (int)articleVM.FacultyId;
+                    articleVM.Article.FacultyName = _unitOfWork.FacultyRepository.Get(f => f.Id == articleVM.FacultyId).Name.ToString();
                     articleVM.Article.Status = Article.StatusArticle.Pending;
                     
 
@@ -179,6 +181,7 @@ namespace _1640.Areas.Student.Controllers
                 UserName = _unitOfWork.UserRepository.Get(f => f.Id == id).FullName.ToUpper(),
                 FacultyId = _unitOfWork.UserRepository.Get(f => f.Id == id).FacultyId.Value
             };
+            articleVM.FacultyName = _unitOfWork.FacultyRepository.Get(f => f.Id == articleVM.FacultyId).Name.ToString();
             ViewBag.UserId = id;
             return View(articleVMNew);
 
