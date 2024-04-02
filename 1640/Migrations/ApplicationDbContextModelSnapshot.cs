@@ -280,7 +280,7 @@ namespace _1640.Migrations
 
                     b.HasIndex("SemesterId");
 
-                    b.ToTable("Articles");
+                    b.ToTable("Articles", (string)null);
                 });
 
             modelBuilder.Entity("_1640.Models.Comment", b =>
@@ -303,7 +303,7 @@ namespace _1640.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("_1640.Models.Faculty", b =>
@@ -324,7 +324,7 @@ namespace _1640.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Faculties");
+                    b.ToTable("Faculties", (string)null);
                 });
 
             modelBuilder.Entity("_1640.Models.Semester", b =>
@@ -352,7 +352,7 @@ namespace _1640.Migrations
 
                     b.HasIndex("FacultyId");
 
-                    b.ToTable("Semesters");
+                    b.ToTable("Semesters", (string)null);
                 });
 
             modelBuilder.Entity("_1640.Models.User", b =>

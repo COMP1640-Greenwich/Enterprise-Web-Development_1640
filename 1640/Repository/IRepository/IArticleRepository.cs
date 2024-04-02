@@ -1,4 +1,5 @@
 ﻿using _1640.Models;
+using System.Linq.Expressions;
 
 namespace _1640.Repository.IRepository
 {
@@ -6,5 +7,7 @@ namespace _1640.Repository.IRepository
     {
         void Update(Article entity);
         public IEnumerable<Article> GetAllApprove(string? includeProperty = null);
+        IEnumerable<Article> GetAll(Expression<Func<Article, bool>> filter = null);
+
     }
 }

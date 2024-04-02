@@ -3,10 +3,14 @@ using _1640.Data;
 using _1640.Models;
 using _1640.Models.VM;
 using _1640.Repository.IRepository;
+using _1640.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Mail;
+using System.Net;
+using Microsoft.AspNetCore.Identity;
 
 namespace _1640.Areas.Student.Controllers
 {
@@ -17,21 +21,34 @@ namespace _1640.Areas.Student.Controllers
         private readonly IUnitOfWork _unitOfWork;
 
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public ArticleController(ApplicationDbContext dbContext, IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
+        private readonly UserManager<IdentityUser> _userManager;
+        public ArticleController(ApplicationDbContext dbContext, IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment, UserManager<IdentityUser> userManager)
         {
             _dbContext = dbContext;
             _unitOfWork = unitOfWork;
             _webHostEnvironment = webHostEnvironment;
+            _userManager = userManager;
         }
         public IActionResult Index()
         {
             List<Article> articles = _unitOfWork.ArticleRepository.GetAllApprove("Semester").ToList();
             return View(articles);
         }
+
+        [Authorize(Roles = Constraintt.StudentRole)]
+        public async Task<IActionResult> MyArticles()
+        {
+            // Get the current user
+            var user = await _userManager.GetUserAsync(User);
+
+            // Get the articles of the current user
+            List<Article> articles = _unitOfWork.ArticleRepository.GetAll(a => a.UserId == user.Id).ToList();
+
+            return View(articles);
+        }
+
         public IActionResult Create(string id)
         {
-
-
 
             ArticleVM articleVM = new ArticleVM()
             {
@@ -46,7 +63,6 @@ namespace _1640.Areas.Student.Controllers
                 {
                     IsBlogActive = false
 
-
                 },
                 //FacultyName = _unitOfWork.UserRepository.Get(f => f.Id == id).Faculty.Name,
                 UserName = _unitOfWork.UserRepository.Get(f => f.Id == id).FullName.ToUpper(),
@@ -59,7 +75,7 @@ namespace _1640.Areas.Student.Controllers
 
         }
         [HttpPost]
-        public IActionResult Create(string id, ArticleVM articleVM, IFormFile? file, IFormFile? file1)
+        public async Task<IActionResult> CreateAsync(string id, ArticleVM articleVM, IFormFile? file, IFormFile? file1)
         {
 
             if (ModelState.IsValid)
@@ -124,6 +140,17 @@ namespace _1640.Areas.Student.Controllers
 
                     _unitOfWork.ArticleRepository.Add(articleVM.Article);
                     _unitOfWork.Save();
+
+                    var smtpClient = new SmtpClient("smtp.gmail.com")
+                    {
+                        Port = 587,
+                        Credentials = new NetworkCredential("tdm0982480826@gmail.com", "xnej ojsl etxa euki"),
+                        EnableSsl = true,
+                    };
+                    var message = $"Student {articleVM.Article.UserName} have requested an article";
+                    smtpClient.Send("tdm0982480826@gmail.com", "tabthien18@gmail.com", "New article created", message);
+
+
                     TempData["success"] = "Article Created successfully";
                     return RedirectToAction("Index");
                 }

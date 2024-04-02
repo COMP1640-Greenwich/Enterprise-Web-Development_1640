@@ -31,12 +31,14 @@ namespace _1640.Areas.Manager.Controllers
             List<Faculty> faculities = _unitOfWork.FacultyRepository.GetAll().ToList();
             return View(faculities);
         }
+
         [Route("List")]
         public IActionResult List()
         {
             List<Article> articles = _unitOfWork.ArticleRepository.GetAllApprove("Semester").ToList();
             return View(articles);
         }
+
         [Route("List/id")]
         public IActionResult DownloadDocInZip(int id)
         {

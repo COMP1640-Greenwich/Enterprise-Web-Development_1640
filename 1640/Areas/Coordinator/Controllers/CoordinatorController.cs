@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Authorization;
 using _1640.Utility;
 using Microsoft.EntityFrameworkCore;
 using _1640.Areas.Repository.IRepository;
+using System.Net.Mail;
+using System.Net;
+using System.Security.Claims;
 
 namespace _1640.Areas.Coordinator.Controllers
 {
@@ -148,15 +151,25 @@ namespace _1640.Areas.Coordinator.Controllers
             return RedirectToAction("Requests");
         }
         // list of request article for Coordinator
+        // list of request article for Coordinator
         [Authorize(Roles = Constraintt.CoordinatorRole)]
         [HttpGet]
         public async Task<IActionResult> Requests()
         {
-            var request = await _db.Articles.Where(a => a.Status == Article.StatusArticle.Pending).ToListAsync();
-            if (request.Count == 0 || request.Count == null)
+            // Get the current user
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _db.Users.FindAsync(userId);
+
+            // Get the articles that have the same FacultyId as the coordinator and are pending
+            var request = await _db.Articles
+                .Where(a => a.Status == Article.StatusArticle.Pending && a.FacultyId == user.FacultyId)
+                .ToListAsync();
+
+            if (request.Count == 0)
             {
-                return NotFound("You don't have any request");
+                ViewBag.Message = "You don't have any request";
             }
+
             return View(request);
         }
 
@@ -173,6 +186,23 @@ namespace _1640.Areas.Coordinator.Controllers
             }
             approveArticle.Status = Article.StatusArticle.Approve;
             await _db.SaveChangesAsync();
+
+            var user = await _db.Users.FindAsync(approveArticle.UserId);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            // Send email to the student who created the article
+            var smtpClient = new SmtpClient("smtp.gmail.com")
+            {
+                Port = 587,
+                Credentials = new NetworkCredential("tdm0982480826@gmail.com", "xnej ojsl etxa euki"),
+                EnableSsl = true,
+            };
+            smtpClient.Send("tdm0982480826@gmail.com", user.Email, "Your article was approved", "Congratulations, your article was approved.");
+
+
             TempData["Success"] = "Aprrove for Create Article successfully";
             return RedirectToAction("Requests");
         }
@@ -189,6 +219,22 @@ namespace _1640.Areas.Coordinator.Controllers
             rejectArticle.Status = Article.StatusArticle.Reject;
             _db.Remove(rejectArticle); // delelte the article from list
             await _db.SaveChangesAsync();
+
+            var user = await _db.Users.FindAsync(rejectArticle.UserId);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            // Send email to the student who created the article
+            var smtpClient = new SmtpClient("smtp.gmail.com")
+            {
+                Port = 587,
+                Credentials = new NetworkCredential("tdm0982480826@gmail.com", "xnej ojsl etxa euki"),
+                EnableSsl = true,
+            };
+            smtpClient.Send("tdm0982480826@gmail.com", user.Email, "Your article was rejected", "We're sorry, but your article was rejected.");
+
             TempData["Success"] = "Reject for Create Article successfully";
             return RedirectToAction("Requests");
         }
