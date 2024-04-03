@@ -154,7 +154,7 @@ namespace _1640.Areas.Student.Controllers
 
 
                     TempData["success"] = "Article Created successfully";
-                    return RedirectToAction("Index");
+                    return RedirectToAction("MyArticles");
                 }
                 else
                 {

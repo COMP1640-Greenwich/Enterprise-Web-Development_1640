@@ -6,12 +6,15 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
 using _1640.Areas.Repository.IRepository;
+using _1640.Data;
 using _1640.Models;
+using _1640.Utility;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -20,6 +23,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace _1640.Areas.Identity.Pages.Account
@@ -33,6 +37,8 @@ namespace _1640.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IEmailSender _emailSender;
+        private readonly ApplicationDbContext _db;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
@@ -41,7 +47,8 @@ namespace _1640.Areas.Identity.Pages.Account
             ILogger<RegisterModel> logger,
              RoleManager<IdentityRole> roleManager,
             IEmailSender emailSender,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            ApplicationDbContext db)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -51,6 +58,7 @@ namespace _1640.Areas.Identity.Pages.Account
             //_emailSender = emailSender;
             _roleManager = roleManager;
             _unitOfWork = unitOfWork;
+            _db = db;
         }
         [BindProperty]
         public InputModel Input { get; set; }
@@ -112,7 +120,8 @@ namespace _1640.Areas.Identity.Pages.Account
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
-            {
+            {               
+
                 var user = new User()
                 {
                     UserName = Input.Email,
@@ -124,6 +133,14 @@ namespace _1640.Areas.Identity.Pages.Account
                     Role = Input.Role,
                     FacultyId = Input.SelectedFacultyId,
                 };
+
+                if (Input.Role == SD.Role_Coordinator && _db.Users.Any(u => u.FacultyId == Input.SelectedFacultyId && u.Role == SD.Role_Coordinator))
+                {
+                    ModelState.AddModelError(string.Empty, "A coordinator for the selected faculty already exists.");
+                    GetRoles();
+                    return Page();
+                }
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
@@ -152,6 +169,7 @@ namespace _1640.Areas.Identity.Pages.Account
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
+
             }
             GetRoles();
             return Page();

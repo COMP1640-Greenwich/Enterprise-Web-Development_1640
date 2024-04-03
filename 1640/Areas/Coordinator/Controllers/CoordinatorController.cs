@@ -90,6 +90,7 @@ namespace _1640.Areas.Coordinator.Controllers
             }
             return View(semesterVM);
         }
+
         [HttpPost]
         public IActionResult Edit(SemesterVM semesterVM)
         {
@@ -206,6 +207,8 @@ namespace _1640.Areas.Coordinator.Controllers
             TempData["Success"] = "Aprrove for Create Article successfully";
             return RedirectToAction("Requests");
         }
+
+
         //Reject the article
         [Authorize(Roles = Constraintt.CoordinatorRole)]
         [HttpGet]
@@ -217,7 +220,7 @@ namespace _1640.Areas.Coordinator.Controllers
                 return NotFound("The request not found");
             }
             rejectArticle.Status = Article.StatusArticle.Reject;
-            _db.Remove(rejectArticle); // delelte the article from list
+            //_db.Remove(rejectArticle); // delelte the article from list
             await _db.SaveChangesAsync();
 
             var user = await _db.Users.FindAsync(rejectArticle.UserId);

@@ -1,43 +1,48 @@
 ﻿@model SemesterVM
-<h1 hidden> @(Model.Semester)   </h1>
-<h2> Edit a Semester</h2>
+
+<h2>Edit a Semester</h2>
+
 <form method="post">
-    <div class="border pt-3 mt-4">
+    <div class="form-group">
         <input asp-for="Semester.Id" hidden />
-        <div class="mb-3 row">
+
+        <div class="form-group">
             <label asp-for="Semester.Name"></label>
-            <input asp-for="Semester.Name" />
+            <input asp-for="Semester.Name" class="form-control" />
             <span asp-validation-for="Semester.Name" class="text-danger"></span>
         </div>
-        <div class="mb-3 row">
+
+        <div class="form-group">
             <label asp-for="Semester.StartDate"></label>
-            <input asp-for="Semester.StartDate" />
+            <input asp-for="Semester.StartDate" class="form-control" />
             <span asp-validation-for="Semester.StartDate" class="text-danger"></span>
         </div>
-        <div class="mb-3 row">
+
+        <div class="form-group">
             <label asp-for="Semester.EndDate"></label>
-            <input asp-for="Semester.EndDate" />
+            <input asp-for="Semester.EndDate" class="form-control" />
             <span asp-validation-for="Semester.EndDate" class="text-danger"></span>
         </div>
-        <div class="mb-3 row">
+
+        <div class="form-group">
             <label asp-for="Semester.FacultyId"></label>
-            <select asp-for="Semester.FacultyId" asp-items="@Model.Faculties"></select>
+            <select asp-for="Semester.FacultyId" asp-items="@Model.Faculties" class="form-control"></select>
             <span asp-validation-for="Semester.FacultyId" class="text-danger"></span>
         </div>
-        <div class="mb-3 row">
+
+        <div class="form-group">
             <label asp-for="Semester.Status"></label>
-            <input asp-for="Semester.Status" />
+            <input asp-for="Semester.Status" class="form-control" />
             <span asp-validation-for="Semester.Status" class="text-danger"></span>
         </div>
-        <button type="submit" class="btn btn-primary">Edit</button>
-        <a asp-controller="Coordinator" asp-action="Index" class="btn btn-primary">Back to list</a>
+
+        <div class="form-group mt-3">
+            <button type="submit" class="btn btn-primary">Edit</button>
+            <a asp-controller="Coordinator" asp-action="Index" class="btn btn-secondary ml-2">Back to list</a>
+        </div>
     </div>
 </form>
 
 @section Scripts {
-    @{
-        <partial name="_ValidationScriptsPartial" />
-    }
+    <partial name="_ValidationScriptsPartial" />
 }
-
-
