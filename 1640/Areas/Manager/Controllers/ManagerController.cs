@@ -18,7 +18,7 @@ namespace _1640.Areas.Manager.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly ApplicationDbContext _dbContext;
-        private readonly int _recordsPerPage = 4;
+        private readonly int _recordsPerPage = 2;
         public ManagerController(IUnitOfWork unitOfWork, IWebHostEnvironment hostingEnvironment, ApplicationDbContext dBContext)
         {
             _unitOfWork = unitOfWork;
@@ -37,8 +37,8 @@ namespace _1640.Areas.Manager.Controllers
         public IActionResult List(int id, string searchString = "")
         {
             List<Article> articles = _unitOfWork.ArticleRepository.GetAllApprove("Semester")
-        .Where(b => b.Title.Contains(searchString))
-        .ToList();
+            .Where(b => b.Title.Contains(searchString))
+            .ToList();
 
             int numberOfRecords = articles.Count();
             int numberOfPages = (int)Math.Ceiling((double)numberOfRecords / _recordsPerPage);

@@ -59,13 +59,12 @@
 
                                 <div class="d-flex align-items-center">
                                     <div class="flex-shrink-1">
-                                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-2.webp"
+                                        <img src="https://cdn-icons-png.flaticon.com/512/3541/3541871.png"
                                              alt="Generic placeholder image" class="img-fluid rounded-circle border border-dark border-3"
                                              style="width: 70px;">
                                     </div>
                                     <div class=" ms-4">
                                         <h4 class="mb-1" style="text-transform: lowercase capitalize">@Article.UserName</h4>
-                                        <h7 class="mb-2">@User.Identity.Name</h7>
                                         <p class="card-text">Faculty:   @Article.FacultyName</p>
                                     </div>
                                 </div>
@@ -121,8 +120,11 @@
             }
         </div>
     </div>
+
     <br />
+
     <div style="display:flex;text-align:center;justify-content:center">
+        <nav aria-label="Page navigation example">
             <ul class="pagination">
                 @for (var i = 0; i < @ViewBag.numberOfPages; i++)
                 {
@@ -134,6 +136,5 @@
             </ul>
         </nav>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-OgQ8P8GBtLJE//7QXqCExu5w5IJbkz7jlQlTwVIsHQ4zLJkjN9q09QY8zYvbyty" crossorigin="anonymous"></script>
 
 </body>

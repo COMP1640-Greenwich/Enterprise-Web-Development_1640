@@ -103,7 +103,7 @@ namespace _1640.Areas.Student.Controllers
                     }
                     else
                     {
-                        TempData["error"] = "You must insert file image.";
+                        TempData ["error"] = "You must insert file image.";
                         return View(articleVM);
                     }
                     if (file1 != null)
