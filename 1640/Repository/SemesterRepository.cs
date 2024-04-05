@@ -13,6 +13,8 @@ namespace _1640.Repository
         {
             _db = db;
         }
+
+
         public void Update(Semester entity)
         {
             _db.Semesters.Update(entity);

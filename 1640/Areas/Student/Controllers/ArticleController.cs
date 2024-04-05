@@ -49,32 +49,29 @@ namespace _1640.Areas.Student.Controllers
 
         public IActionResult Create(string id)
         {
+            var userFacultyId = _unitOfWork.UserRepository.Get(f => f.Id == id).FacultyId.Value;
 
             ArticleVM articleVM = new ArticleVM()
             {
-
-
-                Semesters = _unitOfWork.SemesterRepository.GetAllOpening().Select(c => new SelectListItem
-                {
-                    Text = c.Name,
-                    Value = c.Id.ToString(),
-                }),
+                Semesters = _unitOfWork.SemesterRepository.GetAllOpening()
+                    .Where(s => s.FacultyId == userFacultyId)
+                    .Select(c => new SelectListItem
+                    {
+                        Text = c.Name,
+                        Value = c.Id.ToString(),
+                    }),
                 Article = new Article()
                 {
                     IsBlogActive = false
-
                 },
-                
                 UserName = _unitOfWork.UserRepository.Get(f => f.Id == id).FullName.ToUpper(),
-                FacultyId = _unitOfWork.UserRepository.Get(f => f.Id == id).FacultyId.Value,
-
+                FacultyId = userFacultyId,
             };
             articleVM.FacultyName = _unitOfWork.FacultyRepository.Get(f => f.Id == articleVM.FacultyId).Name.ToString();
             ViewBag.UserId = id;
             return View(articleVM);
-
-
         }
+
         [HttpPost]
         public async Task<IActionResult> CreateAsync(string id, ArticleVM articleVM, IFormFile? file, IFormFile? file1)
         {
@@ -197,5 +194,118 @@ namespace _1640.Areas.Student.Controllers
             return View(comments);
 
         }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            // Get the article to be edited
+            var article = _unitOfWork.ArticleRepository.Get(a => a.Id == id);
+
+            if (article == null)
+            {
+                return NotFound("Article not found");
+            }
+
+            // Get the semester of the article
+            var semester = _unitOfWork.SemesterRepository.Get(s => s.Id == article.SemesterId);
+
+            if (DateTime.Now > semester.EndDate)
+            {
+                TempData["error"] = "The final deadline has passed. You cannot update this article.";
+                return RedirectToAction("MyArticles");
+            }
+
+            // Create the view model
+            ArticleVM articleVM = new ArticleVM()
+            {
+                Article = article,
+                Semesters = _unitOfWork.SemesterRepository.GetAll()
+                    .Select(c => new SelectListItem
+                    {
+                        Text = c.Name,
+                        Value = c.Id.ToString(),
+                    })
+            };
+
+            return View(articleVM);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(ArticleVM articleVM)
+        {
+            if (ModelState.IsValid)
+            {
+                // Get the semester of the article
+                var semester = _unitOfWork.SemesterRepository.Get(s => s.Id == articleVM.Article.SemesterId);
+
+                if (DateTime.Now > semester.EndDate)
+                {
+                    TempData["error"] = "The final deadline has passed. You cannot update this article.";
+                    return View(articleVM);
+                }
+
+                _unitOfWork.ArticleRepository.Update(articleVM.Article);
+                _unitOfWork.Save();
+                TempData["success"] = "Article updated successfully";
+                return RedirectToAction("MyArticles");
+            }
+
+            return View(articleVM);
+        }
+
+        [HttpGet]
+public IActionResult Delete(int id)
+{
+    // Get the article to be deleted
+    var article = _unitOfWork.ArticleRepository.Get(a => a.Id == id);
+
+    if (article == null)
+    {
+        return NotFound("Article not found");
+    }
+
+    // Get the semester of the article
+    var semester = _unitOfWork.SemesterRepository.Get(s => s.Id == article.SemesterId);
+
+    if (DateTime.Now > semester.EndDate)
+    {
+        TempData["error"] = "The final deadline has passed. You cannot delete this article.";
+        return RedirectToAction("MyArticles");
+    }
+
+    // Pass the article to the view
+    return View(article);
+}
+
+
+
+        [HttpPost]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            // Get the article to be deleted
+            var article = _unitOfWork.ArticleRepository.Get(a => a.Id == id);
+
+            if (article == null)
+            {
+                return NotFound("Article not found");
+            }
+
+            // Get the semester of the article
+            var semester = _unitOfWork.SemesterRepository.Get(s => s.Id == article.SemesterId);
+
+            if (DateTime.Now > semester.EndDate)
+            {
+                TempData["error"] = "The final deadline has passed. You cannot delete this article.";
+                return RedirectToAction("MyArticles");
+            }
+
+            // Delete the article
+            _unitOfWork.ArticleRepository.Delete(article);
+            _unitOfWork.Save();
+
+            TempData["success"] = "Article deleted successfully";
+            return RedirectToAction("MyArticles");
+        }
+
     }
 }

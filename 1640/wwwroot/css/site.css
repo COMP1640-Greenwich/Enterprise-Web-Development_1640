@@ -21,3 +21,7 @@ body {
   margin-bottom: 60px;
 }
 
+#toast-container .toast-error {
+    color: black !important;
+}
+
