@@ -7,18 +7,19 @@
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Management</title>
-    <!-- plugins:css -->
     <link rel="stylesheet" href="../../LayoutManager/assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="../../LayoutManager/assets/vendors/css/vendor.bundle.base.css">
-    <!-- endinject -->
-    <!-- Plugin css for this page -->
-    <!-- End plugin css for this page -->
-    <!-- inject:css -->
-    <!-- endinject -->
-    <!-- Layout styles -->
     <link rel="stylesheet" href="../../LayoutManager/assets/css/style.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/_1640.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css" />
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="~/css/mdb.min.css" rel="stylesheet" />
     <!-- End layout styles -->
     <link rel="shortcut icon" href="../../LayoutManager/assets/images/favicon.ico" />
 </head>
@@ -40,6 +41,12 @@
                     </button>
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                         <ul class="nav justify-content-center">
+                            @if (User.IsInRole("Manager"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="Manager" asp-controller="Manager" asp-action="Dashboard1"><b>Dashboard</b></a>
+                                </li>
+                            }
                         </ul>
 
                         <ul class="navbar-nav">
@@ -132,18 +139,9 @@
         </div>
         <!-- page-body-wrapper ends -->
     </div>
-    <!-- container-scroller -->
-    <!-- plugins:js -->
     <script src="../../LayoutManager/assets/vendors/js/vendor.bundle.base.js"></script>
-    <!-- endinject -->
-    <!-- Plugin js for this page -->
-    <!-- End plugin js for this page -->
-    <!-- inject:js -->
     <script src="../../LayoutManager/assets/js/off-canvas.js"></script>
     <script src="../../LayoutManager/assets/js/hoverable-collapse.js"></script>
     <script src="../../LayoutManager/assets/js/misc.js"></script>
-    <!-- endinject -->
-    <!-- Custom js for this page -->
-    <!-- End custom js for this page -->
 </body>
 </html>

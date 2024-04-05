@@ -15,63 +15,82 @@
     .article-status {
     }
 </style>
-<div class="container h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col-md-9 col-sm-auto pt-3 row gx-3 row gy-3">
-            <div class="mb-3">
-                <form class="d-flex">
-                    <h2><i class="fa-solid fa-newspaper"></i> Your Articles</h2>
-                </form>
-            </div>
-            <div class="mb-3">
-                @foreach (var Article in Model)
-                {
-                    <div class="card" style="border-radius: 15px; background-color: #93e2bb;">
-                        <div class="container content py-2 px-2">
+<a asp-area="Student" asp-controller="Home" asp-action="Index" type="button" class="btn btn-primary" style="border-radius:15px">Back to Home</a>
 
-                            <div class="article-status @GetStatusClass(Article.Status)" style="position: absolute;top: 10px;right: 10px;padding: 15px 20px;font-weight: bold;color: white;border-radius: 15px;width: auto;height: auto; line-height: normal;text-align: center;">
-                                @Article.Status.ToString()
-                            </div>
+@if(Model.Any()){
+    <div class="container h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-9 col-sm-auto pt-3 row gx-3 row gy-3">
+                <div class="mb-3">
+                    <form class="d-flex">
+                        <h2><i class="fa-solid fa-newspaper"></i> Your Articles</h2>
+                    </form>
+                </div>
+                <div class="mb-3">
+                    @foreach (var Article in Model)
+                    {
+                        <div class="card" style="border-radius: 15px; background-color: #93e2bb;">
+                            <div class="container content py-2 px-2">
 
-                            <div class="d-flex align-items-center">
-                                <div class="flex-shrink-1">
-                                    <img src="https://cdn-icons-png.flaticon.com/512/3541/3541871.png"
-                                         alt="Generic placeholder image" class="img-fluid rounded-circle border border-dark border-3"
-                                         style="width: 70px;">
+                                <div class="article-status @GetStatusClass(Article.Status)" style="position: absolute;top: 10px;right: 10px;padding: 15px 20px;font-weight: bold;color: white;border-radius: 15px;width: auto;height: auto; line-height: normal;text-align: center;">
+                                    @Article.Status.ToString()
                                 </div>
-                                <div class=" ms-4">
-                                    <h4 class="mb-1" style="text-transform: lowercase capitalize">@Article.UserName</h4>
-                                    <p class="card-text">Faculty:   @Article.FacultyName</p>
-                                </div>
-                            </div>
-                            <hr />
 
-                            <div class="row no-gutters">
-                                <div class="col-sm-5">
-                                    <img class="card-img" src="@Article.ImageUrl" alt="@Article.Title">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-1">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/3541/3541871.png"
+                                             alt="Generic placeholder image" class="img-fluid rounded-circle border border-dark border-3"
+                                             style="width: 70px;">
+                                    </div>
+                                    <div class=" ms-4">
+                                        <h4 class="mb-1" style="text-transform: lowercase capitalize">@Article.UserName</h4>
+                                        <p class="card-text">Faculty:   @Article.FacultyName</p>
+                                    </div>
                                 </div>
-                                <div class="col-sm-7">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Title:&nbsp @Article.Title</h5>
-                                        <p class="card-text">@Article.Description</p>
-                                        <p class="card-text">@Article.SemesterId</p>
-                                        <div class="float-right">
-                                            <a type="button" class="btn btn-success btn-rounded" href="@Article.DocxUrl" formtarget="_blank"><i class="fa-solid fa-cloud-arrow-down"></i> Download</a>
-                                            <a type="button" class="btn btn-primary btn-rounded" asp-action="Edit" asp-route-id="@Article.Id"><i class="fa-solid fa-pencil"></i> Edit</a>
-                                            <a type="button" class="btn btn-danger btn-rounded" asp-action="Delete" asp-route-id="@Article.Id"><i class="fa-solid fa-trash"></i> Delete</a>
+                                <hr />
+
+                                <div class="row no-gutters">
+                                    <div class="col-sm-5">
+                                        <img class="card-img" src="@Article.ImageUrl" alt="@Article.Title">
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Title:&nbsp @Article.Title</h5>
+                                            <p class="card-text">@Article.Description</p>
+                                            <p class="card-text">@Article.SemesterId</p>
+                                            <div class="float-right">
+                                                <a type="button" class="btn btn-success btn-rounded" href="@Article.DocxUrl" formtarget="_blank"><i class="fa-solid fa-cloud-arrow-down"></i> Download</a>
+                                                <a type="button" class="btn btn-primary btn-rounded" asp-action="Edit" asp-route-id="@Article.Id"><i class="fa-solid fa-pencil"></i> Edit</a>
+                                                <a type="button" class="btn btn-danger btn-rounded" asp-action="Delete" asp-route-id="@Article.Id"><i class="fa-solid fa-trash"></i> Delete</a>
+                                                <a asp-action="ViewFeedBack" asp-route-id="@Article.Id" type="button" class="btn btn-secondary" style="border-radius:15px"> View Feedback</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
+                            </div>
                         </div>
-                    </div>
-                    <br />
-                }
+                        <br />
+                    }
+                </div>
             </div>
         </div>
     </div>
-</div>
+}
+else
+{
+    <br />
+    <br />
+    <h1>
+        @if (ViewBag.Message != null)
+        {
+            <div class="alert alert-info text-center" role="alert">
+                <strong>@ViewBag.Message</strong>
+            </div>
+        }
+    </h1>
+}
+
 <div style="display:flex;text-align:center;justify-content:center">
     <nav aria-label="Page navigation example">
         <ul class="pagination">
