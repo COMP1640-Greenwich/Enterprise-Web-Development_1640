@@ -4,9 +4,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    @RenderSection("Styles", required: false)
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width user-scalable, initial-scale=1.0" />
     <title>@ViewData["Title"] - _1640</title>
     <link rel="icon" href="image/logo.ico" type="image/x-icon" />
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
@@ -19,12 +18,12 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <link href="~/css/mdb.min.css" rel="stylesheet" />
     <script src="js/modernizr.js"></script>
-</head>
+ </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                @if (User.IsInRole("Admin") || User.IsInRole("Manager") || User.IsInRole("Coordinator") || User.IsInRole("Student") || User.IsInRole("User"))
+                @if (User.IsInRole("Student") || User.IsInRole("User"))
                 {
                     <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                         <img src="~/images/Home/2022-Greenwich-Eng.png" style="width:120px;height:50px;">
@@ -37,47 +36,41 @@
                     </button>
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                         <ul class="nav justify-content-center">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                            </li>
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="Admin" asp-controller="Users" asp-action="Index">List of Accounts</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register for new Account</a>
-                            </li>
-                        }
-                        @if (User.IsInRole("Coordinator"))
-                        {
-                            <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="Coordinator" asp-controller="Coordinator" asp-action="Index">Create Semester</a>
-                            </li>
-                            <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="Coordinator" asp-controller="Coordinator" asp-action="Requests">Request</a>
-                            </li>
-                          
-                        }
-                        @if (User.IsInRole("Manager"))
-                        {
-                            <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle text-dark" href="#" id="managerDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Manager</a>
-                                <ul class="dropdown-menu" aria-labelledby="managerDropdown">
-                                    <li><a class="dropdown-item" asp-area="Manager" asp-controller="Manager" asp-action="Index">Manager function</a></li>
-                                    <li><a class="dropdown-item" asp-area="Manager" asp-controller="Manager" asp-action="List">Article's List</a></li>
-                                 </ul>
-                            </li>
-                        }
-                         @if (User.IsInRole("Student"))
-                        {
+                            @if (User.IsInRole("Student") || User.IsInRole("User"))
+                            {
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-area="Student" asp-controller="Article" asp-action="MyArticles">My Article</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                                 </li>
-                        }
-                    </ul>
+                            }
 
-                    <ul class="navbar-nav">
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="Admin" asp-controller="Users" asp-action="Index">List of Accounts</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register for new Account</a>
+                                </li>
+                            }
+                            @if (User.IsInRole("Coordinator"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="Coordinator" asp-controller="Coordinator" asp-action="Index">Create Semester</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="Coordinator" asp-controller="Coordinator" asp-action="Requests">Request</a>
+                                </li>
+
+                            }
+                            @if (User.IsInRole("Student"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark " asp-area="Student" asp-controller="Article" asp-action="MyArticles">My Article</a>
+                                </li>
+                            }
+                        </ul>
+
+                        <ul class="navbar-nav">
                             @if (User.IsInRole("Admin") || User.IsInRole("Manager") || User.IsInRole("Coordinator") || User.IsInRole("Student") || User.IsInRole("User"))
                             {
                                 <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><b style="color:coral">Hello</b>, @UserManager.GetUserName(User).</a>
@@ -93,14 +86,14 @@
 
                                 </div>
                             }
-                        @if (SignInManager.IsSignedIn(User))
-                        {
-                            <li class="nav-item">
-                                <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                                    <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">| <b style="color:darkred">Logout</b></button>
-                                </form>
-                            </li>
-                        }
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <li class="nav-item">
+                                    <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                        <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">| <b style="color:darkred">Logout</b></button>
+                                    </form>
+                                </li>
+                            }
                         </ul>
                     </div>
                 </div>
@@ -117,16 +110,13 @@
     <footer class="myfooter">
         <div class="container ">
             <div class="row">
-                <div class="left-col col-3">
-
-                </div>
                 <div class="left-right col-9">
                     <h3 style="font-size:20px">&copy; Copyright belongs to Mixi Huyen - Thanh - Khanh - Minh - Khai</h3>
                 </div>
             </div>
         </div>
     </footer>
-  
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

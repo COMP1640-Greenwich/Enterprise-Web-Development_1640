@@ -1,5 +1,6 @@
 using _1640.Areas.Repository.IRepository;
 using _1640.Models;
+using _1640.Models.VM;
 using _1640.Repository.IRepository;
 using _1640.Utility;
 using Microsoft.AspNetCore.Authorization;
@@ -16,7 +17,7 @@ namespace _1640.Areas.Student.Controllers
         private readonly IUnitOfWork _unitOfWork;
 
         private readonly ILogger<HomeController> _logger;
-		private readonly int _recordsPerPage = 4;
+		private readonly int _recordsPerPage = 2;
 
         private readonly UserManager<IdentityUser> _userManager;
 
@@ -27,7 +28,7 @@ namespace _1640.Areas.Student.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> IndexAsync()
+        public async Task<IActionResult> Index(int id, string searchString = "")
         {
             var user = await _userManager.GetUserAsync(User);
             if (user != null)
@@ -40,21 +41,33 @@ namespace _1640.Areas.Student.Controllers
                 {
                     // Cast the user to User to access the FacultyId property
                     var student = user as User;
+
                     if (student != null)
                     {
                         // Get the articles that have the same FacultyId as the student
-                        var articles = _unitOfWork.ArticleRepository.GetAll(a => a.FacultyId == student.FacultyId && a.Status == Article.StatusArticle.Approve).ToList();
-                        return View(articles);
+                        var articles = _unitOfWork.ArticleRepository
+                            .GetAll(a => a.FacultyId == student.FacultyId && a.Status == Article.StatusArticle.Approve)
+                            .Where(b => b.Title.Contains(searchString))
+                            .ToList();
+
+                        int numberOfRecords = articles.Count();
+                        int numberOfPages = (int)Math.Ceiling((double)numberOfRecords / _recordsPerPage);
+
+                        ViewBag.numberOfPages = numberOfPages;
+                        ViewBag.currentPage = id;
+                        ViewData["Current Filter"] = searchString;
+
+                        var articlesList = articles.Skip(id * numberOfPages).Take(_recordsPerPage).ToList();
+                        return View(articlesList);
                     }
                 }
             }
             // If the user is not logged in or is not a manager or a student, return all approved articles
-            var allArticles = _unitOfWork.ArticleRepository.GetAllApprove().ToList();
-            return View(allArticles);
+            var Allarticles = _unitOfWork.ArticleRepository.GetAllApprove("Semester")
+                .Where(b => b.Title.Contains(searchString))
+                .ToList();
+            return View(Allarticles);
         }
-
-
-
 
         public IActionResult Privacy()
         {
