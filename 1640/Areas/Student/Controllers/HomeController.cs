@@ -54,8 +54,6 @@ namespace _1640.Areas.Student.Controllers
         }
 
 
-
-
         public IActionResult Privacy()
         {
             return View();
