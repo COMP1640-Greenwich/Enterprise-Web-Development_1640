@@ -56,8 +56,9 @@
                                         <p class="card-text">@Article.Description</p>
                                         <p class="card-text">@Article.SemesterId</p>
                                         <div class="float-right">
-                                            <a type="button" class="btn btn-success btn-rounded" href="@Article.DocxUrl" formtarget="_blank"><i class="fa-solid fa-cloud-arrow-down"></i> Download</a>
-
+                                            <a type="button" class="btn btn-success" style="border-radius:15px" href="@Article.DocxUrl" formtarget="_blank"><i class="fa-solid fa-cloud-arrow-down"></i> Download</a>
+                                            <a asp-action="ViewFeedBack" asp-route-id="@Article.Id" type="button" class="btn btn-secondary" style="border-radius:15px"> View Feedback</a>
+                                            <a asp-area="Student" asp-controller="Home" asp-action="Index" type="button" class="btn btn-primary" style="border-radius:15px">Back to Home.</a>
                                         </div>
                                     </div>
                                 </div>

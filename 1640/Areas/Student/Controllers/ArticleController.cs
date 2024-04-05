@@ -190,8 +190,6 @@ namespace _1640.Areas.Student.Controllers
 
         public ActionResult ViewFeedBack(int id)
         {
-
-
             Comment comment = new Comment();
             comment.ArticleId = id;
             List<Comment> comments = _dbContext.Comments.Where(c => c.ArticleId == id).ToList();

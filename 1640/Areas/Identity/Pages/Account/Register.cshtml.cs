@@ -149,6 +149,7 @@ namespace _1640.Areas.Identity.Pages.Account
                     if (Input.Role == "Student")
                     {
                         await _userManager.AddToRolesAsync(user, new[] { "Student" });
+                        TempData["success"] = "Adding Successfully";
                     }
                     if (Input.Role == "Coordinator")
                     {
