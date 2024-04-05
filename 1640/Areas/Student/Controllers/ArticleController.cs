@@ -43,7 +43,10 @@ namespace _1640.Areas.Student.Controllers
 
             // Get the articles of the current user
             List<Article> articles = _unitOfWork.ArticleRepository.GetAll(a => a.UserId == user.Id).ToList();
-
+            if(articles.Count == 0)
+            {
+                ViewBag.Message = "You don't have any Article";
+            }
             return View(articles);
         }
 

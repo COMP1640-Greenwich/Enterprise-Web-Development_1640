@@ -100,7 +100,7 @@ namespace _1640.Areas.Manager.Controllers
                 //_db.SaveChanges();
                 _unitOfWork.FacultyRepository.Add(faculity);
                 _unitOfWork.Save();
-                TempData["success"] = "Faculity create successfully";
+                TempData["StatusMessage"] = "Faculty created successfully";
             }
             return RedirectToAction("Index");
         }
@@ -130,9 +130,8 @@ namespace _1640.Areas.Manager.Controllers
                 _unitOfWork.FacultyRepository.Update(faculity);
                 _unitOfWork.Save();
                 TempData["success"] = "Faculity update successfully";
-                return RedirectToAction("Index");
             }
-            return View(faculity);
+            return RedirectToAction("Index");
         }
         [Route("Delete/id")]
         public IActionResult Delete(int id)
@@ -155,7 +154,7 @@ namespace _1640.Areas.Manager.Controllers
         {
             _unitOfWork.FacultyRepository.Delete(faculity);
             _unitOfWork.Save();
-            TempData["success"] = "Faculity deleted successfully";
+            TempData["error"] = "Faculity deleted successfully";
             return RedirectToAction("Index");
         }
         [Route("")]

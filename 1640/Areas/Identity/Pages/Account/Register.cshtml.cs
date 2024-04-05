@@ -149,11 +149,17 @@ namespace _1640.Areas.Identity.Pages.Account
                     if (Input.Role == "Student")
                     {
                         await _userManager.AddToRolesAsync(user, new[] { "Student" });
-                        TempData["success"] = "Adding Successfully";
+                        TempData["success"] = "Adding Account Student Successfully";
+                    }
+                    if (Input.Role == "User")
+                    {
+                        await _userManager.AddToRolesAsync(user, new[] { "User" });
+                        TempData["success"] = "Adding Account Guest Successfully";
                     }
                     if (Input.Role == "Coordinator")
                     {
                         await _userManager.AddToRolesAsync(user, new[] { "Coordinator" });
+                        TempData["success"] = "Adding Account Coordinator Successfully";
                     }
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
