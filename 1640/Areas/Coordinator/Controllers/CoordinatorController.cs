@@ -149,9 +149,9 @@ namespace _1640.Areas.Coordinator.Controllers
             comment.CommentOn = DateTime.Now;
             _db.Comments.Add(comment);
             _db.SaveChanges();
-            return RedirectToAction("Requests");
+            return RedirectToAction("AddFeedBack", new { id = comment.ArticleId });
         }
-        // list of request article for Coordinator
+
         // list of request article for Coordinator
         [Authorize(Roles = Constraintt.CoordinatorRole)]
         [HttpGet]

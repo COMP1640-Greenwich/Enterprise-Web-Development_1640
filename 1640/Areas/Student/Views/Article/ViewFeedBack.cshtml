@@ -1,36 +1,31 @@
 ﻿@model List<Comment>
-<div class="container ">
-    <div class="row d-flex justify-content-left align-items-center ">
-        <div class="col-md-5 col-sm-auto pt-3 row gx-3 row gy-3">
-            <div class="mb-3">
-                <form class="d-flex">
-                    <h2>Your Feedback</h2>
-                </form>
-            </div>
-                
-                <div class="mb-3">
-                        <div class="card" style="border-radius: 15px; background-color: #93e2bb;">
-                            <div class="container content py-2 px-2">
-                                <div class="row no-gutters">
-                                    <div class="col-sm-7">
-                                        <div class="card-body">
-                                    @foreach (var item in Model)
-                                    {
-                                            <h6 class="card-text">Feedback: @item.Text</h6>
-                                        <p class="card-text">Time:  @item.CommentOn.ToString("HH: mm  / dd - MM - yyyy")</p>
-                                            
-                                    }
-                                        <div class="float-right">
-                                            <a asp-area="Student" asp-action="MyArticles" type="button" class="btn btn-primary" style="border-radius:15px">Back to my Article.</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="text-center mb-4">Your Feedback</h2>
+            <div class="d-flex justify-content-center mb-4">
+                <a asp-area="Student" asp-action="MyArticles" type="button" class="btn btn-primary" style="border-radius:15px">Back to my Article</a>
+            </div>
+            @if (Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <div class="card mb-4" style="border-radius: 15px; background-color: #93e2bb;">
+                        <div class="card-body">
+                            <h6 class="card-title">Feedback:</h6>
+                            <p class="card-text">@item.Text</p>
+                            <p class="card-text">Time: @item.CommentOn.ToString("HH:mm / dd-MM-yyyy")</p>
                         </div>
                     </div>
+                }
+            }
+            else
+            {
+                <div class="alert alert-info" role="alert">
+                    There are no feedback for this Article.
                 </div>
-            </div>
+            }
         </div>
     </div>
-
+</div>

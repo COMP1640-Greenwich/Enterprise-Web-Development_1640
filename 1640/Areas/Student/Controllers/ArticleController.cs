@@ -43,12 +43,16 @@ namespace _1640.Areas.Student.Controllers
 
             // Get the articles of the current user
             List<Article> articles = _unitOfWork.ArticleRepository.GetAll(a => a.UserId == user.Id).ToList();
-            if(articles.Count == 0)
+
+            // If a search string is provided, filter the articles based on their title
+            if (!string.IsNullOrEmpty(searchString))
             {
-                ViewBag.Message = "You don't have any Article";
+                articles = articles.Where(a => a.Title.Contains(searchString)).ToList();
             }
+
             return View(articles);
         }
+
 
 
         public IActionResult Create(string id)

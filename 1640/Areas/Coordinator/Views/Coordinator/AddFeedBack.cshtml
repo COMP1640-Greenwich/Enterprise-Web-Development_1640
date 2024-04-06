@@ -3,37 +3,36 @@
     ViewBag.Title = "Show FeedBack";
 }
 
-<h2>Show FeedBack</h2>
-@foreach (var item in Model)
-{
-    <div class="container">
-        <div class="row">
-            <div class="col-6">
-                <div class="comment">
-                    <h8>-----------------------------------------------------------</h8>
-                    <h4>@item.Text</h4>
-                    <h8>@item.CommentOn.ToString("HH: mm tt dd - MM - yyyy")</h8>
-                    <br />
-
+<div class="container py-5">
+    <h2 class="mb-4">Show Feedback</h2>
+    @if (Model.Any())
+    {
+        foreach (var item in Model)
+        {
+            <div class="card mb-3">
+                <div class="card-body">
+                    <p class="card-text">@item.Text</p>
+                    <p class="card-subtitle text-muted">@item.CommentOn.ToString("HH:mm tt dd-MM-yyyy")</p>
                 </div>
             </div>
+        }
+    }
+    else
+    {
+        <div class="alert alert-info" role="alert">
+            There are no feedback for this article yet.
         </div>
-    </div>
-}
-<hr />
-<h2>Please input your feedback</h2>
-<form method="post">
-    <div class="row">
-        <div class="col-12">
+    }
+    <hr />
+    <h2 class="mb-4">Please input your feedback</h2>
+    <form method="post">
+        <div class="form-group">
             <input type="hidden" name="id" value="@ViewBag.ArticleId" />
+            <textarea class="form-control" name="articleFB" rows="4" placeholder="Your feedback..."></textarea>
         </div>
-        <div class="col-12">
-            <textarea class="form-control" name="articleFB" rows="4"></textarea>
-
+        <div class="form-group">
+            <a asp-controller="Coordinator" asp-action="Requests" class="btn btn-outline-dark">Back to list</a>
+            <input type="submit" class="btn btn-success float-right" name="Add FeedBack" value="Add FeedBack" />
         </div>
-        <div class="col-10 py-4"><a asp-controller="Coordinator" asp-action="Requests" class="btn btn-outline-dark">Back to list</a></div>
-        <div class="col-2 py-4">
-            <input type="submit" class="btn btn-success btn-rounded" name="Add FeedBack" value="Add FeedBack" />
-        </div>
-    </div>
-</form>
+    </form>
+</div>
