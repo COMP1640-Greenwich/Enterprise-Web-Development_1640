@@ -68,6 +68,12 @@
                                     <a class="nav-link text-dark " asp-area="Student" asp-controller="Article" asp-action="MyArticles">My Article</a>
                                 </li>
                             }
+                            @if (User.IsInRole("Manager"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark " asp-area="Manager" asp-controller="Manager" asp-action="Dashboard1">Dashboard</a>
+                                </li>
+                            }
                         </ul>
 
                         <ul class="navbar-nav">

@@ -124,7 +124,7 @@ namespace _1640.Areas.Coordinator.Controllers
         {
             _unitOfWork.SemesterRepository.Delete(semester);
             _unitOfWork.Save();
-            TempData["success"] = "Delete semester successfully";
+            TempData["error"] = "Delete semester successfully";
             return RedirectToAction("Index");
         }
         public ActionResult AddFeedBack(int id)

@@ -105,12 +105,7 @@ namespace _1640.Areas.Identity.Pages.Account
         public async Task OnGetAsync(string returnUrl = null)
         {
             GetRoles();
-            Input.Faculties = _unitOfWork.FacultyRepository.GetAll()
-                .Select(f => new SelectListItem
-                {
-                    Value = f.Id.ToString(),
-                    Text = f.Name
-                });
+            
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -133,7 +128,13 @@ namespace _1640.Areas.Identity.Pages.Account
                     Role = Input.Role,
                     FacultyId = Input.SelectedFacultyId,
                 };
-
+                var checkEmail = _db.Users.Any(x => x.Email == user.Email);
+                if (checkEmail)
+                {
+                    GetRoles();
+                    TempData["error"] = "User with this email already exists!";
+                    return Page();
+                }
                 if (Input.Role == SD.Role_Coordinator && _db.Users.Any(u => u.FacultyId == Input.SelectedFacultyId && u.Role == SD.Role_Coordinator))
                 {
                     ModelState.AddModelError(string.Empty, "A coordinator for the selected faculty already exists.");
@@ -149,10 +150,12 @@ namespace _1640.Areas.Identity.Pages.Account
                     if (Input.Role == "Student")
                     {
                         await _userManager.AddToRolesAsync(user, new[] { "Student" });
+                        TempData["success"] = "Adding Successfully";
                     }
                     if (Input.Role == "Coordinator")
                     {
                         await _userManager.AddToRolesAsync(user, new[] { "Coordinator" });
+                        TempData["success"] = "Adding Successfully";
                     }
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
@@ -206,8 +209,17 @@ namespace _1640.Areas.Identity.Pages.Account
                     {
                         Text = x,
                         Value = x
-                    })
+                    }),
+                Faculties = _unitOfWork.FacultyRepository.GetAll()
+                .Select(f => new SelectListItem
+                {
+                    Value = f.Id.ToString(),
+                    Text = f.Name
+                })
+
+
             };
+
         }
     }
 }

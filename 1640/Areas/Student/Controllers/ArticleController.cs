@@ -43,13 +43,10 @@ namespace _1640.Areas.Student.Controllers
 
             // Get the articles of the current user
             List<Article> articles = _unitOfWork.ArticleRepository.GetAll(a => a.UserId == user.Id).ToList();
-
-            // If a search string is provided, filter the articles based on their title
-            if (!string.IsNullOrEmpty(searchString))
+            if(articles.Count == 0)
             {
-                articles = articles.Where(a => a.Title.Contains(searchString)).ToList();
+                ViewBag.Message = "You don't have any Article";
             }
-
             return View(articles);
         }
 
@@ -194,8 +191,6 @@ namespace _1640.Areas.Student.Controllers
 
         public ActionResult ViewFeedBack(int id)
         {
-
-
             Comment comment = new Comment();
             comment.ArticleId = id;
             List<Comment> comments = _dbContext.Comments.Where(c => c.ArticleId == id).ToList();
