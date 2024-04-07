@@ -19,9 +19,9 @@ namespace _1640.Areas.Student.Controllers
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IUnitOfWork _unitOfWork;
-
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly int _recordsPerPage = 4;
         public ArticleController(ApplicationDbContext dbContext, IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment, UserManager<IdentityUser> userManager)
         {
             _dbContext = dbContext;
@@ -48,6 +48,7 @@ namespace _1640.Areas.Student.Controllers
                 ViewBag.Message = "You don't have any Article";
             }
             return View(articles);
+
         }
 
         public IActionResult Create(string id)
@@ -194,6 +195,10 @@ namespace _1640.Areas.Student.Controllers
             comment.ArticleId = id;
             List<Comment> comments = _dbContext.Comments.Where(c => c.ArticleId == id).ToList();
             ViewBag.ArticleId = id;
+            if (comments.Count == 0)
+            {
+                ViewBag.Message = "Article don't have a feedback from Coordinator";
+            }
             return View(comments);
 
         }

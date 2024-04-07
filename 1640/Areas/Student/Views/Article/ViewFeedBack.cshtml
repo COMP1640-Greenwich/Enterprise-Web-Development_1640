@@ -1,36 +1,51 @@
 ﻿@model List<Comment>
+
+
 <div class="container ">
     <div class="row d-flex justify-content-left align-items-center ">
-        <div class="col-md-5 col-sm-auto pt-3 row gx-3 row gy-3">
-            <div class="mb-3">
-                <form class="d-flex">
+        <div class="col-md-5 col-sm-auto pt-0 row gx-3 row gy-0">
                     <h2>Your Feedback</h2>
-                </form>
-            </div>
-                
-                <div class="mb-3">
+@if (Model.Any())
+{
+                    <div class="mb-3">
                         <div class="card" style="border-radius: 15px; background-color: #93e2bb;">
                             <div class="container content py-2 px-2">
                                 <div class="row no-gutters">
-                                    <div class="col-sm-7">
+                                    <div class="col-sm-10">
                                         <div class="card-body">
-                                    @foreach (var item in Model)
-                                    {
-                                            <h6 class="card-text">Feedback: @item.Text</h6>
-                                        <p class="card-text">Time:  @item.CommentOn.ToString("HH: mm  / dd - MM - yyyy")</p>
-                                            
-                                    }
-                                        <div class="float-right">
-                                            <a asp-area="Student" asp-action="MyArticles" type="button" class="btn btn-primary" style="border-radius:15px">Back to my Article.</a>
+                                            @{
+                                                var i = 1;
+                                            }
+                                            @foreach (var item in Model)
+                                            {
+                                                <h6 class="card-text"><strong>@i.</strong> Feedback: @item.Text</h6>
+                                                <p class="card-text">Time:  @item.CommentOn.ToString("HH: mm  / dd - MM - yyyy")</p>
+                                                i++;
+                                            }
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                    }
+            else
+            {
+                <br />
+                <br />
+                    @if (ViewBag.Message != null)
+                    {
+                        <div class="alert alert-info text-center justify-content-center" role="alert">
+                            <strong style="font-size: 200%">@ViewBag.Message</strong>
+                        </div>
+                    }
+            }
         </div>
     </div>
+    <a asp-area="Student" asp-controller="Article" asp-action="MyArticles" type="button" class="btn btn-primary" style="border-radius:15px">Back to Home</a>
+</div>
+
+
+
 

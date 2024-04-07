@@ -73,16 +73,18 @@
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <ul class="nav">
                     <li class="nav-item nav-profile">
-                        <a href="#" class="nav-link">
+                        <a asp-area="Identity" asp-page="/Account/Manage/Index" class="nav-link">
                             <div class="nav-profile-image">
-                                <img src="../../LayoutManager/assets/images/faces/face1.jpg" alt="profile">
+                                <img src="https://cdn2.iconfinder.com/data/icons/office-and-business-special-set-1/260/21-512.png" alt="profile">
                                 <span class="login-status online"></span>
                                 <!--change to offline or busy as needed-->
                             </div>
+                            
                             <div class="nav-profile-text d-flex flex-column">
                                 <span class="font-weight-bold mb-2">MANAGER</span>
                                 <span class="text-secondary text-small">Manager</span>
                             </div>
+
                             <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
                         </a>
                     </li>

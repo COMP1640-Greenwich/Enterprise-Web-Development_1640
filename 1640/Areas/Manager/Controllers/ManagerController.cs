@@ -100,7 +100,8 @@ namespace _1640.Areas.Manager.Controllers
                 //_db.SaveChanges();
                 _unitOfWork.FacultyRepository.Add(faculity);
                 _unitOfWork.Save();
-                TempData["StatusMessage"] = "Faculty created successfully";
+                TempData["CreateFaculty"] = "Faculty created successfully";
+                TempData["ShowMessage"] = true;
             }
             return RedirectToAction("Index");
         }
@@ -129,7 +130,8 @@ namespace _1640.Areas.Manager.Controllers
                 //_db.SaveChanges();
                 _unitOfWork.FacultyRepository.Update(faculity);
                 _unitOfWork.Save();
-                TempData["success"] = "Faculity update successfully";
+                TempData["EditFaculty"] = "Faculity update successfully";
+                TempData["ShowMessage"] = true;
             }
             return RedirectToAction("Index");
         }
@@ -154,7 +156,8 @@ namespace _1640.Areas.Manager.Controllers
         {
             _unitOfWork.FacultyRepository.Delete(faculity);
             _unitOfWork.Save();
-            TempData["error"] = "Faculity deleted successfully";
+            TempData["DeleteFaculty"] = "Faculity deleted successfully";
+            TempData["ShowMessage"] = true;
             return RedirectToAction("Index");
         }
         [Route("")]

@@ -3,16 +3,44 @@
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Manager/Views/Shared/_LayoutManager.cshtml";
 }
+@if (TempData["CreateFaculty"] != null && (bool)TempData["ShowMessage"])
+{
+    <div id="editUserMessage" class="alert alert-success">@TempData["CreateFaculty"]</div>
+    <script>
+        setTimeout(function () {
+            $("#editUserMessage").fadeOut("slow");
+        }, 5000);
+    </script>
+}
+else if (TempData["EditFaculty"] != null && (bool)TempData["ShowMessage"])
+{
+    <div id="deleteUserMessage" class="alert alert-warning">@TempData["EditFaculty"]</div>
+    <script>
+        setTimeout(function () {
+            $("#deleteUserMessage").fadeOut("slow");
+        }, 5000);
+    </script>
+}
+else if (TempData["DeleteFaculty"] != null && (bool)TempData["ShowMessage"])
+{
+    <div id="deleteUserMessage" class="alert alert-danger">@TempData["DeleteFaculty"]</div>
+    <script>
+        setTimeout(function () {
+            $("#deleteUserMessage").fadeOut("slow");
+        }, 5000);
+    </script>
+}
 @model List<Faculty>
-<div class=row-pt-2 pb-4>
+<div class="row-pt-2 pb-4">
     <div class="col-6">
         <h2 style="color:red">List of Faculty</h2>
     </div>
     <div class="col-6">
         <a asp-controller="Manager" asp-action="Create" class="btn btn-primary">Create a new Faculty</a>
     </div>
+    <br />
     <div>
-        <table class="table table-bordered">
+        <table class="table table-bordered" >
             <thread>
                 <tr>
 
