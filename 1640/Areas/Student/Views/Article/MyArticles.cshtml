@@ -15,7 +15,7 @@
     .article-status {
     }
 </style>
-
+<a asp-area="Student" asp-controller="Home" asp-action="Index" type="button" class="btn btn-primary" style="border-radius:15px">Back to Home</a>
 
 @if(Model.Any()){
     <div class="container h-100">
@@ -24,6 +24,10 @@
                 <div class="mb-3">
                     <form class="d-flex">
                         <h2><i class="fa-solid fa-newspaper"></i> Your Articles</h2>
+                        <form class="d-flex" asp-action="MyArticles" method="get">
+                            <input type="text" name="searchString" placeholder="Search articles" class="form-control" />
+                            <button type="submit" class="btn btn-primary ml-2">Search</button>
+                        </form>
                     </form>
                 </div>
                 <div class="mb-3">
@@ -38,7 +42,7 @@
 
                                 <div class="d-flex align-items-center">
                                     <div class="flex-shrink-1">
-                                        <img src="https://i.pinimg.com/originals/51/90/10/519010d9ee8167bfe445e616f260f758.png"
+                                        <img src="https://cdn-icons-png.flaticon.com/512/3541/3541871.png"
                                              alt="Generic placeholder image" class="img-fluid rounded-circle border border-dark border-3"
                                              style="width: 70px;">
                                     </div>
@@ -49,25 +53,27 @@
                                 </div>
                                 <hr />
 
-                                <div class="row no-gutters">
-                                    <div class="col-sm-5">
-                                        <img class="card-img" src="@Article.ImageUrl" alt="@Article.Title">
-                                    </div>
-                                    <div class="col-sm-7">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Title:&nbsp @Article.Title</h5>
-                                            <p class="card-text">@Article.Description</p>
+                            <div class="row no-gutters">
+                                <div class="col-sm-5">
+                                    <img class="card-img" src="@Article.ImageUrl" alt="@Article.Title">
+                                </div>
+                                <div class="col-sm-7">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Title:&nbsp @Article.Title</h5>
+                                        <p class="card-text">@Article.Description</p>
+                                        <p class="card-text">@Article.SemesterId</p>
                                             <div class="float-right">
-                                                <br />
-                                                <br />
-                                                <a type="button" class="btn btn-success" style="border-radius:15px" href="@Article.DocxUrl" formtarget="_blank"><i class="fa-solid fa-cloud-arrow-down"></i> Download</a>
-                                                <a type="button" class="btn btn-primary btn-rounded" asp-action="Edit" asp-route-id="@Article.Id"><i class="fa-solid fa-pencil"></i> Edit</a>
-                                                <a type="button" class="btn btn-danger btn-rounded" asp-action="Delete" asp-route-id="@Article.Id"><i class="fa-solid fa-trash"></i> Delete</a>
+                                                <a type="button" class="btn btn-success btn-rounded mr-2" href="@Article.DocxUrl" formtarget="_blank"><i class="fa-solid fa-cloud-arrow-down"></i> Download</a>
+                                                @if (Article.Status != Article.StatusArticle.Approve && Article.Status != Article.StatusArticle.Reject)
+                                                {
+                                                    <a type="button" class="btn btn-primary btn-rounded mr-2" asp-action="Edit" asp-route-id="@Article.Id"><i class="fa-solid fa-pencil"></i> Edit</a>
+                                                    <a type="button" class="btn btn-danger btn-rounded mr-2" asp-action="Delete" asp-route-id="@Article.Id"><i class="fa-solid fa-trash"></i> Delete</a>
+                                                }
                                                 <a asp-action="ViewFeedBack" asp-route-id="@Article.Id" type="button" class="btn btn-secondary" style="border-radius:15px"> View Feedback</a>
                                             </div>
-                                        </div>
                                     </div>
                                 </div>
+                            </div>
 
                             </div>
                         </div>
@@ -91,7 +97,6 @@ else
         }
     </h1>
 }
-    <a asp-area="Student" asp-controller="Home" asp-action="Index" type="button" class="btn btn-primary" style="border-radius:15px;">Back to Home</a>
 
 <div style="display:flex;text-align:center;justify-content:center">
     <nav aria-label="Page navigation example">
@@ -111,7 +116,14 @@ else
     @{
         <partial name="_ValidationScriptsPartial" />
     }
+
+    <script>
+        function confirmEdit() {
+            return confirm('Do you want to edit and re-submit this article?');
+        }
+    </script>
 }
+
 
 
 
