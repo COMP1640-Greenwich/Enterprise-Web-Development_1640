@@ -29,11 +29,11 @@ namespace _1640.Areas.Student.Controllers
             _webHostEnvironment = webHostEnvironment;
             _userManager = userManager;
         }
-        public IActionResult Index()
-        {
-            List<Article> articles = _unitOfWork.ArticleRepository.GetAllApprove("Semester").ToList();
-            return View(articles);
-        }
+        //public IActionResult Index()
+        //{
+        //    List<Article> articles = _unitOfWork.ArticleRepository.GetAllApprove("Semester").ToList();
+        //    return View(articles);
+        //}
 
         [Authorize(Roles = Constraintt.StudentRole)]
         public async Task<IActionResult> MyArticles()
