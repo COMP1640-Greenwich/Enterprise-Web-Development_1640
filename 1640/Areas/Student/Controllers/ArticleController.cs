@@ -19,9 +19,9 @@ namespace _1640.Areas.Student.Controllers
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IUnitOfWork _unitOfWork;
-
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly int _recordsPerPage = 4;
         public ArticleController(ApplicationDbContext dbContext, IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment, UserManager<IdentityUser> userManager)
         {
             _dbContext = dbContext;
@@ -36,19 +36,25 @@ namespace _1640.Areas.Student.Controllers
         //}
 
         [Authorize(Roles = Constraintt.StudentRole)]
-        public async Task<IActionResult> MyArticles()
+        public async Task<IActionResult> MyArticles(string searchString = "")
         {
             // Get the current user
             var user = await _userManager.GetUserAsync(User);
 
             // Get the articles of the current user
             List<Article> articles = _unitOfWork.ArticleRepository.GetAll(a => a.UserId == user.Id).ToList();
-            if(articles.Count == 0)
+
+            // If a search string is provided, filter the articles based on their title
+            if (!string.IsNullOrEmpty(searchString))
             {
-                ViewBag.Message = "You don't have any Article";
+                articles = articles.Where(a => a.Title.Contains(searchString)).ToList();
             }
+
             return View(articles);
+
         }
+
+
 
         public IActionResult Create(string id)
         {
@@ -194,6 +200,10 @@ namespace _1640.Areas.Student.Controllers
             comment.ArticleId = id;
             List<Comment> comments = _dbContext.Comments.Where(c => c.ArticleId == id).ToList();
             ViewBag.ArticleId = id;
+            if (comments.Count == 0)
+            {
+                ViewBag.Message = "Article don't have a feedback from Coordinator";
+            }
             return View(comments);
 
         }
@@ -234,27 +244,69 @@ namespace _1640.Areas.Student.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(ArticleVM articleVM)
+        public IActionResult Edit(ArticleVM articleVM, IFormFile? file, IFormFile? file1)
         {
             if (ModelState.IsValid)
             {
-                // Get the semester of the article
-                var semester = _unitOfWork.SemesterRepository.Get(s => s.Id == articleVM.Article.SemesterId);
+                // Get the current article from the database
+                var currentArticle = _unitOfWork.ArticleRepository.Get(a => a.Id == articleVM.Article.Id);
 
-                if (DateTime.Now > semester.EndDate)
+                if (currentArticle == null)
                 {
-                    TempData["error"] = "The final deadline has passed. You cannot update this article.";
-                    return View(articleVM);
+                    return NotFound("Article not found");
                 }
 
-                _unitOfWork.ArticleRepository.Update(articleVM.Article);
+                // Only allow editing if the article is in pending status
+                if (currentArticle.Status != Article.StatusArticle.Pending)
+                {
+                    TempData["error"] = "You can only edit articles that are in pending status.";
+                    return RedirectToAction("MyArticles");
+                }
+
+                // Update the article
+                currentArticle.Title = articleVM.Article.Title;
+                currentArticle.Description = articleVM.Article.Description;
+
+                // Handle file uploads
+                if (file != null)
+                {
+                    // Handle image file upload
+                    string wwwRootPath = _webHostEnvironment.WebRootPath;
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    string imagePath = Path.Combine(wwwRootPath, @"images\articles");
+
+                    using (var fileStream = new FileStream(Path.Combine(imagePath, fileName), FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+                    currentArticle.ImageUrl = @"\images\articles\" + fileName;
+                }
+
+                if (file1 != null)
+                {
+                    // Handle docx file upload
+                    string wwwRootPath = _webHostEnvironment.WebRootPath;
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file1.FileName);
+                    string docxPath = Path.Combine(wwwRootPath, @"docx");
+
+                    using (var fileStream = new FileStream(Path.Combine(docxPath, fileName), FileMode.Create))
+                    {
+                        file1.CopyTo(fileStream);
+                    }
+                    currentArticle.DocxUrl = @"\docx\" + fileName;
+                }
+
+                _unitOfWork.ArticleRepository.Update(currentArticle);
                 _unitOfWork.Save();
+
                 TempData["success"] = "Article updated successfully";
                 return RedirectToAction("MyArticles");
             }
 
+            // If model state is not valid, return the view with the current articleVM
             return View(articleVM);
         }
+
 
         [HttpGet]
 public IActionResult Delete(int id)

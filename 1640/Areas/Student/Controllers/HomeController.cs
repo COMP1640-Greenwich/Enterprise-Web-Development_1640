@@ -17,7 +17,7 @@ namespace _1640.Areas.Student.Controllers
         private readonly IUnitOfWork _unitOfWork;
 
         private readonly ILogger<HomeController> _logger;
-		private readonly int _recordsPerPage = 2;
+		private readonly int _recordsPerPage = 4;
 
         private readonly UserManager<IdentityUser> _userManager;
 

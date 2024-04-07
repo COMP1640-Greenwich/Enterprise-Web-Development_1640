@@ -1,16 +1,64 @@
 ﻿@page
 @model RegisterConfirmationModel
-@{
-    ViewData["Title"] = "Register confirmation";
-}
 
-<h1>@ViewData["Title"]</h1>
 @{
     if (@Model.DisplayConfirmAccountLink)
     {
+<br />
 <p>
-    This app does not currently have a real email sender registered, see <a href="https://aka.ms/aspaccountconf">these docs</a> for how to configure a real email sender.
-    Normally this would be emailed: <a id="confirm-link" href="@Model.EmailConfirmationUrl">Click here to confirm your account</a>
+            <html>
+            <style>
+                body {
+                    text-align: center;
+                    background: #EBF0F5;
+                }
+
+                h1 {
+                    color: #88B04B;
+                    font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+                    font-weight: 700;
+                    font-size: 40px;
+                    margin-bottom: 10px;
+                }
+
+                p {
+                    color: #404F5E;
+                    font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+                    font-size: 20px;
+                    margin: 0;
+                }
+
+                i {
+                    color: #9ABC66;
+                    font-size: 100px;
+                    line-height: 200px;
+                    margin-left: -15px;
+                }
+
+                .card {
+                    background: white;
+                    padding: 60px;
+                    border-radius:15px;
+                    box-shadow: 0 2px 3px #C8D0D8;
+                    display: inline-block;
+                    margin: 0 auto;
+                }
+            </style>
+            <body>
+                <div class="card"style="height:500px; width:500px">
+                    <div style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;">
+                        <i class="checkmark">✓</i>
+                    </div>
+                    <br />
+                    <h1>Register Complete</h1>
+                    <br />
+                    <a asp-area="Admin" asp-controller="Users" asp-action="Index" class="btn btn-primary">Back to List of Account</a>
+                    <br />
+                    <br />
+                    <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-secondary">Register a new Account</a>
+                </div>
+            </body>
+        </html>
 </p>
     }
     else

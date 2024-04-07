@@ -1,74 +1,72 @@
 ﻿@model ArticleVM
-<form method="post" enctype="multipart/form-data">
-    <div class="row p-3 border border-3 bg-white" style="border-radius: 15px">
-        <div class="col-12">
-            <h2 class="display-2">Create a Article</h2>
-        </div>
-        <div class="form-group row">
-            <input asp-for="Article.Id" hidden />
-            <input asp-for="UserName" hidden />
-            <input name="id" value="@ViewBag.UserId" hidden />
-            <input asp-for="FacultyId" hidden />
-            <div class="col-md-6">
-                <label for="Title" class="form-label">Title</label>
-                <input asp-for="Article.Title" class="form-control" />
-                <span asp-validation-for="Article.Title" class="text-danger"></span>
-            </div>
 
-            <div class="col-md-6">
-                <label for="ImageUrl" class="form-label">ImageUrl</label>
-                <input type="file" name="file" class="form-control" accept=".png, .jpg" />
-                <span asp-validation-for="Article.ImageUrl" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-md-6">
-                <label for="Description" class="form-label">Description</label>
-                <textarea asp-for="Article.Description" class="form-control" rows="3"></textarea>
-                <span asp-validation-for="Article.Description" class="text-danger"></span>
-            </div>
-            <div class="col-md-6">
-                <label for="DocxUrl" class="form-label">DocxUrl</label>
-                <input type="file" name="file1" class="form-control" accept=".docx" />
-                <span asp-validation-for="Article.DocxUrl" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-md-6">
-                <label for="Faculty Name" class="form-label">Faculty</label>
-                <input asp-for="@Model.FacultyName" class="form-control" disabled />
-            </div>
-            <div class="col-md-6">
-                <label asp-for="Article.SemesterId" class="form-label">Semester</label>
-                <select asp-for="Article.SemesterId" asp-items="@Model.Semesters" class="form-select">
-                    <option selected disabled>-- Select Semester --</option>
-                </select>
-                <span asp-validation-for="Article.SemesterId" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-8 offset-7">
-                <div class="row">
-                    <div class="col mt-3">
-                        <input type="checkbox" class="form-check-input" asp-for="Article.IsBlogActive" />
-                        <label class="form-check-lable" asp-for="Article.IsBlogActive"> You agree to our <a asp-area="" asp-controller="Home" asp-action="Privacy">Terms and Conditions.</a>.</label>
-                    </div>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h2>Create a Article</h2>
                 </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-8 offset-5">
-                <div class="row">
-                    <div class="col mt-3">
-                        <input onclick="return confirm('Ask Coordinator for approve new an Article?')" type="submit" value="Submit" class="btn btn-outline-success" />
-                        <a asp-controller="Article" asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        <input asp-for="Article.Id" hidden />
+                        <input asp-for="UserName" hidden />
+                        <input name="id" value="@ViewBag.UserId" hidden />
+                        <input asp-for="FacultyId" hidden />
 
-                    </div>
+                        <div class="form-group">
+                            <label asp-for="Article.Title">Title</label>
+                            <input asp-for="Article.Title" class="form-control" />
+                            <span asp-validation-for="Article.Title" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Article.ImageUrl">Image</label>
+                            <input type="file" name="file" class="form-control" accept=".png, .jpg" />
+                            <span asp-validation-for="Article.ImageUrl" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Article.Description">Description</label>
+                            <textarea asp-for="Article.Description" class="form-control" rows="3"></textarea>
+                            <span asp-validation-for="Article.Description" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Article.DocxUrl">Document</label>
+                            <input type="file" name="file1" class="form-control" accept=".docx" />
+                            <span asp-validation-for="Article.DocxUrl" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="@Model.FacultyName">Faculty</label>
+                            <input asp-for="@Model.FacultyName" class="form-control" disabled />
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Article.SemesterId">Semester</label>
+                            <select asp-for="Article.SemesterId" asp-items="@Model.Semesters" class="form-control">
+                                <option selected disabled>-- Select Semester --</option>
+                            </select>
+                            <span asp-validation-for="Article.SemesterId" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group form-check">
+                            <input type="checkbox" class="form-check-input" asp-for="Article.IsBlogActive" />
+                            <label class="form-check-label" asp-for="Article.IsBlogActive">You agree to our <a asp-area="" asp-controller="Home" asp-action="Privacy">Terms and Conditions.</a></label>
+                        </div>
+
+                        <div class="form-group">
+                            <input onclick="return confirm('Ask Coordinator a approval for this Article?')" type="submit" value="Submit" class="btn btn-primary" />
+                            <a asp-controller="Article" asp-action="Index" class="btn btn-secondary">Back to List</a>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-</form>
+</div>
+
 @section Scripts {
     @{
         <partial name="_ValidationScriptsPartial" />
