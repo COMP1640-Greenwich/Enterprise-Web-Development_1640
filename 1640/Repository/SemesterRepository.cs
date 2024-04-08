@@ -3,6 +3,7 @@ using _1640.Data;
 using _1640.Models;
 using _1640.Areas.Repository;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace _1640.Repository
 {
@@ -23,6 +24,14 @@ namespace _1640.Repository
         {
             var semesters = _db.Semesters.AsEnumerable().Where(c => c.Status == "Opening").ToList();
             return semesters;
+        }
+        public IEnumerable<Semester> GetAll(Expression<Func<Semester, bool>> filter = null)
+        {
+            if (filter != null)
+            {
+                return _db.Semesters.Where(filter).ToList();
+            }
+            return _db.Semesters.ToList();
         }
     }
 }

@@ -1,10 +1,12 @@
-﻿@model List<Semester>
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
+@model List<Semester>
 <div class="row-pt4 pb-4">
     <div class="col-6">
         <h2 style="color:red">List of Semester</h2>
     </div>
     <div class="col-6">
-        <a asp-controller="Coordinator" asp-action="Create" class="btn btn-primary">Create new Semester</a>
+        <a asp-controller="Coordinator" asp-action="Create" asp-route-id="@UserManager.GetUserId(User)" class="btn btn-primary">Create new Semester</a>
     </div>
 </div>
 
@@ -27,7 +29,7 @@
                     <td>@semester.Name</td>
                     <td>@semester.StartDate.ToString("yyyy-MM-dd HH:mm")</td>
                     <td>@semester.EndDate.ToString("yyyy-MM-dd HH:mm")</td>
-                    <td>@semester.Faculty.Name</td>
+                    <td>@semester.FacultyName</td>
                     <td>@semester.Status</td>
                     <td>
                         <a asp-controller="Coordinator" asp-action="Edit" asp-route-id="@semester.Id" class="btn btn-primary">Edit</a>

@@ -280,7 +280,7 @@ namespace _1640.Migrations
 
                     b.HasIndex("SemesterId");
 
-                    b.ToTable("Articles", (string)null);
+                    b.ToTable("Articles");
                 });
 
             modelBuilder.Entity("_1640.Models.Comment", b =>
@@ -303,7 +303,7 @@ namespace _1640.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Comments", (string)null);
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("_1640.Models.Faculty", b =>
@@ -324,7 +324,7 @@ namespace _1640.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Faculties", (string)null);
+                    b.ToTable("Faculties");
                 });
 
             modelBuilder.Entity("_1640.Models.Semester", b =>
@@ -338,8 +338,11 @@ namespace _1640.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("FacultyId")
+                    b.Property<int?>("FacultyId")
                         .HasColumnType("int");
+
+                    b.Property<string>("FacultyName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -350,9 +353,7 @@ namespace _1640.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FacultyId");
-
-                    b.ToTable("Semesters", (string)null);
+                    b.ToTable("Semesters");
                 });
 
             modelBuilder.Entity("_1640.Models.User", b =>
@@ -442,17 +443,6 @@ namespace _1640.Migrations
                         .IsRequired();
 
                     b.Navigation("Semester");
-                });
-
-            modelBuilder.Entity("_1640.Models.Semester", b =>
-                {
-                    b.HasOne("_1640.Models.Faculty", "Faculty")
-                        .WithMany()
-                        .HasForeignKey("FacultyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Faculty");
                 });
 
             modelBuilder.Entity("_1640.Models.User", b =>

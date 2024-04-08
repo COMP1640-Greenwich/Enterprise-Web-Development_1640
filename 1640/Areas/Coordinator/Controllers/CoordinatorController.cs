@@ -11,6 +11,7 @@ using _1640.Areas.Repository.IRepository;
 using System.Net.Mail;
 using System.Net;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 
 namespace _1640.Areas.Coordinator.Controllers
 {
@@ -20,35 +21,33 @@ namespace _1640.Areas.Coordinator.Controllers
         private readonly ApplicationDbContext _db;
         //private readonly ISemesterRepository SemesterRepository;
         private readonly IUnitOfWork _unitOfWork;
-        public CoordinatorController(IUnitOfWork unitOfWork, ApplicationDbContext db)
+        private readonly UserManager<IdentityUser> _userManager;
+        public CoordinatorController(IUnitOfWork unitOfWork, ApplicationDbContext db, UserManager<IdentityUser> userManager)
         {
             _unitOfWork = unitOfWork;
             _db = db;
+            _userManager = userManager;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index(int id)
         {
-            List<Semester> semesters = _unitOfWork.SemesterRepository.GetAll("Faculty").ToList();
+            var user = await _userManager.GetUserAsync(User);
+            var coordinator = user as User;
+            List<Semester> semesters = _unitOfWork.SemesterRepository.GetAll(a => a.FacultyId == coordinator.FacultyId).ToList();
             return View(semesters);
         }
         public IActionResult Details()
         {
             return View();
         }
-        public IActionResult Create(int? id)
+        public IActionResult Create(string id)
         {
+            var userFacultyId = _unitOfWork.UserRepository.Get(f => f.Id == id).FacultyId.Value;
             SemesterVM semesterVM = new SemesterVM()
             {
-                Faculties = _unitOfWork.FacultyRepository.GetAll().Select(f => new SelectListItem
-                {
-                    Text = f.Name,
-                    Value = f.Id.ToString(),
-                }),
-                Semester = new Semester()
+                Semester = new Semester(),
+                FacultyId = userFacultyId,
             };
-            if (id == null || id == 0)
-            {
-                return View(semesterVM);
-            }
+            semesterVM.FacultyName = _unitOfWork.FacultyRepository.Get(f => f.Id == semesterVM.FacultyId).Name.ToString();
             return View(semesterVM);
 
         }
@@ -59,6 +58,8 @@ namespace _1640.Areas.Coordinator.Controllers
             {
                 if (semesterVM.Semester.Id == 0)
                 {
+                    semesterVM.Semester.FacultyId = semesterVM.FacultyId;
+                    semesterVM.Semester.FacultyName = _unitOfWork.FacultyRepository.Get(f => f.Id == semesterVM.FacultyId).Name.ToString();
                     _unitOfWork.SemesterRepository.Add(semesterVM.Semester);
                     _unitOfWork.Save();
                     TempData["success"] = "Semester created successfully";
@@ -72,21 +73,20 @@ namespace _1640.Areas.Coordinator.Controllers
         {
             SemesterVM semesterVM = new SemesterVM()
             {
-                Faculties = _unitOfWork.FacultyRepository.GetAll().Select(f => new SelectListItem
-                {
-                    Text = f.Name,
-                    Value = f.Id.ToString(),
-                }),
-                Semester = new Semester()
+                Semester = new Semester(),
+                //FacultyId = _unitOfWork.SemesterRepository.Get(filter => filter.Id == id).FacultyId,
+                //FacultyName = _unitOfWork.SemesterRepository.Get(f => f.Id == id).FacultyName.ToString(),
             };
+            
             if (id == null || id == 0)
             {
-                return View(semesterVM);
+                return NotFound();
             }
             else
             {
                 semesterVM.Semester = _unitOfWork.SemesterRepository.Get(s => s.Id == id);
-
+                semesterVM.FacultyId = _unitOfWork.SemesterRepository.Get(x => x.Id == id).FacultyId.Value;
+                semesterVM.FacultyName = semesterVM.FacultyName = _unitOfWork.FacultyRepository.Get(f => f.Id == semesterVM.FacultyId).Name.ToString();
             }
             return View(semesterVM);
         }
@@ -94,15 +94,15 @@ namespace _1640.Areas.Coordinator.Controllers
         [HttpPost]
         public IActionResult Edit(SemesterVM semesterVM)
         {
-            if (semesterVM.Semester.Id != 0)
-            {
                 if (ModelState.IsValid)
                 {
+                    semesterVM.Semester.FacultyId = semesterVM.FacultyId;
+                    semesterVM.Semester.FacultyName = _unitOfWork.FacultyRepository.Get(f => f.Id == semesterVM.FacultyId).Name.ToString();
                     _unitOfWork.SemesterRepository.Update(semesterVM.Semester);
                     _unitOfWork.Save();
                     TempData["success"] = "Semester updated successfully";
                 }
-            }
+            
             return RedirectToAction("Index");
         }
 
