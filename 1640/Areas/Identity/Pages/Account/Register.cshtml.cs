@@ -146,7 +146,11 @@ namespace _1640.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
-
+                    if (Input.Role == "User")
+                    {
+                        await _userManager.AddToRolesAsync(user, new[] { "User" });
+                        TempData["success"] = "Adding Successfully";
+                    }
                     if (Input.Role == "Student")
                     {
                         await _userManager.AddToRolesAsync(user, new[] { "Student" });
