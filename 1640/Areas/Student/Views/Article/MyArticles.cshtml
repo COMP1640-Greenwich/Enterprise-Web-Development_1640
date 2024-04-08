@@ -17,19 +17,22 @@
 </style>
 <a asp-area="Student" asp-controller="Home" asp-action="Index" type="button" class="btn btn-primary" style="border-radius:15px">Back to Home</a>
 
-@if(Model.Any()){
+
     <div class="container h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-md-9 col-sm-auto pt-3 row gx-3 row gy-3">
                 <div class="mb-3">
+                    <h2><i class="fa-solid fa-newspaper"></i> Your Articles</h2>
                     <form class="d-flex">
-                        <h2><i class="fa-solid fa-newspaper"></i> Your Articles</h2>
+                        
                         <form class="d-flex" asp-action="MyArticles" method="get">
-                            <input type="text" name="searchString" placeholder="Search articles" class="form-control" />
-                            <button type="submit" class="btn btn-primary ml-2">Search</button>
+                            <input class="form-control me-2" type="text" name="searchString" placeholder="Search articles" class="form-control" />
+                            <button type="submit" class="btn btn-outline-success"><i class="fa-solid fa-magnifying-glass"></i></button>
                         </form>
                     </form>
                 </div>
+@if (Model.Any())
+            {
                 <div class="mb-3">
                     @foreach (var Article in Model)
                     {
@@ -80,23 +83,24 @@
                         <br />
                     }
                 </div>
-            </div>
+}
+            else
+            {
+                <br />
+                <br />
+                <h1>
+                    @if (ViewBag.Message != null)
+                    {
+                        <div class="alert alert-info text-center" role="alert">
+                            <strong>@ViewBag.Message</strong>
+                        </div>
+                    }
+                </h1>
+            }
         </div>
     </div>
-}
-else
-{
-    <br />
-    <br />
-    <h1>
-        @if (ViewBag.Message != null)
-        {
-            <div class="alert alert-info text-center" role="alert">
-                <strong>@ViewBag.Message</strong>
-            </div>
-        }
-    </h1>
-}
+</div>
+
 
 <div style="display:flex;text-align:center;justify-content:center">
     <nav aria-label="Page navigation example">

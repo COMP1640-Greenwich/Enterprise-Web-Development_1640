@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Net.Mail;
 using System.Net;
 using Microsoft.AspNetCore.Identity;
+using Azure.Core;
 
 namespace _1640.Areas.Student.Controllers
 {
@@ -43,13 +44,15 @@ namespace _1640.Areas.Student.Controllers
 
             // Get the articles of the current user
             List<Article> articles = _unitOfWork.ArticleRepository.GetAll(a => a.UserId == user.Id).ToList();
-
+            if (articles.Count == 0)
+            {
+                ViewBag.Message = "You don't have any an Article";
+            }
             // If a search string is provided, filter the articles based on their title
             if (!string.IsNullOrEmpty(searchString))
             {
                 articles = articles.Where(a => a.Title.Contains(searchString)).ToList();
             }
-
             return View(articles);
 
         }
