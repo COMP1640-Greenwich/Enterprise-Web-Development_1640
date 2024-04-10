@@ -130,6 +130,10 @@ namespace _1640.Areas.Identity.Pages.Account
                     {
                         return Redirect("/Coordinator/Coordinator/Index");
                     }
+                    if (User.IsInRole("User"))
+                    {
+                        return Redirect("/Student/Home/Index");
+                    }
                 }
                 if (result.RequiresTwoFactor)
                 {

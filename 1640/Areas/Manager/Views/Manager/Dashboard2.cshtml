@@ -1,32 +1,102 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Dashboard2";
     Layout = "~/Areas/Manager/Views/Shared/_LayoutManager.cshtml";
 }
 
-<div class="main-panel">
-    <div class="content-wrapper">
-        <div class="page-header">
-            <h3 class="page-title">
-                Number of student per faculty
-            </h3>
-        </div>
-        <div class="row">
-            @model List<Faculty>
-            @foreach (var faculty in Model)
-            {
-                <div class="col-md-4 stretch-card grid-margin">
-                    <div class="card bg-gradient-success card-img-holder text-white">
-                        <div class="card-body">
-                            <img src="/LayoutManager/assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
-                            <h2 class="font-weight-normal mb-3">@faculty.Name <i class="mdi mdi-chart-line mdi-24px float-right"></i></h2>
-                            <h2 class="mb-5">@ViewBag.StudentList[@faculty.Id]</h2>
-                            <h6 class="card-text">Student</h6>
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
-    </div>
+<!-- Include necessary libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+
+<!-- Chart container -->
+<div id="chart-container">
+    <canvas id="myChart" width="300" height="300"></canvas>
 </div>
 
+<style>
+    #chart-container {
+        width: 80%;
+        margin: 20px auto;
+        background-color: #f8f9fa; /* Set background color */
+        border-radius: 5px; /* Add border radius */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow */
+        padding: 20px; /* Add padding */
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+    }
+</style>
+
+<script>
+    // Get data from the model
+    var facultyNames = [];
+    var studentCounts = [];
+    @foreach (var item in Model)
+    {
+        <text>facultyNames.push('@item.FacultyName');</text>
+        <text>studentCounts.push('@item.StudentCount');</text>
+    }
+
+    // Create the chart
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'horizontalBar',
+        data: {
+            labels: facultyNames,
+            datasets: [{
+                label: 'Students',
+                fontSize: 20,
+                fontFamily: 'Calibri',
+                data: studentCounts,
+                backgroundColor: facultyNames.map(function(faculty, index) {
+                    return createGradient(ctx, index);
+                }),
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                fontSize: 18,
+                text: 'Number of Students per Faculty'
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        autoSkip: false,
+                        precision: 0
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Faculty',
+                        fontSize: 20,
+                        fontFamily: 'Calibri'
+                    }
+                }],
+                xAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        stepSize: 1,
+                        callback: function(value, index, values) {
+                            if (index === values.length - 1) {
+                                return value;
+                            }
+                            return null;
+                        }
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Count of Student',
+                        fontSize: 20,
+                        fontFamily: 'Calibri'
+                    }
+                }]
+            }
+        }
+    });
+
+    function createGradient(ctx, index) {
+        var gradient = ctx.createLinearGradient(0, 0, 400, 0); // Change the gradient direction and size as needed
+        gradient.addColorStop(0, 'rgba(' + Math.floor(Math.random()*256) + ',' + Math.floor(Math.random()*256) + ',' + Math.floor(Math.random()*256) + ',0.8)'); // Start color
+        gradient.addColorStop(1, 'rgba(' + Math.floor(Math.random()*256) + ',' + Math.floor(Math.random()*256) + ',' + Math.floor(Math.random()*256) + ',0.8)'); // End color
+        return gradient;
+    }
+</script>

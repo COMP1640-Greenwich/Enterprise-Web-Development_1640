@@ -28,12 +28,9 @@
         <!-- partial:../../partials/_navbar.html -->
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                @if (User.IsInRole("Admin") || User.IsInRole("Manager") || User.IsInRole("Coordinator") || User.IsInRole("Student") || User.IsInRole("User"))
-                {
                     <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                         <img src="~/images/Home/2022-Greenwich-Eng.png" style="width:120px;height:50px;">
                     </a>
-                }
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between0">
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
@@ -73,16 +70,18 @@
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <ul class="nav">
                     <li class="nav-item nav-profile">
-                        <a href="#" class="nav-link">
+                        <a asp-area="Identity" asp-page="/Account/Manage/Index" class="nav-link">
                             <div class="nav-profile-image">
-                                <img src="../../LayoutManager/assets/images/faces/face1.jpg" alt="profile">
+                                <img src="https://cdn2.iconfinder.com/data/icons/office-and-business-special-set-1/260/21-512.png" alt="profile">
                                 <span class="login-status online"></span>
                                 <!--change to offline or busy as needed-->
                             </div>
+                            
                             <div class="nav-profile-text d-flex flex-column">
                                 <span class="font-weight-bold mb-2">MANAGER</span>
                                 <span class="text-secondary text-small">Manager</span>
                             </div>
+
                             <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
                         </a>
                     </li>
@@ -94,7 +93,7 @@
                         </a>
                         <div class="collapse" id="ui-basic">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" asp-area="Manager" asp-controller="Manager" asp-action="Dashboard1">Dashboard for article</a></li>
+                                <li class="nav-item"> <a class="nav-link" asp-area="Manager" asp-controller="Manager" asp-action="Dashboard1">Dashboard for Megazine</a></li>
                                 <li class="nav-item"> <a class="nav-link" asp-area="Manager" asp-controller="Manager" asp-action="Dashboard2">Dashboard for user</a></li>
                                 <li class="nav-item"> <a class="nav-link" asp-area="Manager" asp-controller="Manager" asp-action="Dashboard3">Dashboard for faculty</a></li>
                             </ul>
@@ -109,7 +108,7 @@
                         <div class="collapse" id="ui-basic">
                             <ul class="nav flex-column sub-menu">
                                 <li class="nav-item"> <a class="nav-link" asp-area="Manager" asp-controller="Manager" asp-action="Index">List of Faculty</a></li>
-                                <li class="nav-item"> <a class="nav-link" asp-area="Manager" asp-controller="Manager" asp-action="List">Article's List</a></li>
+                                <li class="nav-item"> <a class="nav-link" asp-area="Manager" asp-controller="Manager" asp-action="List">Megazine's List</a></li>
                             </ul>
                         </div>
                     </li>
@@ -118,6 +117,7 @@
             <!-- partial -->
             <div class="main-panel">
                 <div class="content-wrapper">
+                    <partial name="_Notification" />
                     @RenderBody()
                 </div>
                 <!-- content-wrapper ends -->

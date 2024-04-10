@@ -37,9 +37,9 @@ else if (TempData["DeleteUserMessage"] != null && (bool)TempData["ShowMessage"])
                 <input id="myInput" class="form-control" type="text" placeholder="Search" style="margin-right: 30px;">
             </form>
         </div>
-        <table class="table table-striped">
+        <table class="table table-hover">
             <thead id="tbHead">
-                <tr style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; text-align: center">
+                <tr class="table-primary" style=" text-align: center">
                     <th scope="col">Nu</th>
                     <th scope="col">Full Name</th>
                     <th scope="col">Email</th>
@@ -58,14 +58,14 @@ else if (TempData["DeleteUserMessage"] != null && (bool)TempData["ShowMessage"])
                 @foreach (var obj in Model)
                 {
                     <tr>
-                        <th scope="row">@i</th>
-                        <td>@obj.FullName</td>
-                        <td>@obj.Email</td>
-                        <td>@obj.Role</td>
-                        <td>@obj.Campus</td>
-                        <td>@(obj.Faculty?.Name ?? "No Faculty")</td>
-                        <td>@obj.PhoneNumber</td>
-                        <td>@obj.CreatedAt</td>
+                        <th style=" text-align: center" scope="row">@i</th>
+                        <td style=" text-align: center">@obj.FullName</td>
+                        <td style=" text-align: center">@obj.Email</td>
+                        <td style=" text-align: center">@obj.Role</td>
+                        <td style=" text-align: center">@obj.Campus</td>
+                        <td style=" text-align: center">@(obj.Faculty?.Name ?? "No Faculty")</td>
+                        <td style=" text-align: center">@obj.PhoneNumber</td>
+                        <td style=" text-align: center">@obj.CreatedAt</td>
                         <td>
                             <a class="btn btn-primary" asp-controller="Users" asp-action="Edit" asp-route-id="@obj.Id"
                                class="btn btn-sm btn-outline-info">

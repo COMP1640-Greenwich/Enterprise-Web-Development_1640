@@ -19,10 +19,12 @@ namespace _1640.Models
         [DataType(DataType.DateTime)]
         public DateTime EndDate { get; set; }
         [ValidateNever]
-        public int FacultyId { get; set; }    // khóa ngoại tham chiếu tới tên của Faculity 
-        [ForeignKey("FacultyId")]
+        public int? FacultyId { get; set; }    // khóa ngoại tham chiếu tới tên của Faculity 
         [ValidateNever]
-        public virtual Faculty Faculty { get; set; }
+        public string? FacultyName { get; set; }
+        //[ForeignKey("FacultyId")]
+        //[ValidateNever]
+        //public virtual Faculty Faculty { get; set; }
         [ValidateNever]
         public string Status { get {
                 if (DateTime.Now > EndDate)

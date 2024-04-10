@@ -1,38 +1,57 @@
 ﻿@model List<Comment>
-@{
-    ViewBag.Title = "Show FeedBack";
-}
 
-<div class="container py-5">
-    <h2 class="mb-4">Show Feedback</h2>
-    @if (Model.Any())
-    {
-        foreach (var item in Model)
-        {
-            <div class="card mb-3">
-                <div class="card-body">
-                    <p class="card-text">@item.Text</p>
-                    <p class="card-subtitle text-muted">@item.CommentOn.ToString("HH:mm tt dd-MM-yyyy")</p>
+<div class="container ">
+    <form method="post">
+        <div class="row d-flex justify-content-left align-items-center ">
+            <div class="col-md-6 col-sm-auto pt-2 row gx-2 row gy-2">
+                <div class="mb-3">
+                        <h2>Please input your feedback</h2>
+                </div>
+                <div class="mb-3">
+                    <div class="card" style="border-radius: 15px; background-color: tan;">
+                        <div class="container content py-0 px-0">
+                            <div class="row no-gutters">
+                                <div class="col-sm-12">
+                                    <div class="card-body">
+                                        <input type="hidden" name="id" value="@ViewBag.ArticleId" />
+                                        <textarea class="form-control" name="articleFB" rows="10"></textarea>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
             </div>
-        }
-    }
-    else
-    {
-        <div class="alert alert-info" role="alert">
-            There are no feedback for this article yet.
+            <div class="col-md-1 col-sm-auto pt-1 row gx-5 row gy-0"></div>
+            <div class="col-md-5 col-sm-auto pt-2 row gx-5">
+                <div class="mb-3">
+                    <div class="card" style="border-radius: 15px; background-color: antiquewhite;">
+                        <div class="container content py-2 px-2">
+                            <div class="row no-gutters">
+                                <div class="col-sm-10">
+                                    <div class="card-body">
+                                        @{
+                                            var i = 1;
+                                        }
+                                        @foreach (var item in Model)
+                                        {
+                                            <h6 class="card-text"><strong>@i.</strong> Feedback: @item.Text</h6>
+                                            <p class="card-text">Time:  @item.CommentOn.ToString("HH: mm  / dd - MM - yyyy")</p>
+                                            i++;
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    }
-    <hr />
-    <h2 class="mb-4">Please input your feedback</h2>
-    <form method="post">
-        <div class="form-group">
-            <input type="hidden" name="id" value="@ViewBag.ArticleId" />
-            <textarea class="form-control" name="articleFB" rows="4" placeholder="Your feedback..."></textarea>
-        </div>
-        <div class="form-group">
-            <a asp-controller="Coordinator" asp-action="Requests" class="btn btn-outline-dark">Back to list</a>
-            <input type="submit" class="btn btn-success float-right" name="Add FeedBack" value="Add FeedBack" />
-        </div>
+        <input type="submit" class="btn btn-success btn-rounded" name="Add FeedBack" value="Add FeedBack" />
+        <a asp-area="Coordinator" asp-controller="Coordinator" asp-action="Requests" type="button" class="btn btn-primary" style="border-radius:15px">Back to Home</a>
     </form>
 </div>
+

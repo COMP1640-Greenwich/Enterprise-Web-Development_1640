@@ -24,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\docx\" />
     <Folder Include="wwwroot\images\articles\" />
   </ItemGroup>
 

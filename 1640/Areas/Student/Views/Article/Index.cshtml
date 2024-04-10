@@ -21,7 +21,7 @@
         <div class="col-md-9 col-sm-auto pt-3 row gx-3 row gy-3">
             <div class="mb-3">
                 <form class="d-flex">
-                    <h2><i class="fa-solid fa-newspaper"></i> Your Articles</h2>
+                    <h2><i class="fa-solid fa-newspaper"></i> Your Megazines</h2>
                 </form>
             </div>
             <div class="mb-3">
@@ -36,7 +36,7 @@
 
                             <div class="d-flex align-items-center">
                                 <div class="flex-shrink-1">
-                                    <img src="https://cdn-icons-png.flaticon.com/512/3541/3541871.png"
+                                    <img src="https://i.pinimg.com/originals/51/90/10/519010d9ee8167bfe445e616f260f758.png"
                                          alt="Generic placeholder image" class="img-fluid rounded-circle border border-dark border-3"
                                          style="width: 70px;">
                                 </div>
@@ -57,7 +57,7 @@
                                         <p class="card-text">@Article.Description</p>
                                         <p class="card-text">@Article.SemesterId</p>
                                         <div class="float-right">
-                                            <a type="button" class="btn btn-success btn-rounded" href="@Article.DocxUrl" formtarget="_blank"><i class="fa-solid fa-cloud-arrow-down"></i> Download</a>
+                                            <a type="button" class="btn btn-success" style="border-radius:15px" href="@Article.DocxUrl" formtarget="_blank"><i class="fa-solid fa-cloud-arrow-down"></i> Download</a>
                                             <a type="button" class="btn btn-primary btn-rounded" asp-action="Edit" asp-route-id="@Article.Id"><i class="fa-solid fa-pencil"></i> Edit</a>
                                             <a type="button" class="btn btn-danger btn-rounded" asp-action="Delete" asp-route-id="@Article.Id"><i class="fa-solid fa-trash"></i> Delete</a>
                                             <a asp-action="ViewFeedBack" asp-route-id="@Article.Id" type="button" class="btn btn-secondary" style="border-radius:15px"> View Feedback</a>

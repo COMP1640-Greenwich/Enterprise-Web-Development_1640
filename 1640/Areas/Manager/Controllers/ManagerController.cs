@@ -100,7 +100,8 @@ namespace _1640.Areas.Manager.Controllers
                 //_db.SaveChanges();
                 _unitOfWork.FacultyRepository.Add(faculity);
                 _unitOfWork.Save();
-                TempData["StatusMessage"] = "Faculty created successfully";
+                TempData["CreateFaculty"] = "Faculty created successfully";
+                TempData["ShowMessage"] = true;
             }
             return RedirectToAction("Index");
         }
@@ -129,7 +130,8 @@ namespace _1640.Areas.Manager.Controllers
                 //_db.SaveChanges();
                 _unitOfWork.FacultyRepository.Update(faculity);
                 _unitOfWork.Save();
-                TempData["success"] = "Faculity update successfully";
+                TempData["EditFaculty"] = "Faculity update successfully";
+                TempData["ShowMessage"] = true;
             }
             return RedirectToAction("Index");
         }
@@ -154,52 +156,84 @@ namespace _1640.Areas.Manager.Controllers
         {
             _unitOfWork.FacultyRepository.Delete(faculity);
             _unitOfWork.Save();
-            TempData["error"] = "Faculity deleted successfully";
+            TempData["DeleteFaculty"] = "Faculity deleted successfully";
+            TempData["ShowMessage"] = true;
             return RedirectToAction("Index");
         }
         [Route("")]
         [Route("Dashboard1")]
         public IActionResult Dashboard1()
         {
-            Dictionary<int, int> articleCounts = new Dictionary<int, int>();
-            //Count Article
             List<Semester> semesters = _dbContext.Semesters.ToList();
+            List<SemesterArticleVM> semesterArticleViewModels = new List<SemesterArticleVM>();
+
             foreach (var semester in semesters)
             {
-                var articleCount = _dbContext.Articles.Where(u => u.SemesterId == semester.Id).Count();
-                articleCounts.Add(semester.Id, articleCount);
+                var articleCount = _dbContext.Articles.Count(a => a.SemesterId == semester.Id);
+
+                // Create a view model object for each semester
+                var semesterArticleVM = new SemesterArticleVM
+                {
+                    SemesterId = semester.Id,
+                    SemesterName = semester.Name,
+                    ArticleCount = articleCount
+                };
+
+                semesterArticleViewModels.Add(semesterArticleVM);
             }
-            ViewBag.ArticleList = articleCounts;
-            return View(semesters);
+
+            return View(semesterArticleViewModels);
 
         }
         [Route("Dashboard2")]
         public IActionResult Dashboard2()
         {
-            Dictionary<int, int> studentCounts = new Dictionary<int, int>();
-            //Count User
+            List<FacultyVM> facultyViewModels = new List<FacultyVM>();
+
+            // Get the faculties
             List<Faculty> faculties = _dbContext.Faculties.ToList();
+
             foreach (var faculty in faculties)
             {
-                var studentCount = _dbContext.Users.Where(u => u.Role == "Student").Where(u => u.FacultyId == faculty.Id).Count();
-                studentCounts.Add(faculty.Id, studentCount);
+                // Count students for each faculty
+                var studentCount = _dbContext.Users.Where(u => u.Role == "Student" && u.FacultyId == faculty.Id).Count();
+
+                // Create a view model object for each faculty
+                var facultyViewModel = new FacultyVM
+                {
+                    FacultyId = faculty.Id,
+                    FacultyName = faculty.Name,
+                    StudentCount = studentCount
+                };
+
+                facultyViewModels.Add(facultyViewModel);
             }
-            ViewBag.StudentList = studentCounts;
-            return View(faculties);
+
+            // Pass the list of faculty view models to the view
+            return View(facultyViewModels);
         }
         [Route("Dashboard3")]
         public IActionResult Dashboard3()
         {
-            Dictionary<int, int> articleCounts1 = new Dictionary<int, int>();
-            //Count User
-            List<Faculty> faculties1 = _dbContext.Faculties.ToList();
-            foreach (var faculty1 in faculties1)
+            List<Faculty> faculties = _dbContext.Faculties.ToList();
+            List<FacultyVM> facultyArticleViewModels = new List<FacultyVM>();
+
+            foreach (var faculty in faculties)
             {
-                var articleCount1 = _dbContext.Articles.Where(u => u.FacultyId == faculty1.Id).Count();
-                articleCounts1.Add(faculty1.Id, articleCount1);
+                var articleCount = _dbContext.Articles.Count(a => a.FacultyId == faculty.Id);
+
+                // Create a view model object for each faculty
+                var facultyArticleViewModel = new FacultyVM
+                {
+                    FacultyId = faculty.Id,
+                    FacultyName = faculty.Name,
+                    ArticleCount = articleCount
+                };
+
+                facultyArticleViewModels.Add(facultyArticleViewModel);
             }
-            ViewBag.ArticleFacultyList = articleCounts1;
-            return View(faculties1);
+
+            return View(facultyArticleViewModels);
         }
 
 
