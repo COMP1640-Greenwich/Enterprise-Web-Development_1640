@@ -204,7 +204,7 @@ namespace _1640.Areas.Coordinator.Controllers
             smtpClient.Send("tdm0982480826@gmail.com", user.Email, "Your article was approved", "Congratulations, your article was approved.");
 
 
-            TempData["Success"] = "Aprrove for Create Megazine successfully";
+            TempData["Success"] = "Aprrove for Create Magazine successfully";
             return RedirectToAction("Requests");
         }
 
@@ -238,7 +238,7 @@ namespace _1640.Areas.Coordinator.Controllers
             };
             smtpClient.Send("tdm0982480826@gmail.com", user.Email, "Your article was rejected", "We're sorry, but your article was rejected.");
 
-            TempData["Success"] = "Reject for Create Megazine successfully";
+            TempData["Success"] = "Reject for Create Magazine successfully";
             return RedirectToAction("Requests");
         }
 

@@ -46,7 +46,7 @@ namespace _1640.Areas.Student.Controllers
             List<Article> articles = _unitOfWork.ArticleRepository.GetAll(a => a.UserId == user.Id).ToList();
             if (articles.Count == 0)
             {
-                ViewBag.Message = "You don't have any an Megazine";
+                ViewBag.Message = "You don't have any an Magazine";
             }
             // If a search string is provided, filter the articles based on their title
             if (!string.IsNullOrEmpty(searchString))
@@ -156,7 +156,7 @@ namespace _1640.Areas.Student.Controllers
                     smtpClient.Send("tdm0982480826@gmail.com", "tabthien18@gmail.com", "New article created", message);
 
 
-                    TempData["success"] = "Megazine Created successfully";
+                    TempData["success"] = "Magazine Created successfully";
                     return RedirectToAction("MyArticles");
                 }
                 else
@@ -199,7 +199,7 @@ namespace _1640.Areas.Student.Controllers
             ViewBag.ArticleId = id;
             if (comments.Count == 0)
             {
-                ViewBag.Message = "Megazine don't have a feedback from Coordinator";
+                ViewBag.Message = "Magazine don't have a feedback from Coordinator";
             }
             return View(comments);
 
@@ -221,7 +221,7 @@ namespace _1640.Areas.Student.Controllers
 
             if (DateTime.Now > semester.EndDate)
             {
-                TempData["error"] = "The final deadline has passed. You cannot update this Megazine.";
+                TempData["error"] = "The final deadline has passed. You cannot update this Magazine.";
                 return RedirectToAction("MyArticles");
             }
 
@@ -256,7 +256,7 @@ namespace _1640.Areas.Student.Controllers
                 // Only allow editing if the article is in pending status
                 if (currentArticle.Status != Article.StatusArticle.Pending)
                 {
-                    TempData["error"] = "You can only edit Megazine that are in pending status.";
+                    TempData["error"] = "You can only edit Magazine that are in pending status.";
                     return RedirectToAction("MyArticles");
                 }
 
@@ -296,7 +296,7 @@ namespace _1640.Areas.Student.Controllers
                 _unitOfWork.ArticleRepository.Update(currentArticle);
                 _unitOfWork.Save();
 
-                TempData["success"] = "Megazine updated successfully";
+                TempData["success"] = "Magazine updated successfully";
                 return RedirectToAction("MyArticles");
             }
 
@@ -321,7 +321,7 @@ public IActionResult Delete(int id)
 
     if (DateTime.Now > semester.EndDate)
     {
-        TempData["error"] = "The final deadline has passed. You cannot delete this Megazine.";
+        TempData["error"] = "The final deadline has passed. You cannot delete this Magazine.";
         return RedirectToAction("MyArticles");
     }
 
@@ -347,7 +347,7 @@ public IActionResult Delete(int id)
 
             if (DateTime.Now > semester.EndDate)
             {
-                TempData["error"] = "The final deadline has passed. You cannot delete this Megazine.";
+                TempData["error"] = "The final deadline has passed. You cannot delete this Magazine.";
                 return RedirectToAction("MyArticles");
             }
 
@@ -355,7 +355,7 @@ public IActionResult Delete(int id)
             _unitOfWork.ArticleRepository.Delete(article);
             _unitOfWork.Save();
 
-            TempData["success"] = "Megazine deleted successfully";
+            TempData["success"] = "Magazine deleted successfully";
             return RedirectToAction("MyArticles");
         }
 
