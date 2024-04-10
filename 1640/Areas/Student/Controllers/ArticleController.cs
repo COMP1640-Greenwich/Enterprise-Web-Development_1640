@@ -53,32 +53,25 @@ namespace _1640.Areas.Student.Controllers
             return View(articles);
         }
 
-
-
-        public IActionResult Create(string id)
+        public IActionResult Create(string id, int semesterId)
         {
             var userFacultyId = _unitOfWork.UserRepository.Get(f => f.Id == id).FacultyId.Value;
 
             ArticleVM articleVM = new ArticleVM()
             {
-                Semesters = _unitOfWork.SemesterRepository.GetAllOpening()
-                    .Where(s => s.FacultyId == userFacultyId)
-                    .Select(c => new SelectListItem
-                    {
-                        Text = c.Name,
-                        Value = c.Id.ToString(),
-                    }),
                 Article = new Article()
                 {
-                    IsBlogActive = false
+                    IsBlogActive = false,
+                    SemesterId = semesterId
                 },
                 UserName = _unitOfWork.UserRepository.Get(f => f.Id == id).FullName.ToUpper(),
-                FacultyId = userFacultyId,
+                FacultyId = userFacultyId
             };
             articleVM.FacultyName = _unitOfWork.FacultyRepository.Get(f => f.Id == articleVM.FacultyId).Name.ToString();
             ViewBag.UserId = id;
             return View(articleVM);
         }
+
 
         [HttpPost]
         public async Task<IActionResult> CreateAsync(string id, ArticleVM articleVM, IFormFile? file, IFormFile? file1)
@@ -86,6 +79,7 @@ namespace _1640.Areas.Student.Controllers
 
             if (ModelState.IsValid)
             {
+
                 var isBlogActive = articleVM.Article.IsBlogActive;
                 if (isBlogActive == true)
                 {
@@ -355,6 +349,20 @@ public IActionResult Delete(int id)
 
             TempData["success"] = "Article deleted successfully";
             return RedirectToAction("MyArticles");
+        }
+
+        public async Task<IActionResult> SemesterList()
+        {
+            // Get the current user
+            var user = await _userManager.GetUserAsync(User);
+
+            // Get the FacultyId of the current user
+            var userFacultyId = _unitOfWork.UserRepository.Get(f => f.Id == user.Id).FacultyId.Value;
+
+            // Get the semesters of the current user's faculty
+            var semesters = _unitOfWork.SemesterRepository.GetAllOpeningByFaculty(s => s.FacultyId == userFacultyId).ToList();
+
+            return View(semesters);
         }
 
     }

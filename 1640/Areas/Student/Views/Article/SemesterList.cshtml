@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Semester>
+@inject UserManager<IdentityUser> UserManager
+@using Microsoft.AspNetCore.Identity
+
+<div class="container mt-5">
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var semester in Model)
+            {
+                <tr>
+                    <td>@semester.Name</td>
+                    <td>@semester.Status</td>
+                    <td>@semester.StartDate.ToString("MM/dd/yyyy")</td>
+                    <td>@semester.EndDate.ToString("MM/dd/yyyy")</td>
+                    <td>
+                        <a class="btn btn-primary" asp-controller="Article" asp-action="Create" asp-route-id="@UserManager.GetUserId(User)" asp-route-semesterId="@semester.Id">Submit</a>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -24,5 +24,10 @@ namespace _1640.Repository
             var semesters = _db.Semesters.AsEnumerable().Where(c => c.Status == "Opening").ToList();
             return semesters;
         }
+
+        public IEnumerable<Semester> GetAllOpeningByFaculty(Func<Semester, bool> predicate)
+        {
+            return _db.Semesters.AsEnumerable().Where(s => s.Status == "Opening" && predicate(s)).ToList();
+        }
     }
 }
