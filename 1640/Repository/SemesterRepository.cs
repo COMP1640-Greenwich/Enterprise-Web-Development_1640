@@ -30,5 +30,13 @@ namespace _1640.Repository
         {
             return _db.Semesters.AsEnumerable().Where(s => s.Status == "Opening" && predicate(s)).ToList();
         }
+        public IEnumerable<Semester> GetAll(Expression<Func<Semester, bool>> filter = null)
+        {
+            if (filter != null)
+            {
+                return _db.Semesters.Where(filter).ToList();
+            }
+            return _db.Semesters.ToList();
+        }
     }
 }
