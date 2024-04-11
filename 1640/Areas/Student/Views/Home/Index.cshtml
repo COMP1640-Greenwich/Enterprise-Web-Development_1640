@@ -111,17 +111,6 @@
                 </div>
             </div>
             </br>
-            @if (User.IsInRole("Student"))
-            {
-                <div class="card">
-                    <div class="card-header">
-                        Submit here
-                    </div>
-                    <div class="card-body">
-                        <a style="text-align:center" class="align-content-center btn btn-primary" asp-controller="Article" asp-action="Create" asp-route-id="@UserManager.GetUserId(User)" class="btn btn-primary mt-3 mr-2">Click here</a>
-                    </div>
-                </div>
-            }
         </div>
     </div>
 
