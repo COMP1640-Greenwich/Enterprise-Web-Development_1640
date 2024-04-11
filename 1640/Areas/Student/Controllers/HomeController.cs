@@ -37,7 +37,7 @@ namespace _1640.Areas.Student.Controllers
                 {
                     return RedirectToAction("List", "Manager", new { area = "Manager" });
                 }
-                else if ((await _userManager.IsInRoleAsync(user, SD.Role_Student)) || await _userManager.IsInRoleAsync(user, SD.Role_User))
+                else if ((await _userManager.IsInRoleAsync(user, SD.Role_Student)) || await _userManager.IsInRoleAsync(user, SD.Role_User) || await _userManager.IsInRoleAsync(user, SD.Role_Coordinator))
                 {
                     // Cast the user to User to access the FacultyId property
                     var student = user as User;
