@@ -28,7 +28,7 @@
         <!-- partial:../../partials/_navbar.html -->
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <a class="navbar-brand" asp-area="Student" asp-controller="Home" asp-action="Home">
                         <img src="~/images/Home/2022-Greenwich-Eng.png" style="width:120px;height:50px;">
                     </a>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between0">
@@ -41,8 +41,12 @@
                             @if (User.IsInRole("Manager"))
                             {
                                 <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="Student" asp-controller="Home" asp-action="Index"><b>Home</b></a>
+                                </li>
+                                <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="Manager" asp-controller="Manager" asp-action="Dashboard1"><b>Dashboard</b></a>
                                 </li>
+
                             }
                         </ul>
 

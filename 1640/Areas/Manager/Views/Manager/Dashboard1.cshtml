@@ -91,3 +91,19 @@
         return gradient;
     }
 </script>
+@functions {
+    string GetStatusClass(Article.StatusArticle status)
+    {
+        switch (status)
+        {
+            case Article.StatusArticle.Pending:
+                return "status-pending";
+            case Article.StatusArticle.Reject:
+                return "status-rejected";
+            case Article.StatusArticle.Approve:
+                return "status-approved";
+            default:
+                return "";
+        }
+    }
+}

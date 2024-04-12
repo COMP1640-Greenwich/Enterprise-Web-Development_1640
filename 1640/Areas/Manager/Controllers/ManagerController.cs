@@ -18,7 +18,7 @@ namespace _1640.Areas.Manager.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly ApplicationDbContext _dbContext;
-        private readonly int _recordsPerPage = 2;
+        private readonly int _recordsPerPage = 3;
         public ManagerController(IUnitOfWork unitOfWork, IWebHostEnvironment hostingEnvironment, ApplicationDbContext dBContext)
         {
             _unitOfWork = unitOfWork;
@@ -169,7 +169,7 @@ namespace _1640.Areas.Manager.Controllers
 
             foreach (var semester in semesters)
             {
-                var articleCount = _dbContext.Articles.Count(a => a.SemesterId == semester.Id);
+                var articleCount = _dbContext.Articles.Count(a => a.SemesterId == semester.Id && a.Status != Article.StatusArticle.Reject && a.Status != Article.StatusArticle.Pending);
 
                 // Create a view model object for each semester
                 var semesterArticleVM = new SemesterArticleVM
@@ -220,7 +220,7 @@ namespace _1640.Areas.Manager.Controllers
 
             foreach (var faculty in faculties)
             {
-                var articleCount = _dbContext.Articles.Count(a => a.FacultyId == faculty.Id);
+                var articleCount = _dbContext.Articles.Count(a => a.FacultyId == faculty.Id && a.Status != Article.StatusArticle.Reject && a.Status != Article.StatusArticle.Pending);
 
                 // Create a view model object for each faculty
                 var facultyArticleViewModel = new FacultyVM

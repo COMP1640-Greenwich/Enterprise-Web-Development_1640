@@ -68,6 +68,46 @@ namespace _1640.Areas.Student.Controllers
                 .ToList();
             return View(Allarticles);
         }
+        public async Task<IActionResult> Home(int id, string searchString = "")
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                if (await _userManager.IsInRoleAsync(user, SD.Role_Manager))
+                {
+                    return RedirectToAction("List", "Manager", new { area = "Manager" });
+                }
+                else if ((await _userManager.IsInRoleAsync(user, SD.Role_Student)) || await _userManager.IsInRoleAsync(user, SD.Role_User) || await _userManager.IsInRoleAsync(user, SD.Role_Coordinator))
+                {
+                    // Cast the user to User to access the FacultyId property
+                    var student = user as User;
+
+                    if (student != null)
+                    {
+                        // Get the articles that have the same FacultyId as the student
+                        var articles = _unitOfWork.ArticleRepository
+                            .GetAll(a => a.FacultyId == student.FacultyId && a.Status == Article.StatusArticle.Approve)
+                            .Where(b => b.Title.Contains(searchString) || b.UserName.Contains(searchString))
+                            .ToList();
+
+                        int numberOfRecords = articles.Count();
+                        int numberOfPages = (int)Math.Ceiling((double)numberOfRecords / _recordsPerPage);
+
+                        ViewBag.numberOfPages = numberOfPages;
+                        ViewBag.currentPage = id;
+                        ViewData["Current Filter"] = searchString;
+
+                        var articlesList = articles.Skip(id * numberOfPages).Take(_recordsPerPage).ToList();
+                        return View(articlesList);
+                    }
+                }
+            }
+            // If the user is not logged in or is not a manager or a student, return all approved articles
+            var Allarticles = _unitOfWork.ArticleRepository.GetAllApprove("Semester")
+                .Where(b => b.Title.Contains(searchString))
+                .ToList();
+            return View(Allarticles);
+        }
 
         public IActionResult Privacy()
         {
