@@ -37,7 +37,7 @@ namespace _1640.Areas.Student.Controllers
                 {
                     return RedirectToAction("List", "Manager", new { area = "Manager" });
                 }
-                else if (await _userManager.IsInRoleAsync(user, SD.Role_Student))
+                else if ((await _userManager.IsInRoleAsync(user, SD.Role_Student)) || await _userManager.IsInRoleAsync(user, SD.Role_User) || await _userManager.IsInRoleAsync(user, SD.Role_Coordinator))
                 {
                     // Cast the user to User to access the FacultyId property
                     var student = user as User;
@@ -47,7 +47,7 @@ namespace _1640.Areas.Student.Controllers
                         // Get the articles that have the same FacultyId as the student
                         var articles = _unitOfWork.ArticleRepository
                             .GetAll(a => a.FacultyId == student.FacultyId && a.Status == Article.StatusArticle.Approve)
-                            .Where(b => b.Title.Contains(searchString))
+                            .Where(b => b.Title.Contains(searchString)||b.UserName.Contains(searchString))
                             .ToList();
 
                         int numberOfRecords = articles.Count();
