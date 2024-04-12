@@ -7,6 +7,9 @@ namespace _1640.Repository.IRepository
     {
         void Update(Semester entity);
         public IEnumerable<Semester> GetAllOpening();
+        IEnumerable<Semester> GetAllOpeningByFaculty(Func<Semester, bool> predicate);
+
         IEnumerable<Semester> GetAll(Expression<Func<Semester, bool>> filter = null);
+
     }
 }

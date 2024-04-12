@@ -43,13 +43,7 @@
                             <input asp-for="@Model.FacultyName" class="form-control" disabled />
                         </div>
 
-                        <div class="form-group">
-                            <label asp-for="Article.SemesterId">Semester</label>
-                            <select asp-for="Article.SemesterId" asp-items="@Model.Semesters" class="form-control">
-                                <option selected disabled>-- Select Semester --</option>
-                            </select>
-                            <span asp-validation-for="Article.SemesterId" class="text-danger"></span>
-                        </div>
+                        @Html.HiddenFor(model => model.Article.SemesterId)
 
                         <div class="form-group form-check">
                             <input type="checkbox" class="form-check-input" asp-for="Article.IsBlogActive" />

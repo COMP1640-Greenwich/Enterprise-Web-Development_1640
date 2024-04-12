@@ -34,22 +34,21 @@ namespace _1640.Areas.Manager.Controllers
         }
 
         [Route("List")]
-        public IActionResult List(int id, string searchString = "")
+        public IActionResult List(int id)
         {
-            List<Article> articles = _unitOfWork.ArticleRepository.GetAllApprove("Semester")
-            .Where(b => b.Title.Contains(searchString))
-            .ToList();
+            // Fetch all approved articles
+            List<Article> articles = _unitOfWork.ArticleRepository.GetAll(a => a.Status == Article.StatusArticle.Approve).ToList();
 
             int numberOfRecords = articles.Count();
             int numberOfPages = (int)Math.Ceiling((double)numberOfRecords / _recordsPerPage);
 
             ViewBag.numberOfPages = numberOfPages;
             ViewBag.currentPage = id;
-            ViewData["Current Filter"] = searchString;
 
-            var articlesList = articles.Skip(id * numberOfPages).Take(_recordsPerPage).ToList();
+            var articlesList = articles.Skip(id * _recordsPerPage).Take(_recordsPerPage).ToList();
             return View(articlesList);
         }
+
 
         [Route("List/id")]
         public IActionResult DownloadDocInZip(int id)
@@ -85,6 +84,7 @@ namespace _1640.Areas.Manager.Controllers
             var zipBytes = System.IO.File.ReadAllBytes(zipPath);
             return File(zipBytes, "application/zip", "doc.zip");
         }
+
         [Route("Create")]
         public IActionResult Create()
         {
