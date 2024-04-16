@@ -74,7 +74,9 @@
 
                                     <div class="row no-gutters">
                                         <div class="col-sm-5">
-                                            <img class="card-img" src="@Article.ImageUrl" alt="Magazine">
+                                        <div class=" hover-zoom">
+                                            <img class="card-img" src="@Article.ImageUrl" alt="@Article.Title">
+                                        </div>
                                         </div>
                                         <div class="col-sm-7">
                                             <div class="card-body">
@@ -96,13 +98,37 @@
                        
             </div>
 
-            <div class="col-md-3 col-sm-4 d-none d-md-block g-2">
+            <div class="col-md-3 col-sm-4 d-none d-md-block pt-3 gy-3 gx-3">
+                @if (User.IsInRole("Student"))
+                {
+                    <div class="card border-primary">
+                        <!-- Added border-primary for a colored border -->
+                        <div class="card-header text-center bg-danger text-white">
+                            <!-- Changed background color and text color -->
+                            <h4>Submit Contribution</h4> <!-- Changed header text -->
+                        </div>
+                        <div class="card-body text-center">
+                            <p class="card-text">Welcome to our submission portal. Please select a semester to create your contribution.</p> <!-- Added a paragraph with a description -->
+                            <a asp-area="Student" asp-controller="Article" asp-action="SemesterList" class="btn btn-primary mt-3">Choose Semester</a> <!-- Removed unnecessary classes -->
+                        </div>
+                    </div>
+                }
+                <br />
+                <div class="card">
+                    <div class="card-body">
+                        <div class="text-center hover-zoom">
+                            <img src="https://i.redd.it/90ekftm1ltgy.gif" style="width: 100%; height: auto;" />
+                        </div>
+                    </div>
+                </div>
+                <br />
                 <div class="card gy-2">
 
                     <div class="card-body">
-                        <p style="text-align:center">
+                        <p style="text-align:center; font-size:150%">
                             Calendar
                         </p>
+                        <img src="https://cdn.dribbble.com/users/26232/screenshots/2833060/drib_cat2_2.gif" style="width: 100%; height: auto;" />
                         <script src="https://lichngaytot.com/Content/Js/Libs/jquery-3.4.1.min.js"></script>
                         <script src="https://lichngaytot.com/Content/Js/Libs/jquery-ui.min.js"></script>
                         <script src="https://lichngaytot.com/Content/Js/Widget/widgetlichthang.js"></script>
@@ -110,7 +136,6 @@
                     </div>
                 </div>
             </div>
-            </br>
         </div>
     </div>
 

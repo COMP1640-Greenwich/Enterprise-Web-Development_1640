@@ -2,6 +2,42 @@
 @inject UserManager<IdentityUser> UserManager
 @using Microsoft.AspNetCore.Identity
 
+<style>
+    .table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+        .table th,
+        .table td {
+            padding: 12px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .table th {
+            background-color: #93e2bb;
+            color: #000;
+        }
+
+        .table tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .table tbody tr:hover {
+            background-color: #e2e6ea;
+        }
+
+        .table tbody td a.btn-primary {
+            color: #fff;
+        }
+
+            .table tbody td a.btn-primary:hover {
+                background-color: #0069d9;
+            }
+
+</style>
 <div class="container mt-5">
     <table class="table table-striped table-bordered">
         <thead class="thead-dark">

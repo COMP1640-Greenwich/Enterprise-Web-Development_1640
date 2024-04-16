@@ -1,6 +1,64 @@
 ﻿@page
 @model RegisterModel
+<style>
 
+    .form-floating {
+        position: relative;
+    }
+
+        .form-floating input,
+        .form-floating select {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            width: 100%;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+            .form-floating input:focus,
+            .form-floating select:focus {
+                border-color: #80bdff;
+                outline: 0;
+                box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+            }
+
+        .form-floating label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 10px;
+            transition: transform .3s ease-out, opacity .3s ease-out, top .3s ease-out;
+            opacity: 0.65;
+        }
+
+        .form-floating input:focus ~ label,
+        .form-floating input:not(:placeholder-shown) ~ label,
+        .form-floating select:focus ~ label,
+        .form-floating select:not(:placeholder-shown) ~ label {
+            transform: translateY(-25px) scale(0.85);
+            opacity: 1;
+        }
+
+        .form-floating .text-danger {
+            display: block;
+            margin-top: 5px;
+            font-size: 0.875em;
+        }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .btn-primary:focus {
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
+        }
+</style>
 <div class="container h-100">
     <div class="row d-flex justify-content-center align-items-center h-50">
         <div class="">
@@ -89,7 +147,7 @@
                             <div class="form-check d-flex justify-content-center mb-5">
                                 <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3c" />
                                 <label class="form-check-label" for="form2Example3">
-                                    I agree all statements in <a asp-area="User" asp-controller="Home" asp-action="Privacy">Terms of service</a>
+                                    I agree all statements in <a asp-area="User" asp-controller="Home" asp-action="Privacy">Privacy</a>
                                 </label>
                             </div>
 

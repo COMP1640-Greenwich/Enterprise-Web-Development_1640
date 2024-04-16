@@ -7,23 +7,69 @@
 
 <h3>@ViewData["Title"]</h3>
 <partial name="_StatusMessage" for="StatusMessage" />
+<style>
+    .form-floating {
+        position: relative;
+    }
+
+        .form-floating input {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            width: 100%;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+            .form-floating input:focus {
+                border-color: #80bdff;
+                outline: 0;
+                box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+            }
+
+        .form-floating label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 10px;
+            transition: transform .3s ease-out, opacity .3s ease-out, top .3s ease-out;
+            opacity: 0.65;
+        }
+
+        .form-floating input:focus ~ label,
+        .form-floating input:not(:placeholder-shown) ~ label {
+            transform: translateY(-25px) scale(0.85);
+            opacity: 1;
+        }
+
+        .form-floating .text-danger {
+            display: block;
+            margin-top: 5px;
+            font-size: 0.875em;
+        }
+
+    #update-profile-button {
+        margin-top: 20px;
+    }
+</style>
+
 <div class="row">
     <div class="col-md-6">
         <form id="profile-form" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
-                <input asp-for="Username" class="form-control" placeholder="Please choose your username." disabled />
-                <label asp-for="Username" class="form-label"></label>
+                <input asp-for="Username" class="form-control" placeholder=" " disabled />
+                <label asp-for="Username" class="form-label">Please choose your username.</label>
             </div>
             <div class="form-floating mb-3">
-                <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number."/>
-                <label asp-for="Input.PhoneNumber" class="form-label"></label>
+                <input asp-for="Input.PhoneNumber" class="form-control" placeholder=" " />
+                <label asp-for="Input.PhoneNumber" class="form-label">Please enter your phone number.</label>
                 <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
             </div>
             <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
         </form>
     </div>
 </div>
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

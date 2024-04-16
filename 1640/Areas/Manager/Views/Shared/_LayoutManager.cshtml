@@ -41,9 +41,6 @@
                             @if (User.IsInRole("Manager"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="Student" asp-controller="Home" asp-action="Index"><b>Home</b></a>
-                                </li>
-                                <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="Manager" asp-controller="Manager" asp-action="Dashboard1"><b>Dashboard</b></a>
                                 </li>
 
@@ -97,7 +94,7 @@
                         </a>
                         <div class="collapse" id="ui-basic">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" asp-area="Manager" asp-controller="Manager" asp-action="Dashboard1">Dashboard for Magazine</a></li>
+                                <li class="nav-item"> <a class="nav-link" asp-area="Manager" asp-controller="Manager" asp-action="Dashboard1">Dashboard for Contribution</a></li>
                                 <li class="nav-item"> <a class="nav-link" asp-area="Manager" asp-controller="Manager" asp-action="Dashboard2">Dashboard for user</a></li>
                                 <li class="nav-item"> <a class="nav-link" asp-area="Manager" asp-controller="Manager" asp-action="Dashboard3">Dashboard for faculty</a></li>
                             </ul>
@@ -112,7 +109,7 @@
                         <div class="collapse" id="ui-basic">
                             <ul class="nav flex-column sub-menu">
                                 <li class="nav-item"> <a class="nav-link" asp-area="Manager" asp-controller="Manager" asp-action="Index">List of Faculty</a></li>
-                                <li class="nav-item"> <a class="nav-link" asp-area="Manager" asp-controller="Manager" asp-action="List">Magazine's List</a></li>
+                                <li class="nav-item"> <a class="nav-link" asp-area="Manager" asp-controller="Manager" asp-action="List">Contribution's List</a></li>
                             </ul>
                         </div>
                     </li>
