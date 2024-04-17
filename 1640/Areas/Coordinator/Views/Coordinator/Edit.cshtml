@@ -1,8 +1,48 @@
 ﻿@model SemesterVM
 
-<h2>Edit a Semester</h2>
+<h2 style="text-align:center">Edit a Semester</h2>
 
-<form method="post">
+<style>
+    #edit {
+        max-width: 600px;
+        margin: auto;
+        padding: 15px;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+
+</style>
+
+<form method="post" id="edit">
     <div class="form-group">
         <input asp-for="Semester.Id" hidden />
         <input asp-for="FacultyId" hidden />

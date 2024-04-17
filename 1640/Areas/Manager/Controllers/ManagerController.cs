@@ -34,10 +34,10 @@ namespace _1640.Areas.Manager.Controllers
         }
 
         [Route("List")]
-        public IActionResult List(int id)
+        public IActionResult List(int id, string searchString ="")
         {
             // Fetch all approved articles
-            List<Article> articles = _unitOfWork.ArticleRepository.GetAll(a => a.Status == Article.StatusArticle.Approve).ToList();
+            List<Article> articles = _unitOfWork.ArticleRepository.GetAll(a => a.Status == Article.StatusArticle.Approve).Where(b => b.Title.Contains(searchString) || b.UserName.Contains(searchString)).ToList();
 
             int numberOfRecords = articles.Count();
             int numberOfPages = (int)Math.Ceiling((double)numberOfRecords / _recordsPerPage);

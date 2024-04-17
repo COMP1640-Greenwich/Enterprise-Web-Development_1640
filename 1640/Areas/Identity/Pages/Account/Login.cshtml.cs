@@ -128,7 +128,7 @@ namespace _1640.Areas.Identity.Pages.Account
                     }
                     if (User.IsInRole("Coordinator"))
                     {
-                        return Redirect("/Coordinator/Coordinator/Index");
+                        return Redirect("/Student/Home/Index");
                     }
                     if (User.IsInRole("User"))
                     {

@@ -20,8 +20,6 @@ else if (TempData["DeleteUserMessage"] != null && (bool)TempData["ShowMessage"])
     </script>
 }
 
-
-
 @if (Model.Any())
 {
     <div class="book-container">
@@ -37,66 +35,62 @@ else if (TempData["DeleteUserMessage"] != null && (bool)TempData["ShowMessage"])
                 <input id="myInput" class="form-control" type="text" placeholder="Search" style="margin-right: 30px;">
             </form>
         </div>
-        <table class="table table-hover">
-            <thead id="tbHead">
-                <tr class="table-primary" style=" text-align: center">
-                    <th scope="col">Nu</th>
-                    <th scope="col">Full Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Role</th>
-                    <th scope="col">Campus</th>
-                    <th scope="col">Faculty</th>
-                    <th scope="col">Phone</th>
-                    <th scope="col">Create at</th>
-                    <th scope="col">Action</th>
-                </tr>
-            </thead>
-            <tbody id="tblData">
-                @{
-                    var i = 1;
-                }
-                @foreach (var obj in Model)
-                {
+        <div class="table-responsive">
+            <!-- Wrap the table in a div to enable horizontal scrolling on small screens -->
+            <table class="table table-hover">
+                <thead id="tbHead" class="table-primary text-center">
                     <tr>
-                        <th style=" text-align: center" scope="row">@i</th>
-                        <td style=" text-align: center">@obj.FullName</td>
-                        <td style=" text-align: center">@obj.Email</td>
-                        <td style=" text-align: center">@obj.Role</td>
-                        <td style=" text-align: center">@obj.Campus</td>
-                        <td style=" text-align: center">@(obj.Faculty?.Name ?? "No Faculty")</td>
-                        <td style=" text-align: center">@obj.PhoneNumber</td>
-                        <td style=" text-align: center">@obj.CreatedAt</td>
-                        <td>
-                            <a class="btn btn-primary" asp-controller="Users" asp-action="Edit" asp-route-id="@obj.Id"
-                               class="btn btn-sm btn-outline-info">
-                                <i class="fa-solid fa-pen"></i><b style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">
-                                    Edit
-                                </b>
-                            </a>
-                            @if (User.IsInRole("Admin"))
-                            {
-                                <a class="btn btn-secondary" asp-area="Admin" asp-controller="Users" asp-action="ResetPassword" asp-route-id="@obj.Id"
-                                   class="btn btn-sm btn-outline-danger">
-                                    <i class="fa-solid fa-key"></i> <b style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Reset Password</b>
-                                </a>
-                                <a class="btn btn-danger" asp-area="Admin" asp-controller="Users" asp-action="Delete"
-                                   onclick="return confirm('Do you want to delete')" asp-route-id="@obj.Id"
-                                   class="btn btn-sm btn-outline-danger">
-                                    <i class="fa-solid fa-xmark"></i> <b style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Delete</b>
-                                </a>
-
-                            }
-                        </td>
+                        <th>Nu</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Campus</th>
+                        <th>Faculty</th>
+                        <th>Phone</th>
+                        <th>Create at</th>
+                        <th>Action</th>
                     </tr>
-                    i++;
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody id="tblData">
+                    @{
+                        var i = 1;
+                    }
+                    @foreach (var obj in Model)
+                    {
+                        <tr>
+                            <td class="text-center">@i</td>
+                            <td>@obj.FullName</td>
+                            <td>@obj.Email</td>
+                            <td>@obj.Role</td>
+                            <td>@obj.Campus</td>
+                            <td>@(obj.Faculty?.Name ?? "No Faculty")</td>
+                            <td>@obj.PhoneNumber</td>
+                            <td>@obj.CreatedAt</td>
+                            <td>
+                                <div class="btn-group mr-2" role="group" aria-label="Basic example">
+                                    <a class="btn btn-primary" asp-controller="Users" asp-action="Edit" asp-route-id="@obj.Id">
+                                        <i class="fa-solid fa-pen"></i> Edit
+                                    </a>
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <a class="btn btn-secondary" asp-area="Admin" asp-controller="Users" asp-action="ResetPassword" asp-route-id="@obj.Id">
+                                            <i class="fa-solid fa-key"></i> Reset Password
+                                        </a>
+                                        <a class="btn btn-danger" asp-area="Admin" asp-controller="Users" asp-action="Delete" onclick="return confirm('Do you want to delete')" asp-route-id="@obj.Id">
+                                            <i class="fa-solid fa-xmark"></i> Delete
+                                        </a>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
-
-
-
 }
+
 
 @section Scripts {
     <script>

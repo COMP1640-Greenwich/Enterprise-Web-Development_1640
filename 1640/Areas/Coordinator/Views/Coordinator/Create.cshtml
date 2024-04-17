@@ -1,31 +1,73 @@
 ﻿@model SemesterVM
 
-<h2>Create a Semester</h2>
+<h2 style="text-align: center">Create a Semester</h2>
 
-<form method="post">
+
+<style>
+    #create {
+        max-width: 600px; 
+        margin: auto;
+        padding: 15px; 
+        background-color: #f8f9fa; 
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        font-weight: bold; 
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff; 
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3; 
+            border-color: #0056b3;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d; 
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268; 
+            border-color: #545b62; 
+        }
+
+</style>
+
+<form method="post" class="container" id="create">
     <div class="form-group">
         <input asp-for="Semester.Id" hidden />
         <input asp-for="FacultyId" hidden />
+
         <div class="form-group">
-            <label asp-for="Semester.Name"></label>
-            <input asp-for="Semester.Name" class="form-control" />
+            <label for="SemesterName">Semester Name:</label>
+            <input asp-for="Semester.Name" class="form-control" id="SemesterName" placeholder="Enter semester name" />
             <span asp-validation-for="Semester.Name" class="text-danger"></span>
         </div>
 
         <div class="form-group">
-            <label asp-for="Semester.StartDate"></label>
-            <input asp-for="Semester.StartDate" class="form-control" />
+            <label for="StartDate">Start Date:</label>
+            <input asp-for="Semester.StartDate" class="form-control" id="StartDate" placeholder="Enter start date" />
             <span asp-validation-for="Semester.StartDate" class="text-danger"></span>
         </div>
 
         <div class="form-group">
-            <label asp-for="Semester.EndDate"></label>
-            <input asp-for="Semester.EndDate" class="form-control" />
+            <label for="EndDate">End Date:</label>
+            <input asp-for="Semester.EndDate" class="form-control" id="EndDate" placeholder="Enter end date" />
             <span asp-validation-for="Semester.EndDate" class="text-danger"></span>
         </div>
 
         <div class="form-group">
-            <label for="Faculty Name" class="form-label">Faculty</label>
+            <label for="FacultyName">Faculty:</label>
             <input asp-for="@Model.FacultyName" class="form-control" disabled />
         </div>
 

@@ -2,13 +2,53 @@
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }
-<ul class="nav nav-pills flex-column">
-    <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Profile</a></li>
-    <li class="nav-item"><a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">Password</a></li>
-    @if (hasExternalLogins)
-    {
-        <li id="external-logins" class="nav-item"><a id="external-login" class="nav-link @ManageNavPages.ExternalLoginsNavClass(ViewContext)" asp-page="./ExternalLogins">External logins</a></li>
+
+<style>
+    /* Define styles for the border and icon */
+    #item {
+        border-bottom: 1px solid #ddd; /* Add a bottom border */
+        padding-bottom: 5px; /* Add some padding at the bottom */
     }
-    <li class="nav-item"><a class="nav-link @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" asp-page="./TwoFactorAuthentication">Two-factor authentication</a></li>
-    <li class="nav-item"><a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">Personal data</a></li>
+
+    #changePassword, #two-factor, #personal-data, #profile {
+        display: flex;
+        align-items: center;
+        color: #333; /* Set link text color */
+        text-decoration: none; /* Remove underline */
+        padding: 10px; /* Add padding */
+    }
+
+        #changePassword:hover, #two-factor:hover, #personal-data:hover, #profile:hover {
+            background-color: #f5f5f5; /* Change background color on hover */
+        }
+
+        #changePassword i, #two-factor i, #personal-data i, #profile i {
+            margin-right: 10px; /* Add margin to the right of the icon */
+        }
+</style>
+
+<!-- Your HTML with added styles -->
+<ul class="nav flex-column">
+    <li id="item" class="nav-item">
+        <a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">
+            <i class="fa fa-user"></i> Profile
+        </a>
+    </li>
+    <li id="item" class="nav-item">
+        <a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="changePassword" asp-page="./ChangePassword">
+            <i class="fa fa-lock"></i> Change Password
+        </a>
+    </li>
+    <li id="item" class="nav-item">
+        <a class="nav-link @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" asp-page="./TwoFactorAuthentication">
+            <i class="fas fa-lock"></i> Two Factor Authentication
+        </a>
+    </li>
+    <li id="item" class="nav-item">
+        <a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">
+            <i class="fa fa-download"></i> Personal Data
+        </a>
+    </li>
 </ul>
+
+

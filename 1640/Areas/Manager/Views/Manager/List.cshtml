@@ -3,7 +3,6 @@
     Layout = "~/Areas/Manager/Views/Shared/_LayoutManager.cshtml";
 }
 @model List<Article>
-
         <tbody>
             <div class="col-md-9 col-sm-auto pt-3 row gx-3 row gy-3">
                 <div class="mb-3">
@@ -33,7 +32,9 @@
 
                                 <div class="row no-gutters">
                                     <div class="col-sm-5">
-                                <img class="card-img" src="@Article.ImageUrl" alt="@Article.Title">
+                                <div class=" hover-zoom">
+                                    <img class="card-img" src="@Article.ImageUrl" alt="Contribution">
+                                </div>
                                     </div>
                                     <div class="col-sm-7">
                                         <div class="card-body">
