@@ -164,30 +164,6 @@ namespace _1640.Areas.Manager.Controllers
         [Route("Dashboard1")]
         public IActionResult Dashboard1()
         {
-            List<Semester> semesters = _dbContext.Semesters.ToList();
-            List<SemesterArticleVM> semesterArticleViewModels = new List<SemesterArticleVM>();
-
-            foreach (var semester in semesters)
-            {
-                var articleCount = _dbContext.Articles.Count(a => a.SemesterId == semester.Id && a.Status != Article.StatusArticle.Reject && a.Status != Article.StatusArticle.Pending);
-
-                // Create a view model object for each semester
-                var semesterArticleVM = new SemesterArticleVM
-                {
-                    SemesterId = semester.Id,
-                    SemesterName = semester.Name,
-                    ArticleCount = articleCount
-                };
-
-                semesterArticleViewModels.Add(semesterArticleVM);
-            }
-
-            return View(semesterArticleViewModels);
-
-        }
-        [Route("Dashboard2")]
-        public IActionResult Dashboard2()
-        {
             List<FacultyVM> facultyViewModels = new List<FacultyVM>();
 
             // Get the faculties

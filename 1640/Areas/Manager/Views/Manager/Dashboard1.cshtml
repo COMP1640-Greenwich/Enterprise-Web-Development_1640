@@ -1,10 +1,7 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Dashboard1";
     Layout = "~/Areas/Manager/Views/Shared/_LayoutManager.cshtml";
 }
-
-@model List<SemesterArticleVM>
 
 <!-- Include necessary libraries -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
@@ -13,6 +10,7 @@
 <div id="chart-container">
     <canvas id="myChart" width="300" height="300"></canvas>
 </div>
+
 <style>
     #chart-container {
         width: 80%;
@@ -24,28 +22,29 @@
         font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
     }
 </style>
+
 <script>
     // Get data from the model
-    var semesterNames = [];
-    var articleCounts = [];
+    var facultyNames = [];
+    var studentCounts = [];
     @foreach (var item in Model)
     {
-        <text>semesterNames.push('@item.SemesterName');</text>
-        <text>articleCounts.push('@item.ArticleCount');</text>
+        <text>facultyNames.push('@item.FacultyName');</text>
+        <text>studentCounts.push('@item.StudentCount');</text>
     }
 
     // Create the chart
     var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, {
-        type: 'bar',
+        type: 'horizontalBar',
         data: {
-            labels: semesterNames,
+            labels: facultyNames,
             datasets: [{
-                label: 'Magazines',
+                label: 'Students',
                 fontSize: 20,
                 fontFamily: 'Calibri',
-                data: articleCounts,
-                backgroundColor: semesterNames.map(function(semester, index) {
+                data: studentCounts,
+                backgroundColor: facultyNames.map(function(faculty, index) {
                     return createGradient(ctx, index);
                 }),
             }]
@@ -55,35 +54,45 @@
             maintainAspectRatio: false,
             title: {
                 display: true,
-                text: 'Number of Magazines per Semester',
-                fontSize: 25, // Adjust the font size if needed
-                fontFamily: 'Calibri', // Adjust the font family if needed
-                fontColor: '#333' // Adjust the font color if needed
+                fontSize: 18,
+                text: 'Number of Students per Faculty'
             },
             scales: {
-                xAxes: [{
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        autoSkip: false,
+                        precision: 0
+                    },
                     scaleLabel: {
                         display: true,
-                        labelString: 'Semester',
+                        labelString: 'Faculty',
                         fontSize: 20,
                         fontFamily: 'Calibri'
                     }
                 }],
-                yAxes: [{
+                xAxes: [{
                     ticks: {
                         beginAtZero: true,
                         stepSize: 1,
+                        callback: function(value, index, values) {
+                            if (index === values.length - 1) {
+                                return value;
+                            }
+                            return null;
+                        }
                     },
                     scaleLabel: {
                         display: true,
-                        labelString: 'Magazines',
+                        labelString: 'Count of Student',
                         fontSize: 20,
                         fontFamily: 'Calibri'
                     }
                 }]
             }
         }
-    });   
+    });
+
     function createGradient(ctx, index) {
         var gradient = ctx.createLinearGradient(0, 0, 400, 0); // Change the gradient direction and size as needed
         gradient.addColorStop(0, 'rgba(' + Math.floor(Math.random()*256) + ',' + Math.floor(Math.random()*256) + ',' + Math.floor(Math.random()*256) + ',0.8)'); // Start color
@@ -91,19 +100,3 @@
         return gradient;
     }
 </script>
-@functions {
-    string GetStatusClass(Article.StatusArticle status)
-    {
-        switch (status)
-        {
-            case Article.StatusArticle.Pending:
-                return "status-pending";
-            case Article.StatusArticle.Reject:
-                return "status-rejected";
-            case Article.StatusArticle.Approve:
-                return "status-approved";
-            default:
-                return "";
-        }
-    }
-}

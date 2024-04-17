@@ -5,7 +5,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header bg-danger text-white">
-                    <h3>Delete Magazine</h3>
+                    <h3>Delete Contribution</h3>
                 </div>
                 <div class="card-body">
                     <h4 class="card-title">Are you sure you want to delete this Magazines?</h4>
@@ -18,7 +18,7 @@
                         <dt class="col-sm-3">Docx File:</dt>
                         <dd class="col-sm-9"><a href="@Model.DocxUrl">@Model.DocxUrl</a></dd>
                         <dt class="col-sm-3">Image:</dt>
-                        <dd class="col-sm-9"><img src="@Model.ImageUrl" alt="Magazine Image" style="width: 100%; height: auto;" /></dd>
+                        <dd class="col-sm-9"><img src="@Model.ImageUrl" alt="Contribution Image" style="width: 100%; height: auto;" /></dd>
                     </dl>
                     <form asp-action="DeleteConfirmed" method="post">
                         <input type="hidden" asp-for="Id" />
