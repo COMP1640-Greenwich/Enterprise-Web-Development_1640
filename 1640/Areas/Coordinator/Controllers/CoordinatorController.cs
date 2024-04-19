@@ -35,10 +35,6 @@ namespace _1640.Areas.Coordinator.Controllers
             List<Semester> semesters = _unitOfWork.SemesterRepository.GetAll(a => a.FacultyId == coordinator.FacultyId).ToList();
             return View(semesters);
         }
-        public IActionResult Details()
-        {
-            return View();
-        }
         public IActionResult Create(string id)
         {
             var userFacultyId = _unitOfWork.UserRepository.Get(f => f.Id == id).FacultyId.Value;
@@ -74,8 +70,6 @@ namespace _1640.Areas.Coordinator.Controllers
             SemesterVM semesterVM = new SemesterVM()
             {
                 Semester = new Semester(),
-                //FacultyId = _unitOfWork.SemesterRepository.Get(filter => filter.Id == id).FacultyId,
-                //FacultyName = _unitOfWork.SemesterRepository.Get(f => f.Id == id).FacultyName.ToString(),
             };
             
             if (id == null || id == 0)
@@ -160,13 +154,38 @@ namespace _1640.Areas.Coordinator.Controllers
             // Get the current user
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var user = await _db.Users.FindAsync(userId);
-
             // Get the articles that have the same FacultyId as the coordinator and are pending
             var request = await _db.Articles
                 .Where(a => a.Status == Article.StatusArticle.Pending && a.FacultyId == user.FacultyId)
                 .ToListAsync();
+            foreach (var article in request)
+            {
+                if (article.CreateAt < DateTime.Now.AddMinutes(-2))
+                {
+                    article.Status = Article.StatusArticle.Reject;
+                    var user1 = await _db.Users.FindAsync(article.UserId);
 
-            if (request.Count == 0)
+                    if (user1 == null)
+                    {
+                        return NotFound("User not found");
+                    }
+                    // Send email to the student who created the article
+                    var smtpClient = new SmtpClient("smtp.gmail.com")
+                    {
+                        Port = 587,
+                        Credentials = new NetworkCredential("tdm0982480826@gmail.com", "xnej ojsl etxa euki"),
+                        EnableSsl = true,
+                    };
+                    smtpClient.Send("tdm0982480826@gmail.com", user1.Email, "Your article was rejected", "We're sorry, but your article was rejected.");
+                    await _db.SaveChangesAsync();
+                }
+
+
+            }
+
+
+
+                if (request.Count == 0)
             {
                 ViewBag.Message = "You don't have any request";
             }

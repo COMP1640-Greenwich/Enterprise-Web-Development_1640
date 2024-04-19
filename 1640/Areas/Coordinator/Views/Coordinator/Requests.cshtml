@@ -29,6 +29,7 @@
                                     <i class="fa-solid fa-xmark"></i>  Reject
                                 </a>
                             </div>
+                            
                             <div class="d-flex align-items-center">
                                 <div class="flex-shrink-1">
                                     <img src="https://i.pinimg.com/originals/51/90/10/519010d9ee8167bfe445e616f260f758.png"
@@ -50,7 +51,9 @@
                                 </div>
                                 <div class="col-sm-7">
                                     <div class="card-body">
-                                        <h5 class="card-title">Title:&nbsp @Article.Title</h5>
+                                        <p class="card-text">Create at: @Article.CreateAt.ToString("HH: mm  / dd - MM - yyyy")</p>
+                                        
+                                        <h4 class="card-title">Title:&nbsp @Article.Title</h4>
                                         <p class="card-text">@Article.Description</p>
                                         <div class="float-right">
                                             <br />
@@ -65,11 +68,13 @@
                         </div>
                     </div>
                     <br />
+                    
                 }
             </div>
         </div>
     </div>
 </div>
+
 
 
 @section Scripts {

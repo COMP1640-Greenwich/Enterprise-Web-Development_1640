@@ -33,10 +33,6 @@ namespace _1640.Models
         public int? FacultyId { get; set; }
         [ValidateNever]
         public string? FacultyName { get; set; }
-        //[ForeignKey("FacultyId")]
-        //[ValidateNever]
-        //public Faculty Faculty { get; set; }
-
 
         public enum StatusArticle
         {
@@ -47,7 +43,7 @@ namespace _1640.Models
         [Required]
         [ValidateNever]
         public StatusArticle Status { get; set; }
-        
 
+        public DateTime CreateAt { get; set; }
     }
 }

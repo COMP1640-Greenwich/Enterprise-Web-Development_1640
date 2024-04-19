@@ -19,6 +19,7 @@ namespace _1640.Models.VM
         public string? UserName { get; set; }
         [ValidateNever]
         public string? FacultyName { get; set; }
+        public DateTime CreateAt { get; set; }
 
     }
 }

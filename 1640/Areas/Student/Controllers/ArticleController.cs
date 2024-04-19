@@ -30,11 +30,6 @@ namespace _1640.Areas.Student.Controllers
             _webHostEnvironment = webHostEnvironment;
             _userManager = userManager;
         }
-        //public IActionResult Index()
-        //{
-        //    List<Article> articles = _unitOfWork.ArticleRepository.GetAllApprove("Semester").ToList();
-        //    return View(articles);
-        //}
 
         [Authorize(Roles = Constraintt.StudentRole)]
         public async Task<IActionResult> MyArticles(string searchString = "")
@@ -44,6 +39,24 @@ namespace _1640.Areas.Student.Controllers
 
             // Get the articles of the current user
             List<Article> articles = _unitOfWork.ArticleRepository.GetAll(a => a.UserId == user.Id).ToList();
+            //foreach (var article in articles)
+            //{
+            //    if (article.Status == Article.StatusArticle.Pending && article.CreateAt < DateTime.Now.AddMinutes(-1))
+            //    {
+            //        article.Status = Article.StatusArticle.Reject;
+                    
+
+            //        // Send email to the student who created the article
+            //        var smtpClient = new SmtpClient("smtp.gmail.com")
+            //        {
+            //            Port = 587,
+            //            Credentials = new NetworkCredential("tdm0982480826@gmail.com", "xnej ojsl etxa euki"),
+            //            EnableSsl = true,
+            //        };
+            //        smtpClient.Send("tdm0982480826@gmail.com", user.Email, "Your article was rejected", "We're sorry, but your article was rejected.");
+            //        await _dbContext.SaveChangesAsync();
+            //    }
+            //}
             if (articles.Count == 0)
             {
                 ViewBag.Message = "You don't have any an Contribution";
@@ -59,7 +72,26 @@ namespace _1640.Areas.Student.Controllers
 
         public IActionResult Create(string id, int semesterId)
         {
-            var userFacultyId = _unitOfWork.UserRepository.Get(f => f.Id == id).FacultyId.Value;
+            var user = _unitOfWork.UserRepository.Get(f => f.Id == id);
+            if (user == null)
+            {
+                // Xử lý trường hợp người dùng không tồn tại
+                return NotFound();
+            }
+
+            int? userFacultyId = user.FacultyId;
+            if (!userFacultyId.HasValue)
+            {
+                // Xử lý trường hợp không có thông tin về khoa của người dùng
+                return NotFound();
+            }
+
+            var faculty = _unitOfWork.FacultyRepository.Get(f => f.Id == userFacultyId);
+            if (faculty == null)
+            {
+                // Xử lý trường hợp không tìm thấy thông tin về khoa
+                return NotFound();
+            }
 
             ArticleVM articleVM = new ArticleVM()
             {
@@ -68,13 +100,15 @@ namespace _1640.Areas.Student.Controllers
                     IsBlogActive = false,
                     SemesterId = semesterId
                 },
-                UserName = _unitOfWork.UserRepository.Get(f => f.Id == id).FullName.ToUpper(),
-                FacultyId = userFacultyId
+                UserName = user.FullName.ToUpper(),
+                FacultyId = userFacultyId.Value,
+                FacultyName = faculty.Name
             };
-            articleVM.FacultyName = _unitOfWork.FacultyRepository.Get(f => f.Id == articleVM.FacultyId).Name.ToString();
+
             ViewBag.UserId = id;
             return View(articleVM);
         }
+
 
 
         [HttpPost]
@@ -141,8 +175,9 @@ namespace _1640.Areas.Student.Controllers
                     articleVM.Article.FacultyId = (int)articleVM.FacultyId;
                     articleVM.Article.FacultyName = _unitOfWork.FacultyRepository.Get(f => f.Id == articleVM.FacultyId).Name.ToString();
                     articleVM.Article.Status = Article.StatusArticle.Pending;
-                    
-
+                    articleVM.Article.CreateAt = DateTime.Now;
+                    if (articleVM.Article.CreateAt < DateTime.Now.AddMinutes(-1))
+                        articleVM.Article.Status = Article.StatusArticle.Reject;
                     _unitOfWork.ArticleRepository.Add(articleVM.Article);
                     _unitOfWork.Save();
 
@@ -253,17 +288,18 @@ namespace _1640.Areas.Student.Controllers
                     return NotFound("Article not found");
                 }
 
-                // Only allow editing if the article is in pending status
-                if (currentArticle.Status != Article.StatusArticle.Pending)
+                // Only allow editing if the article is in pending and approve status
+                if (currentArticle.Status != Article.StatusArticle.Pending && currentArticle.Status != Article.StatusArticle.Approve)
                 {
-                    TempData["error"] = "You can only edit Contribution that are in pending status.";
+                    TempData["error"] = "You can only edit Contribution that are in reject status.";
                     return RedirectToAction("MyArticles");
                 }
 
                 // Update the article
                 currentArticle.Title = articleVM.Article.Title;
                 currentArticle.Description = articleVM.Article.Description;
-
+                currentArticle.CreateAt = DateTime.Now;
+                currentArticle.Status = Article.StatusArticle.Pending;
                 // Handle file uploads
                 if (file != null)
                 {

@@ -38,7 +38,8 @@
                                     </div>
                                     <div class="col-sm-7">
                                         <div class="card-body">
-                                            <h5 class="card-title">Title:&nbsp @Article.Title</h5>
+                                            <p class="card-text">Create at: @Article.CreateAt.ToString("HH: mm  / dd - MM - yyyy")</p>
+                                            <h4 class="card-title">Title:&nbsp @Article.Title</h4>
                                             <p class="card-text">@Article.Description</p>
                                     
                                             <div class="float-right">
