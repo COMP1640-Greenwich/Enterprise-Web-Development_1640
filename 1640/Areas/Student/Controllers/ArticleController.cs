@@ -12,6 +12,7 @@ using System.Net.Mail;
 using System.Net;
 using Microsoft.AspNetCore.Identity;
 using Azure.Core;
+using NuGet.Protocol.Plugins;
 
 namespace _1640.Areas.Student.Controllers
 {
@@ -39,24 +40,6 @@ namespace _1640.Areas.Student.Controllers
 
             // Get the articles of the current user
             List<Article> articles = _unitOfWork.ArticleRepository.GetAll(a => a.UserId == user.Id).ToList();
-            //foreach (var article in articles)
-            //{
-            //    if (article.Status == Article.StatusArticle.Pending && article.CreateAt < DateTime.Now.AddMinutes(-1))
-            //    {
-            //        article.Status = Article.StatusArticle.Reject;
-                    
-
-            //        // Send email to the student who created the article
-            //        var smtpClient = new SmtpClient("smtp.gmail.com")
-            //        {
-            //            Port = 587,
-            //            Credentials = new NetworkCredential("tdm0982480826@gmail.com", "xnej ojsl etxa euki"),
-            //            EnableSsl = true,
-            //        };
-            //        smtpClient.Send("tdm0982480826@gmail.com", user.Email, "Your article was rejected", "We're sorry, but your article was rejected.");
-            //        await _dbContext.SaveChangesAsync();
-            //    }
-            //}
             if (articles.Count == 0)
             {
                 ViewBag.Message = "You don't have any an Contribution";
@@ -72,26 +55,7 @@ namespace _1640.Areas.Student.Controllers
 
         public IActionResult Create(string id, int semesterId)
         {
-            var user = _unitOfWork.UserRepository.Get(f => f.Id == id);
-            if (user == null)
-            {
-                // Xử lý trường hợp người dùng không tồn tại
-                return NotFound();
-            }
-
-            int? userFacultyId = user.FacultyId;
-            if (!userFacultyId.HasValue)
-            {
-                // Xử lý trường hợp không có thông tin về khoa của người dùng
-                return NotFound();
-            }
-
-            var faculty = _unitOfWork.FacultyRepository.Get(f => f.Id == userFacultyId);
-            if (faculty == null)
-            {
-                // Xử lý trường hợp không tìm thấy thông tin về khoa
-                return NotFound();
-            }
+            int userFacultyId = _unitOfWork.UserRepository.Get(f => f.Id == id).FacultyId.Value;
 
             ArticleVM articleVM = new ArticleVM()
             {
@@ -100,11 +64,10 @@ namespace _1640.Areas.Student.Controllers
                     IsBlogActive = false,
                     SemesterId = semesterId
                 },
-                UserName = user.FullName.ToUpper(),
-                FacultyId = userFacultyId.Value,
-                FacultyName = faculty.Name
+                UserName = _unitOfWork.UserRepository.Get(f => f.Id == id).FullName.ToUpper(),
+                FacultyId = userFacultyId
             };
-
+            articleVM.FacultyName = _unitOfWork.FacultyRepository.Get(f => f.Id == articleVM.FacultyId).Name.ToString();
             ViewBag.UserId = id;
             return View(articleVM);
         }
@@ -112,7 +75,7 @@ namespace _1640.Areas.Student.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(string id, ArticleVM articleVM, IFormFile? file, IFormFile? file1)
+        public async Task<IActionResult> CreateAsync(string id, int semesterId, ArticleVM articleVM, IFormFile? file, IFormFile? file1)
         {
 
             if (ModelState.IsValid)
@@ -143,6 +106,8 @@ namespace _1640.Areas.Student.Controllers
                     }
                     else
                     {
+                        ViewBag.UserId = id;
+                        articleVM.FacultyName = _unitOfWork.FacultyRepository.Get(f => f.Id == articleVM.FacultyId).Name.ToString();
                         TempData ["error"] = "You must insert file image.";
                         return View(articleVM);
                     }
@@ -166,6 +131,8 @@ namespace _1640.Areas.Student.Controllers
                     }
                     else
                     {
+                        ViewBag.UserId = id;
+                        articleVM.FacultyName = _unitOfWork.FacultyRepository.Get(f => f.Id == articleVM.FacultyId).Name.ToString();
                         TempData["error"] = "You must insert file doxc.";
                         return View(articleVM);
                     }
@@ -176,8 +143,6 @@ namespace _1640.Areas.Student.Controllers
                     articleVM.Article.FacultyName = _unitOfWork.FacultyRepository.Get(f => f.Id == articleVM.FacultyId).Name.ToString();
                     articleVM.Article.Status = Article.StatusArticle.Pending;
                     articleVM.Article.CreateAt = DateTime.Now;
-                    if (articleVM.Article.CreateAt < DateTime.Now.AddMinutes(-1))
-                        articleVM.Article.Status = Article.StatusArticle.Reject;
                     _unitOfWork.ArticleRepository.Add(articleVM.Article);
                     _unitOfWork.Save();
 
@@ -196,33 +161,28 @@ namespace _1640.Areas.Student.Controllers
                 }
                 else
                 {
-
+                    //var user = _unitOfWork.UserRepository.Get(f => f.Id == id);
+                    ViewBag.UserId = id;
+                    articleVM.FacultyName = _unitOfWork.FacultyRepository.Get(f => f.Id == articleVM.FacultyId).Name.ToString();
                     TempData["error"] = "You must agree to our Terms and Conditions.";
                     return View(articleVM);
                 }
             }
+            var userFacultyId = _unitOfWork.UserRepository.Get(f => f.Id == id).FacultyId.Value;
+
             ArticleVM articleVMNew = new ArticleVM()
             {
-
-                Semesters = _unitOfWork.SemesterRepository.GetAllOpening().Select(c => new SelectListItem
-                {
-                    Text = c.Name,
-                    Value = c.Id.ToString(),
-                }),
                 Article = new Article()
                 {
                     IsBlogActive = false,
-                    UserId = id,
-
-
+                    SemesterId = semesterId
                 },
                 UserName = _unitOfWork.UserRepository.Get(f => f.Id == id).FullName.ToUpper(),
-                FacultyId = _unitOfWork.UserRepository.Get(f => f.Id == id).FacultyId.Value
+                FacultyId = userFacultyId
             };
-            articleVM.FacultyName = _unitOfWork.FacultyRepository.Get(f => f.Id == articleVM.FacultyId).Name.ToString();
+            articleVMNew.FacultyName = _unitOfWork.FacultyRepository.Get(f => f.Id == articleVMNew.FacultyId).Name.ToString();
             ViewBag.UserId = id;
             return View(articleVMNew);
-
         }
 
 
